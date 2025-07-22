@@ -1,0 +1,37 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+namespace FumicertiApi.Controllers
+{
+    [Authorize]
+    [ApiController]
+    public abstract class BaseController : ControllerBase
+    {
+        protected string GetUserId()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.Name); // custom claim
+            if (userIdClaim != null)
+                return userIdClaim.Value;
+
+            return null; // fallback (you can also throw exception if preferred)
+        }
+
+        protected int GetCompanyId()
+        {
+            var companyIdClaim = User.FindFirst("CompanyId");
+            if (companyIdClaim != null && int.TryParse(companyIdClaim.Value, out int companyId))
+                return companyId;
+
+            return 0;
+        }
+
+        protected string GetUserRole()
+        {
+            return User.FindFirst(ClaimTypes.Role)?.Value ?? "Unknown";
+        }
+    }
+
+
+
+}

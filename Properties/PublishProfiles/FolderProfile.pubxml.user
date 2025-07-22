@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\dotnet\FUMI\FumicertiApi-Done\FumicertiApi\bin\Release\net8.0\publish\</_PublishTargetUrl>
+    <History>True|2025-07-22T10:16:09.1959030Z||;True|2025-07-18T19:04:41.3366679+05:30||;True|2025-07-18T18:51:30.7271740+05:30||;True|2025-07-18T18:19:52.9475169+05:30||;True|2025-07-18T17:25:59.0237791+05:30||;True|2025-07-18T17:22:46.9166145+05:30||;True|2025-07-17T15:10:39.6931485+05:30||;True|2025-07-17T13:50:38.3938744+05:30||;True|2025-07-17T13:49:42.4485688+05:30||;True|2025-07-10T15:47:33.8926872+05:30||;False|2025-07-10T11:48:25.5414734+05:30||;True|2025-07-09T12:25:37.4711077+05:30||;True|2025-07-09T12:18:54.2593625+05:30||;True|2025-07-09T10:57:10.2360576+05:30||;True|2025-07-09T10:51:47.3054685+05:30||;True|2025-07-08T15:39:27.5550072+05:30||;True|2025-07-08T15:36:35.5682388+05:30||;True|2025-07-08T12:19:05.3985318+05:30||;True|2025-07-08T11:44:40.7606573+05:30||;True|2025-07-07T17:21:14.8890308+05:30||;True|2025-07-07T17:14:58.7876485+05:30||;True|2025-07-07T17:08:20.6136141+05:30||;True|2025-07-07T16:02:47.9956396+05:30||;True|2025-07-07T16:02:16.5345683+05:30||;True|2025-07-07T15:30:55.8414809+05:30||;True|2025-07-05T11:46:23.4827831+05:30||;True|2025-07-04T19:20:19.5578004+05:30||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=162.222.225.87%3bDatabase=contafpb_fumicerti%3bUser=user_fumi%3bPassword=Rajesh%40123%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

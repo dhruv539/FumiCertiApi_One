@@ -1,0 +1,4395 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Fumicerti API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/AfoMember": {
+      "get": {
+        "tags": [
+          "AfoMember"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AfoMember"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AfoMemberAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AfoMemberAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AfoMemberAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AfoMember/{id}": {
+      "get": {
+        "tags": [
+          "AfoMember"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AfoMemberDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AfoMemberDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AfoMemberDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AfoMember"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AfoMemberDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AfoMemberDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AfoMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AfoMember"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/forgot-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/reset-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Branch": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Branch"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Branch/{id}": {
+      "get": {
+        "tags": [
+          "Branch"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BranchDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BranchDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BranchDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Branch"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Branch"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Certi": {
+      "get": {
+        "tags": [
+          "Certi"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Certi"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertiAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertiAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertiAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Certi/{id}": {
+      "get": {
+        "tags": [
+          "Certi"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CertiReadDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CertiReadDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CertiReadDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Certi"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertiUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertiUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertiUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Certi"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/{id}": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Containers": {
+      "get": {
+        "tags": [
+          "Containers"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Containers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Containers/{id}": {
+      "get": {
+        "tags": [
+          "Containers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContainerReadDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContainerReadDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContainerReadDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Containers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Containers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData/report/html": {
+      "get": {
+        "tags": [
+          "ImgData"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData/report": {
+      "get": {
+        "tags": [
+          "ImgData"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData/list": {
+      "get": {
+        "tags": [
+          "ImgData"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uploadedBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData": {
+      "get": {
+        "tags": [
+          "ImgData"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData/{id}": {
+      "get": {
+        "tags": [
+          "ImgData"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ImgData"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData/edit": {
+      "put": {
+        "tags": [
+          "ImgData"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "ImgDataId",
+                  "Location"
+                ],
+                "type": "object",
+                "properties": {
+                  "ImgDataId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "ImageFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Location": {
+                    "maxLength": 45,
+                    "type": "string"
+                  },
+                  "ExtractedText": {
+                    "maxLength": 45,
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ImgDataId": {
+                  "style": "form"
+                },
+                "ImageFile": {
+                  "style": "form"
+                },
+                "Location": {
+                  "style": "form"
+                },
+                "ExtractedText": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ImgData/upload-base64": {
+      "post": {
+        "tags": [
+          "ImgData"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "ExtractedText",
+                  "ImageFile"
+                ],
+                "type": "object",
+                "properties": {
+                  "ImageFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Location": {
+                    "type": "string"
+                  },
+                  "ExtractedText": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ImageFile": {
+                  "style": "form"
+                },
+                "Location": {
+                  "style": "form"
+                },
+                "ExtractedText": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Notify": {
+      "get": {
+        "tags": [
+          "Notify"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Notify"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotifyReadDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotifyReadDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotifyReadDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Notify/{id}": {
+      "get": {
+        "tags": [
+          "Notify"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotifyReadDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotifyReadDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotifyReadDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Notify"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Notify"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UserRole": {
+      "get": {
+        "tags": [
+          "UserRole"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "UserRole"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserRole/{uuid}": {
+      "get": {
+        "tags": [
+          "UserRole"
+        ],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "UserRole"
+        ],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserRole"
+        ],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sorts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadDTo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadDTo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadDTo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AfoMemberAddDto": {
+        "required": [
+          "afoName"
+        ],
+        "type": "object",
+        "properties": {
+          "afoName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "afoMbrNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "afoAlpNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AfoMemberDto": {
+        "type": "object",
+        "properties": {
+          "afoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "afoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "afoMbrNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "afoAlpNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchAddDto": {
+        "required": [
+          "branchName"
+        ],
+        "type": "object",
+        "properties": {
+          "branchName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "gstin": {
+            "type": "string",
+            "nullable": true
+          },
+          "pan": {
+            "type": "string",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchDto": {
+        "type": "object",
+        "properties": {
+          "branchId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "branchName": {
+            "type": "string",
+            "nullable": true
+          },
+          "gstin": {
+            "type": "string",
+            "nullable": true
+          },
+          "pan": {
+            "type": "string",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CertiAddDto": {
+        "required": [
+          "certiBranchId",
+          "certiJobfor",
+          "certiNo",
+          "certiOrderId",
+          "certiProductType",
+          "certiType"
+        ],
+        "type": "object",
+        "properties": {
+          "certiOrderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "certiBranchId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "certiProductType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "certiType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "certiJobfor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "certiNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "certiDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiFumidate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiPol": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiPod": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiImpcountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiFumiplace": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiUndersheet": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiFumiduration": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiDoseRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "certiPresserTested": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiTemperature": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiHumidity": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiContainers": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiContainerCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiContainerSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiInvoiceNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiInvoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiAfoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpName": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiConsignee": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiConsigneeAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNotifyParty": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNotifyAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCargoDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNetQty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certilGrossQty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiNetUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiGrossUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNoBags": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiPackingDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiShippingMark": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiRefBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCountryDest": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiTgPacking": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTgCommodity": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTgPackComm": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiSurfaceThickness": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiStack": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiChamber": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTestedContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiUnsheetedContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiAppliedRate": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "certiFinalReading": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCreateUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiBillId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiLockedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CertiReadDto": {
+        "required": [
+          "certiBranchId",
+          "certiJobfor",
+          "certiNo",
+          "certiOrderId",
+          "certiProductType",
+          "certiType"
+        ],
+        "type": "object",
+        "properties": {
+          "certiOrderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "certiBranchId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "certiProductType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "certiType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "certiJobfor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "certiNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "certiDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiFumidate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiPol": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiPod": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiImpcountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiFumiplace": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiUndersheet": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiFumiduration": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiDoseRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "certiPresserTested": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiTemperature": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiHumidity": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiContainers": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiContainerCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiContainerSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiInvoiceNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiInvoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiAfoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpName": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiConsignee": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiConsigneeAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNotifyParty": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNotifyAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCargoDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNetQty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certilGrossQty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiNetUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiGrossUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNoBags": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiPackingDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiShippingMark": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiRefBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCountryDest": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiTgPacking": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTgCommodity": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTgPackComm": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiSurfaceThickness": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiStack": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiChamber": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTestedContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiUnsheetedContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiAppliedRate": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "certiFinalReading": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCreateUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiBillId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiLockedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiEditedUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CertiUpdateDto": {
+        "type": "object",
+        "properties": {
+          "certiOrderId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiBranchId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiProductType": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiType": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiJobfor": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiFumidate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiPol": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiPod": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiImpcountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiFumiplace": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiUndersheet": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiFumiduration": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiDoseRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "certiPresserTested": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiTemperature": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiHumidity": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiContainers": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiContainerCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiContainerSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiInvoiceNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiInvoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "certiAfoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpName": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiExpEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiConsignee": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiConsigneeAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNotifyParty": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNotifyAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCargoDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNetQty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certilGrossQty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiNetUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiGrossUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiNoBags": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiPackingDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiShippingMark": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiRefBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiCountryDest": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiTgPacking": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTgCommodity": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTgPackComm": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiSurfaceThickness": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiStack": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiChamber": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiTestedContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiUnsheetedContainer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "certiAppliedRate": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "certiFinalReading": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiEditedUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "certiBillId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "certiLockedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyAddDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "isGstApplicable": {
+            "type": "boolean"
+          },
+          "gstin": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyDto": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "isGstApplicable": {
+            "type": "boolean"
+          },
+          "gstin": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContainerAddDto": {
+        "required": [
+          "containerCertiId",
+          "containerConsumeQty",
+          "containerContainerNo",
+          "containerCsize"
+        ],
+        "type": "object",
+        "properties": {
+          "containerCid": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "containerCertiId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "containerContainerNo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "containerCsize": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "containerConsumeQty": {
+            "type": "number",
+            "format": "double"
+          },
+          "containerDt1": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerDt2": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerDt3": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerTime1": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "containerTime2": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "containerTime3": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "containerFb1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFb2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFb3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMc1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMc2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMc3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTb1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTb2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTb3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerEquilibrium": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerVolL": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerVolB": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerVolH": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerProdID1": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerProdID2": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerProdID3": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerQty1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerQty2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerWt1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerWt2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerWt3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFbper1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFbper2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFbper3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMcper1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMcper2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMcper3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTbper1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTbper2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTbper3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerEquipmentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerProductname": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerActualDoseRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFirstTvl": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerSecondTlv": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerCalculateDose": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerCreateUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerEditedUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContainerReadDto": {
+        "type": "object",
+        "properties": {
+          "containerCid": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "containerCertiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerContainerNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerCsize": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerConsumeQty": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerDt1": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerDt2": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerDt3": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerTime1": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "containerTime2": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "containerTime3": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "containerFb1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFb2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFb3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMc1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMc2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMc3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTb1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTb2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTb3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerEquilibrium": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerVolL": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerVolB": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerVolH": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerProdID1": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerProdID2": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerProdID3": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerQty1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerQty2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerWt1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerWt2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerWt3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFbper1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFbper2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFbper3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMcper1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMcper2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerMcper3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTbper1": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTbper2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerTbper3": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerEquipmentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerProductname": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerActualDoseRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerFirstTvl": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerSecondTlv": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerCalculateDose": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "containerCreateUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerEditedUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "containerCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "containerUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginDto": {
+        "required": [
+          "userEmail",
+          "userPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "userEmail": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userPassword": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rememberMe": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotifyAddDto": {
+        "required": [
+          "notifyName",
+          "notifyType"
+        ],
+        "type": "object",
+        "properties": {
+          "notifyStateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "notifyType": {
+            "maxLength": 40,
+            "minLength": 0,
+            "type": "string"
+          },
+          "notifyAddress": {
+            "maxLength": 700,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "notifyEmail": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "notifyContactNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyGstNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyState": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyPincode": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyCountry": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotifyReadDto": {
+        "type": "object",
+        "properties": {
+          "notifyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyCompanyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyCreateUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyEditedUid": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyContactNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyGstNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyState": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyPincode": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notifyUpdated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notifyCountry": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotifyUpdateDto": {
+        "required": [
+          "notifyName",
+          "notifyType"
+        ],
+        "type": "object",
+        "properties": {
+          "notifyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyStateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "notifyType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "notifyAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyEmail": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "notifyContactNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyGstNo": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notifyState": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyPincode": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyStateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "notifyCountry": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productName": {
+            "type": "string",
+            "nullable": true
+          },
+          "productUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "productOpening": {
+            "type": "number",
+            "format": "double"
+          },
+          "productOpeningUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "productWeightPerUnit": {
+            "type": "number",
+            "format": "double"
+          },
+          "productTotalWt": {
+            "type": "number",
+            "format": "double"
+          },
+          "productConsumeQty": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "required": [
+          "userEmail",
+          "userFirstName",
+          "userMobile",
+          "userPassword",
+          "userRoleId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userRoleId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userParentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userFirstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userLastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userEmail": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userPassword": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userZipcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "userPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "userCountryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "userMobile": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "userAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "userContactDetail": {
+            "type": "string",
+            "nullable": true
+          },
+          "userContactPerson": {
+            "type": "string",
+            "nullable": true
+          },
+          "userRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "userActivationKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "userSignupType": {
+            "type": "string",
+            "nullable": true
+          },
+          "userPrivateIdAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "userPublicIpAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "userLastLogin": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "userOtp": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userOtpSendTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "userLoginType": {
+            "type": "string",
+            "nullable": true
+          },
+          "userDeviceToken": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userBroswer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userBrowserVersion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userApiKey": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "userUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "userAddbyUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userUpdatebyUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userCompanyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userBranchId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "passwordResetToken": {
+            "type": "string",
+            "nullable": true
+          },
+          "resetTokenExpires": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserAddDto": {
+        "required": [
+          "userEmail",
+          "userFirstName",
+          "userMobile",
+          "userName",
+          "userPassword",
+          "userRoleId"
+        ],
+        "type": "object",
+        "properties": {
+          "userRoleId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userParentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userFirstName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userLastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userEmail": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "userPassword": {
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string",
+            "format": "password"
+          },
+          "userZipcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "userPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "userCountryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "userMobile": {
+            "minLength": 1,
+            "pattern": "^[0-9]{10}$",
+            "type": "string"
+          },
+          "userImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "userAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserReadDTo": {
+        "required": [
+          "userEmail",
+          "userFirstName",
+          "userMobile",
+          "userRoleName",
+          "userStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userFirstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userLastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "userCountryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "userMobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "userStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userRoleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userRoleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userGender": {
+            "type": "string",
+            "nullable": true
+          },
+          "userAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRole": {
+        "required": [
+          "roleName"
+        ],
+        "type": "object",
+        "properties": {
+          "roleUuid": {
+            "maxLength": 70,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "roleCompanyId": {
+            "maxLength": 45,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "roleAddedByUserId": {
+            "maxLength": 60,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "roleUpdatedByUserId": {
+            "maxLength": 60,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "roleName": {
+            "maxLength": 220,
+            "minLength": 0,
+            "type": "string"
+          },
+          "roleStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roleCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "roleUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRoleCreateDto": {
+        "required": [
+          "roleAddedByUserId",
+          "roleCompanyId",
+          "roleName"
+        ],
+        "type": "object",
+        "properties": {
+          "roleCompanyId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "roleAddedByUserId": {
+            "maxLength": 60,
+            "minLength": 0,
+            "type": "string"
+          },
+          "roleName": {
+            "maxLength": 220,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRoleDto": {
+        "type": "object",
+        "properties": {
+          "roleUuid": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roleCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "roleUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRoleUpdateDto": {
+        "required": [
+          "roleName",
+          "roleUuid"
+        ],
+        "type": "object",
+        "properties": {
+          "roleUuid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "roleUpdatedByUserId": {
+            "maxLength": 60,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "roleName": {
+            "maxLength": 220,
+            "minLength": 0,
+            "type": "string"
+          },
+          "roleStatus": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserUpdateDto": {
+        "required": [
+          "userEmail",
+          "userFirstName",
+          "userMobile",
+          "userName",
+          "userRoleId"
+        ],
+        "type": "object",
+        "properties": {
+          "userRoleId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userFirstName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userLastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userEmail": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "userPhone": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string",
+            "format": "tel",
+            "nullable": true
+          },
+          "userCountryCode": {
+            "maxLength": 5,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "userMobile": {
+            "minLength": 1,
+            "pattern": "^\\d{10}$",
+            "type": "string"
+          },
+          "userAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "userStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userName": {
+            "maxLength": 50,
+            "minLength": 4,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter JWT like: Bearer <token>",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
