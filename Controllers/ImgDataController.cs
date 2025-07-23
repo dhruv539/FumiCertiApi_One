@@ -219,7 +219,7 @@ namespace FumicertiApi.Controllers
         }
 
 
-        [HttpPut("edit")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditImage([FromForm] ImgUpdateDto dto)
         {
             if (!ModelState.IsValid)
