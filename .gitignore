@@ -1,0 +1,38 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/FumicertiApi.csproj
+## Ignore build results
+bin/
+obj/
+
+## Ignore Visual Studio temporary files
+.vs/
+*.user
+*.suo
+
+## Ignore Rider IDE
+.idea/
+
+## Ignore Mac system files
+.DS_Store
+
+## Ignore log and config files
+*.log
+appsettings.Development.json
+secrets.json
+
+## Ignore test results
+TestResults/
+
+## Ignore publish output
+publish/
+
+## Ignore node_modules if used (e.g., in Blazor WASM or SPA)
+node_modules/
+
+## Ignore generated files
+*.dbmdl
+*.pdb
+*.cache
