@@ -26,6 +26,16 @@ namespace FumicertiApi.Controllers
             return 0;
         }
 
+        protected int GetBranchId()
+        {
+            var branchIdClaim = User.FindFirst("BranchId");
+            if (branchIdClaim != null && int.TryParse(branchIdClaim.Value, out int branchId))
+                return branchId;
+
+            return 0;
+        }
+
+
         protected string GetUserRole()
         {
             return User.FindFirst(ClaimTypes.Role)?.Value ?? "Unknown";

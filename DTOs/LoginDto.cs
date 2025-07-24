@@ -13,6 +13,7 @@ namespace FumicertiApi.DTOs
     {
         public string Token { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
+        public int? BranchId { get; set; }
         public string Email { get; set; } = string.Empty;
         public long tokenExp { get; set; }  
     }

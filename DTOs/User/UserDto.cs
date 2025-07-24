@@ -40,4 +40,5 @@ public class UserAddDto
     public string? UserImage { get; set; }
 
     public string? UserAddress { get; set; }
+
 }

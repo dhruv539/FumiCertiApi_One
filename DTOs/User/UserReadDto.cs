@@ -20,6 +20,7 @@ namespace FumicertiApi.DTOs.User
         public string? UserRoleId { get; set; }
         public string? UserGender { get; set; }
         public string? UserAddress { get; set; }
+        public int? UserBranchId { get; set; }
 
 
 

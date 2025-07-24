@@ -45,7 +45,8 @@ namespace FumicertiApi.Controllers
                     UserName = user.UserName,
                     Email = user.UserEmail,
                     //tokenExp = 60 * 60 * 24// Default to 1 day expiration
-                    tokenExp = tokenExpiry
+                    tokenExp = tokenExpiry,
+                    BranchId=user.UserBranchId
                 });
             }
             catch (Exception ex)

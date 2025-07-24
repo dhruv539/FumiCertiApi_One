@@ -99,7 +99,9 @@ namespace FumicertiApi.Controllers
                 UserStatus = (byte)user.UserStatus,
                 UserRoleId = user.UserRoleId,
                 UserRoleName = user.Role?.RoleName ?? "",
-                UserAddress = user.UserAddress
+                UserAddress = user.UserAddress,
+                UserBranchId = user.UserBranchId
+                         
             };
 
             return Ok(result);
@@ -124,7 +126,7 @@ namespace FumicertiApi.Controllers
                 UserMobile = dto.UserMobile,
                 UserImage = dto.UserImage,
                 UserAddress = dto.UserAddress,
-              
+                UserBranchId= GetBranchId(),
                 UserCompanyId = GetCompanyId().ToString(), // Set if available
                 UserName = dto.UserName,
                 UserStatus = 1, // default active

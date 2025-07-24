@@ -24,8 +24,8 @@ namespace FumicertiApi.Services
                  new Claim("UserId", user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.UserEmail),
                 new Claim(ClaimTypes.Role, user.UserRoleId),
-              
-        new Claim("CompanyId", user.UserCompanyId.ToString())
+                new Claim("BranchId", user.UserBranchId?.ToString() ?? string.Empty),  
+                 new Claim("CompanyId", user.UserCompanyId.ToString())
 
             };
 
