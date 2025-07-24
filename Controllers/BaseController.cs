@@ -41,7 +41,4 @@ namespace FumicertiApi.Controllers
             return User.FindFirst(ClaimTypes.Role)?.Value ?? "Unknown";
         }
     }
-
-
-
 }
