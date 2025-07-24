@@ -2,7 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/FumicertiApi.csproj
+#/FumicertiApi.csproj
 ## Ignore build results
 bin/
 obj/
