@@ -193,5 +193,10 @@ namespace FumicertiApi.Models
 
         [Column("certi_locked_by")]
         public int? CertiLockedBy { get; set; }
+
+        [Column("certi_phyto")]
+        public string? CertiPhyto { get; set; }
+        [Column("certi_jobtype")]
+        public string? CertiJobType { get; set; }
     }
 }

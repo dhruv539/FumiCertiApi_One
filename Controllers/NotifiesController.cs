@@ -200,6 +200,42 @@ namespace FumicertiApi.Controllers
             return Ok(new { message = $"Notify with ID {id} has been deleted." });
         }
 
+        [HttpGet("type/{type}")]
+        public async Task<IActionResult> GetByType(string type)
+        {
+            var companyId = GetCompanyId().ToString();
+
+            // Log incoming type and companyId for debug
+            Console.WriteLine($"🔍 Input type: {type}, CompanyId: {companyId}");
+
+            var list = await _context.Notifies
+                .Where(n =>
+                    !string.IsNullOrEmpty(n.NotifyType) &&
+                    n.NotifyType.ToLower() == type.ToLower() &&
+                    n.NotifyCompanyId == companyId
+                )
+                .Select(n => new NotifyReadDto
+                {
+                    NotifyId = n.NotifyId,
+                    NotifyName = n.NotifyName,
+                    NotifyEmail = n.NotifyEmail,
+                    NotifyType = n.NotifyType,
+                    NotifyStatus = n.NotifyStatus,
+                    NotifyCompanyId = n.NotifyCompanyId,
+                    NotifyAddress = n.NotifyAddress,
+                    NotifyContactNo = n.NotifyContactNo,                 
+                    NotifyGstNo = n.NotifyGstNo,                
+                   NotifyCountry = n.NotifyCountry,                 
+                })
+                .ToListAsync();
+
+            // Log count for debug
+            Console.WriteLine($"📦 Found: {list.Count} records");
+
+            return Ok(list);
+        }
+
+
 
     }
 }

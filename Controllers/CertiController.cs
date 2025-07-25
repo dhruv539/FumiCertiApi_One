@@ -44,6 +44,8 @@ namespace FumicertiApi.Controllers
                 .Select(c => new CertiReadDto
                 {
                     CertiId = c.CertiId,
+                    CertiPhyto = c.CertiPhyto,
+                    CertiJobType = c.CertiJobType,
                     CertiOrderId = c.CertiOrderId,
                     CertiBranchId = c.CertiBranchId,
                     CertiProductType = c.CertiProductType,
@@ -78,7 +80,7 @@ namespace FumicertiApi.Controllers
                     CertiNotifyAddress = c.CertiNotifyAddress,
                     CertiCargoDesc = c.CertiCargoDesc,
                     CertiNetQty = c.CertiNetQty,
-                    CertilGrossQty = c.CertilGrossQty,
+                    CertilGrossQty = c.CertilGrossQty == null ? null : c.CertilGrossQty.Value,
                     CertiNetUnit = c.CertiNetUnit,
                     CertiGrossUnit = c.CertiGrossUnit,
                     CertiNoBags = c.CertiNoBags,
@@ -130,6 +132,8 @@ namespace FumicertiApi.Controllers
                 var dto = new CertiReadDto
                 {
                     CertiId = certi.CertiId,
+                    CertiPhyto = certi.CertiPhyto,
+                    CertiJobType = certi.CertiJobType,
                     CertiOrderId = certi.CertiOrderId,
                     CertiBranchId = certi.CertiBranchId,
                     CertiProductType = certi.CertiProductType,
@@ -205,6 +209,8 @@ namespace FumicertiApi.Controllers
                 var model = new Certi
                 {
                     CertiId = Guid.NewGuid().ToString(),
+                    CertiPhyto = dto.CertiPhyto,
+                    CertiJobType = dto.CertiJobType,                   
                     CertiOrderId = dto.CertiOrderId,
                     CertiBranchId = dto.CertiBranchId,
                     CertiProductType = dto.CertiProductType,
@@ -269,18 +275,21 @@ namespace FumicertiApi.Controllers
                 _context.Certi.Add(model);
                 _context.SaveChanges();
 
-                return Ok("✅ Certi Added");
-            }
+            return Ok(true);
 
-            // PUT: api/Certi/{id}
-            [HttpPut("{id}")]
+        }
+
+        // PUT: api/Certi/{id}
+        [HttpPut("{id}")]
             public ActionResult Update(string id, [FromBody] CertiUpdateDto dto)
             {
                 var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
                 if (certi == null) return NotFound();
 
                 certi.CertiOrderId = dto.CertiOrderId;
-                certi.CertiBranchId = dto.CertiBranchId;
+            certi.CertiPhyto = dto.CertiPhyto;
+            certi.CertiJobType = dto.CertiJobType;
+            certi.CertiBranchId = dto.CertiBranchId;
                 certi.CertiProductType = dto.CertiProductType;
                 certi.CertiType = dto.CertiType;
                 certi.CertiJobfor = dto.CertiJobfor;
@@ -338,8 +347,8 @@ namespace FumicertiApi.Controllers
                 certi.CertiUpdated = DateTime.Now;
                 _context.SaveChanges();
 
-                return Ok("✅ Certi Updated");
-            }
+            return Ok(true);
+        }
 
             // DELETE: api/Certi/{id}
             [HttpDelete("{id}")]
@@ -351,7 +360,7 @@ namespace FumicertiApi.Controllers
                 _context.Certi.Remove(certi);
                 _context.SaveChanges();
 
-                return Ok("🗑️ Certi Deleted");
+                return Ok(true);
             }
 
 

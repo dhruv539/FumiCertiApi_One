@@ -66,5 +66,8 @@ namespace FumicertiApi.DTOs.Certi
         public string? CertiCreateUid { get; set; }
         public int? CertiBillId { get; set; }
         public int? CertiLockedBy { get; set; }
+
+        public string? CertiPhyto { get; set; }
+        public string? CertiJobType { get; set; }
     }
 }
