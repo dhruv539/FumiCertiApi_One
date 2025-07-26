@@ -1,0 +1,56 @@
+﻿namespace FumicertiApi.DTOs.Certi
+{
+    public class CertiPrintMbrDto
+    {
+        public int? CertiNo { get; set; } 
+        public DateTime? CertiDate { get; set; }
+        public string? CertiJobType { get; set; }
+        public string? CertiPhyto { get; set; }
+
+        public string? CertiExpName { get; set; }
+        public string? CertiExpAddress { get; set; }
+        public string? CertiExpEmail { get; set; }
+
+        public string? CertiConsignee { get; set; }
+        public string? CertiConsigneeAddress { get; set; }
+        public string? CertiCountryDest { get; set; }
+
+        public string? CertiNotifyParty { get; set; }
+        public string? CertiNotifyAddress { get; set; }
+
+        public string? CertiCargoDesc { get; set; }
+        public decimal? CertiNetQty { get; set; }
+        public decimal? CertilGrossQty { get; set; }
+        public string? CertiNetUnit { get; set; }
+        public string? CertiGrossUnit { get; set; }
+        public string? CertiNoBags { get; set; }
+        public string? CertiPackingDesc { get; set; }
+
+        public string? CertiInvoiceNo { get; set; }
+        public DateTime? CertiInvoiceDate { get; set; }
+
+        public string? CertiFumiplace { get; set; }
+        public DateTime? CertiFumidate { get; set; }
+        public string? CertiFumiduration { get; set; }
+        public double? CertiDoseRate { get; set; }
+
+        public string? CertiContainers { get; set; }
+        public int? CertiContainerCount { get; set; }
+        public int? CertiContainerSize { get; set; }
+
+        public string? CertiShippingMark { get; set; }
+        public string? CertiRemarks { get; set; }
+
+        public string? CertiPol { get; set; }
+        public string? CertiPod { get; set; }
+        public string? CertiProductType { get; set; }
+
+        public string? CertiAfoName { get; set; }
+
+        public string? CertiUndersheet { get; set; }
+
+
+
+    }
+
+}
