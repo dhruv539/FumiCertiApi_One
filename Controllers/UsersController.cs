@@ -164,7 +164,7 @@ namespace FumicertiApi.Controllers
             user.UserName = dto.UserName;
 
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(user);
         }
 
         // ✅ DELETE: api/users/{id}
