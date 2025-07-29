@@ -214,7 +214,7 @@ namespace FumicertiApi.Controllers
                     n.NotifyType.ToLower() == type.ToLower() &&
                     n.NotifyCompanyId == companyId
                 )
-                .Select(n => new NotifyReadDto
+                .Select(n => new Notify
                 {
                     NotifyId = n.NotifyId,
                     NotifyName = n.NotifyName,

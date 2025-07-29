@@ -456,6 +456,7 @@ namespace FumicertiApi.Controllers
                             CertiPackingDesc=c.CertiPackingDesc,
                             CertiProductType=c.CertiProductType,
                             CertiUndersheet=c.CertiUndersheet,
+                            CertiTemperature=c.CertiTemperature
                             
                         })
                         .FirstOrDefaultAsync();

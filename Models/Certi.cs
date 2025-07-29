@@ -65,8 +65,8 @@ namespace FumicertiApi.Models
         [Column("certi_presser_tested")]
         public string? CertiPresserTested { get; set; }
 
-        [Column("certi_temperature")]
-        public string? CertiTemperature { get; set; }
+        //[Column("certi_temperature")]
+        //public string? CertiTemperature { get; set; }
 
         [Column("certi_humidity")]
         public string? CertiHumidity { get; set; }
@@ -198,5 +198,8 @@ namespace FumicertiApi.Models
         public string? CertiPhyto { get; set; }
         [Column("certi_jobtype")]
         public string? CertiJobType { get; set; }
+
+        [Column("certi_temperature")]
+        public double? CertiTemperature { get; set; }
     }
 }

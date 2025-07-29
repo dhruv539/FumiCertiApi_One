@@ -49,6 +49,9 @@
 
         public string? CertiUndersheet { get; set; }
 
+        public double? CertiTemperature { get; set; }
+
+
 
 
     }

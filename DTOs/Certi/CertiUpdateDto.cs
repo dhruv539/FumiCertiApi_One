@@ -18,7 +18,7 @@
         public string? CertiFumiduration { get; set; }
         public double? CertiDoseRate { get; set; }
         public string? CertiPresserTested { get; set; }
-        public string? CertiTemperature { get; set; }
+        public double? CertiTemperature { get; set; }
         public string? CertiHumidity { get; set; }
         public string? CertiContainers { get; set; }
         public int? CertiContainerCount { get; set; }

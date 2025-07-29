@@ -19,6 +19,8 @@ namespace FumicertiApi.Data
         public DbSet<Models.Container> Containers { get; set; }    
         public DbSet<Certi> Certi { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
