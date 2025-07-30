@@ -19,8 +19,8 @@
         public string? CertiNotifyAddress { get; set; }
 
         public string? CertiCargoDesc { get; set; }
-        public decimal? CertiNetQty { get; set; }
-        public decimal? CertilGrossQty { get; set; }
+        public double? CertiNetQty { get; set; }
+        public double? CertilGrossQty { get; set; }
         public string? CertiNetUnit { get; set; }
         public string? CertiGrossUnit { get; set; }
         public string? CertiNoBags { get; set; }
@@ -50,8 +50,10 @@
         public string? CertiUndersheet { get; set; }
 
         public double? CertiTemperature { get; set; }
+        public string? CertiPresserTested { get; set; }
 
-
+        public string CompanyName { get; set; }
+        public string CompanyAddress { get; set; }
 
 
     }

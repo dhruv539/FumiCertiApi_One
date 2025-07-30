@@ -400,73 +400,84 @@ namespace FumicertiApi.Controllers
                 }
 
 
-                // GET: api/Certi/print/{id}
-                [HttpGet("print")]
-                public async Task<ActionResult<CertiPrintMbrDto>> GetPrintData([FromQuery] string value)
-                {
-                    if (string.IsNullOrWhiteSpace(value))
-                        return BadRequest(new { message = "ID or Certificate Number is required." });
+        [HttpGet("print")]
+        public async Task<ActionResult<CertiPrintMbrDto>> GetPrintData([FromQuery] string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return BadRequest(new { message = "ID or Certificate Number is required." });
 
-                    var certi = await _context.Certi
-                        .AsNoTracking()
-                        .Where(c => c.CertiId == value || c.CertiNo.ToString() == value)
-                        .Select(c => new CertiPrintMbrDto
-                        {
-                            CertiNo = c.CertiNo,
-                            CertiDate = c.CertiDate,
-                            CertiJobType = c.CertiJobType,
-                            CertiPhyto = c.CertiPhyto,
+            var certiEntity = await _context.Certi
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.CertiId == value || c.CertiNo.ToString() == value);
 
-                            CertiExpName = c.CertiExpName,
-                            CertiExpAddress = c.CertiExpAddress,
-                            CertiExpEmail = c.CertiExpEmail,
+            if (certiEntity == null)
+                return NotFound();
 
-                            CertiConsignee = c.CertiConsignee,
-                            CertiConsigneeAddress = c.CertiConsigneeAddress,
+            // Fetch company - assuming single company for now
+            var company = await _context.companies
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Status == 1); // You can filter as needed
 
-                            CertiNotifyParty = c.CertiNotifyParty,
-                            CertiNotifyAddress = c.CertiNotifyAddress,
+            var dto = new CertiPrintMbrDto
+            {
+                CertiNo = certiEntity.CertiNo,
+                CertiDate = certiEntity.CertiDate,
+                CertiJobType = certiEntity.CertiJobType,
+                CertiPhyto = certiEntity.CertiPhyto,
 
-                            CertiCargoDesc = c.CertiCargoDesc,
-                            CertiNetQty = c.CertiNetQty,
-                            CertilGrossQty = c.CertilGrossQty,
-                            CertiNetUnit = c.CertiNetUnit,
-                            CertiGrossUnit = c.CertiGrossUnit,
+                CertiExpName = certiEntity.CertiExpName,
+                CertiExpAddress = certiEntity.CertiExpAddress,
+                CertiExpEmail = certiEntity.CertiExpEmail,
 
-                            CertiInvoiceNo = c.CertiInvoiceNo,
-                            CertiInvoiceDate = c.CertiInvoiceDate,
+                CertiConsignee = certiEntity.CertiConsignee,
+                CertiConsigneeAddress = certiEntity.CertiConsigneeAddress,
 
-                            CertiFumiplace = c.CertiFumiplace,
-                            CertiFumidate = c.CertiFumidate,
-                            CertiFumiduration = c.CertiFumiduration,
-                            CertiDoseRate = c.CertiDoseRate,
+                CertiNotifyParty = certiEntity.CertiNotifyParty,
+                CertiNotifyAddress = certiEntity.CertiNotifyAddress,
 
-                            CertiContainers = c.CertiContainers,
-                            CertiContainerCount = c.CertiContainerCount,
-                            CertiContainerSize = c.CertiContainerSize,
+                CertiCargoDesc = certiEntity.CertiCargoDesc,
+                CertiNetQty = certiEntity.CertiNetQty,
+                CertilGrossQty = certiEntity.CertilGrossQty,
+                CertiNetUnit = certiEntity.CertiNetUnit,
+                CertiGrossUnit = certiEntity.CertiGrossUnit,
 
-                            CertiShippingMark = c.CertiShippingMark,
-                            CertiRemarks = c.CertiRemarks,
+                CertiInvoiceNo = certiEntity.CertiInvoiceNo,
+                CertiInvoiceDate = certiEntity.CertiInvoiceDate,
 
-                            CertiCountryDest = c.CertiCountryDest,
-                            CertiPol = c.CertiPol,
-                            CertiPod = c.CertiPod,
-                            CertiAfoName=c.CertiAfoName,
-                            CertiNoBags=c.CertiNoBags,
-                            CertiPackingDesc=c.CertiPackingDesc,
-                            CertiProductType=c.CertiProductType,
-                            CertiUndersheet=c.CertiUndersheet,
-                            CertiTemperature=c.CertiTemperature
-                            
-                        })
-                        .FirstOrDefaultAsync();
+                CertiFumiplace = certiEntity.CertiFumiplace,
+                CertiFumidate = certiEntity.CertiFumidate,
+                CertiFumiduration = certiEntity.CertiFumiduration,
+                CertiDoseRate = certiEntity.CertiDoseRate,
 
-                    if (certi == null) return NotFound();
+                CertiContainers = certiEntity.CertiContainers,
+                CertiContainerCount = certiEntity.CertiContainerCount,
+                CertiContainerSize = certiEntity.CertiContainerSize,
 
-                    return Ok(certi);
-                }
+                CertiShippingMark = certiEntity.CertiShippingMark,
+                CertiRemarks = certiEntity.CertiRemarks,
 
+                CertiCountryDest = certiEntity.CertiCountryDest,
+                CertiPol = certiEntity.CertiPol,
+                CertiPod = certiEntity.CertiPod,
+                CertiAfoName = certiEntity.CertiAfoName,
+                CertiNoBags = certiEntity.CertiNoBags,
+                CertiPackingDesc = certiEntity.CertiPackingDesc,
+                CertiProductType = certiEntity.CertiProductType,
+                CertiUndersheet = certiEntity.CertiUndersheet,
+                CertiTemperature = certiEntity.CertiTemperature,
+                CertiPresserTested=certiEntity.CertiPresserTested,
+                CompanyName = company?.Name ?? "N/A",
+                CompanyAddress = string.Join(", ", new[] {
+            company?.Address1, company?.Address2, company?.Address3,
+            company?.City, company?.StateCode, company?.Country, company?.Pincode
+        }.Where(s => !string.IsNullOrWhiteSpace(s)))
+            };
+
+            return Ok(dto);
         }
+
+
+    }
 
 }
 

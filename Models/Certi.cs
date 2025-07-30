@@ -117,10 +117,10 @@ namespace FumicertiApi.Models
         public string? CertiCargoDesc { get; set; }
 
         [Column("certi_net_qty")]
-        public int? CertiNetQty { get; set; }
+        public double? CertiNetQty { get; set; }
 
         [Column("certil_gross_qty")]
-        public int? CertilGrossQty { get; set; }
+        public double? CertilGrossQty { get; set; }
 
         [Column("certi_net_unit")]
         public string? CertiNetUnit { get; set; }
