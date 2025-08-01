@@ -201,5 +201,8 @@ namespace FumicertiApi.Models
 
         [Column("certi_temperature")]
         public double? CertiTemperature { get; set; }
+
+        [Column("certi_2notify")]
+        public bool? Certi2Notify { get; set; }
     }
 }

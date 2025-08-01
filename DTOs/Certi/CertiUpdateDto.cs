@@ -35,8 +35,8 @@
         public string? CertiNotifyParty { get; set; }
         public string? CertiNotifyAddress { get; set; }
         public string? CertiCargoDesc { get; set; }
-        public int? CertiNetQty { get; set; }
-        public int? CertilGrossQty { get; set; }
+        public double? CertiNetQty { get; set; }
+        public double? CertilGrossQty { get; set; }
         public string? CertiNetUnit { get; set; }
         public string? CertiGrossUnit { get; set; }
         public string? CertiNoBags { get; set; }
@@ -60,5 +60,7 @@
         public int? CertiLockedBy { get; set; }
         public string? CertiPhyto { get; set; }
         public string? CertiJobType { get; set; }
+        public bool? Certi2Notify { get; set; }
+
     }
 }
