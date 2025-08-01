@@ -115,7 +115,8 @@ namespace FumicertiApi.Controllers
             member.AfoUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(new { success = true });
+
         }
 
         [HttpDelete("{id}")]
@@ -126,7 +127,8 @@ namespace FumicertiApi.Controllers
 
             _context.afo_members.Remove(member);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(true); // Simple boolean response
+
         }
     }
 }
