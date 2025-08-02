@@ -192,7 +192,9 @@ namespace FumicertiApi.Controllers
                             CertiCreated = certi.CertiCreated,
                             CertiUpdated = certi.CertiUpdated,
                             CertiBillId = certi.CertiBillId,
-                            CertiLockedBy = certi.CertiLockedBy
+                            CertiLockedBy = certi.CertiLockedBy,
+                            Certi2Notify = certi.Certi2Notify
+
                         };
 
                         return Ok(dto);
@@ -271,7 +273,8 @@ namespace FumicertiApi.Controllers
                             CertiCreateUid =GetUserId().ToString(),
                             CertiBillId = dto.CertiBillId,
                             CertiLockedBy = dto.CertiLockedBy,
-                            CertiCreated=DateTime.Now 
+                        Certi2Notify = dto.Certi2Notify,
+                        CertiCreated =DateTime.Now 
                     
                    
                         };
@@ -353,7 +356,8 @@ namespace FumicertiApi.Controllers
                         certi.CertiFinalReading = dto.CertiFinalReading;
                         certi.CertiEditedUid =GetUserId().ToString();
                          certi.CertiBillId = dto.CertiBillId;
-                        certi.CertiLockedBy = dto.CertiLockedBy;
+            certi.Certi2Notify = dto.Certi2Notify;
+            certi.CertiLockedBy = dto.CertiLockedBy;
                         certi.CertiUpdated = DateTime.Now;
                         _context.SaveChanges();
 
@@ -456,7 +460,7 @@ namespace FumicertiApi.Controllers
                 CertiShippingMark = certiEntity.CertiShippingMark,
                 CertiRemarks = certiEntity.CertiRemarks,
 
-                CertiCountryDest = certiEntity.CertiCountryDest,
+                CertiImpcountry = certiEntity.CertiImpcountry,
                 CertiPol = certiEntity.CertiPol,
                 CertiPod = certiEntity.CertiPod,
                 CertiAfoName = certiEntity.CertiAfoName,
@@ -466,6 +470,8 @@ namespace FumicertiApi.Controllers
                 CertiUndersheet = certiEntity.CertiUndersheet,
                 CertiTemperature = certiEntity.CertiTemperature,
                 CertiPresserTested=certiEntity.CertiPresserTested,
+                CertiHumidity=certiEntity.CertiHumidity,
+                Certi2Notify = certiEntity.Certi2Notify,
                 CompanyName = company?.Name ?? "N/A",
                 CompanyAddress = string.Join(", ", new[] {
             company?.Address1, company?.Address2, company?.Address3,

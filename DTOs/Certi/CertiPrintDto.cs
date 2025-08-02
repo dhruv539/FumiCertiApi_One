@@ -13,7 +13,7 @@
 
         public string? CertiConsignee { get; set; }
         public string? CertiConsigneeAddress { get; set; }
-        public string? CertiCountryDest { get; set; }
+        public string? CertiImpcountry { get; set; }
 
         public string? CertiNotifyParty { get; set; }
         public string? CertiNotifyAddress { get; set; }
@@ -51,10 +51,12 @@
 
         public double? CertiTemperature { get; set; }
         public string? CertiPresserTested { get; set; }
+        public string? CertiHumidity { get; set; }
 
         public string CompanyName { get; set; }
         public string CompanyAddress { get; set; }
 
+        public bool? Certi2Notify { get; set; }
 
     }
 
