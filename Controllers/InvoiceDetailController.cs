@@ -30,7 +30,7 @@ namespace FumicertiApi.Controllers
                 var currentPage = sieveModel.Page ?? 1;
                 var pageSize = sieveModel.PageSize ?? 10;
 
-                var query = _context.Invoices.AsNoTracking();
+                var query = _context.InvoiceDetails.AsNoTracking(); // FIXED!
                 var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
                 var totalRecords = await filteredQuery.CountAsync();
@@ -46,11 +46,11 @@ namespace FumicertiApi.Controllers
                     pagination = new
                     {
                         page = currentPage,
-                        pageSize = pageSize,
-                        totalRecords = totalRecords,
-                        totalPages = totalPages
+                        pageSize,
+                        totalRecords,
+                        totalPages
                     },
-                    data = data
+                    data
                 });
             }
             catch (Exception ex)
@@ -58,7 +58,6 @@ namespace FumicertiApi.Controllers
                 return StatusCode(500, new { error = ex.Message, detail = ex.StackTrace });
             }
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -76,7 +75,7 @@ namespace FumicertiApi.Controllers
 
             _context.InvoiceDetails.Add(dto);
             await _context.SaveChangesAsync();
-            return Ok(new { dto.InvoiceDetailId });
+            return Ok(dto);
         }
 
         [HttpPut("{id}")]
@@ -102,6 +101,23 @@ namespace FumicertiApi.Controllers
             _context.InvoiceDetails.Remove(detail);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpGet("ByInvoiceId/{invoiceId}")]
+        public async Task<ActionResult<List<InvoiceDetail>>> GetByInvoiceId(int invoiceId)
+        {
+            try
+            {
+                var details = await _context.InvoiceDetails
+                    .Where(d => d.InvoiceDetailInvoiceId == invoiceId)
+                    .ToListAsync();
+
+                return Ok(details);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
     }
 }
