@@ -71,5 +71,6 @@ namespace FumicertiApi.DTOs.Certi
         public string? CertiJobType { get; set; }
         public bool? Certi2Notify { get; set; }
 
+
     }
 }
