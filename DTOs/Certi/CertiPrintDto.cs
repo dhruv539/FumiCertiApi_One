@@ -2,7 +2,7 @@
 {
     public class CertiPrintMbrDto
     {
-        public int? CertiNo { get; set; } 
+        public int? CertiNo { get; set; }
         public DateTime? CertiDate { get; set; }
         public string? CertiJobType { get; set; }
         public string? CertiPhyto { get; set; }
@@ -52,6 +52,7 @@
         public double? CertiTemperature { get; set; }
         public string? CertiPresserTested { get; set; }
         public string? CertiHumidity { get; set; }
+        public int? CertiCompanyId { get; set; }
 
         public string CompanyName { get; set; }
         public string CompanyAddress { get; set; }

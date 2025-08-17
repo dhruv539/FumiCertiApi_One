@@ -1,5 +1,4 @@
 ﻿using FumicertiApi.Data;
-using FumicertiApi.DTOs;
 using FumicertiApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,18 +44,21 @@ namespace FumicertiApi.Controllers
                 pagination = new
                 {
                     page = currentPage,
-                    pageSize = pageSize,
-                    totalRecords = totalRecords,
-                    totalPages = totalPages
+                    pageSize,
+                    totalRecords,
+                    totalPages
                 },
-                data = data
+                data
             });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = await _context.Invoices
+                .Include(i => i.InvoiceDetails) // Include details
+                .FirstOrDefaultAsync(i => i.InvId == id);
+
             if (invoice == null) return NotFound();
             return Ok(invoice);
         }
@@ -67,9 +69,27 @@ namespace FumicertiApi.Controllers
             dto.InvCreated = DateTime.UtcNow;
             dto.InvCreateUid = GetUserId().ToString();
 
+            var details = dto.InvoiceDetails?.ToList();
+            dto.InvoiceDetails = null;
+
             _context.Invoices.Add(dto);
             await _context.SaveChangesAsync();
-            return Ok(new { dto.InvId });
+
+            if (details != null && details.Count > 0)
+            {
+                foreach (var detail in details)
+                {
+                    detail.InvoiceDetailId = null;
+                    detail.InvoiceDetailInvoiceId = dto.InvId;
+                    detail.InvoiceDetailCreated = DateTime.UtcNow;
+                    detail.InvoiceDetailCreateUid = GetUserId().ToString();
+                    _context.InvoiceDetails.Add(detail);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok(dto);
         }
 
         [HttpPut("{id}")]
@@ -89,8 +109,14 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = await _context.Invoices
+                .Include(i => i.InvoiceDetails)
+                .FirstOrDefaultAsync(i => i.InvId == id);
+
             if (invoice == null) return NotFound();
+
+            if (invoice.InvoiceDetails?.Any() == true)
+                _context.InvoiceDetails.RemoveRange(invoice.InvoiceDetails);
 
             _context.Invoices.Remove(invoice);
             await _context.SaveChangesAsync();

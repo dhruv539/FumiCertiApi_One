@@ -8,32 +8,25 @@ namespace FumicertiApi.Models
     {
         [Key]
         [Column("certi_id")]
-        public string CertiId { get; set; }
+        public string? CertiId { get; set; } // Made nullable - this was likely the main issue
 
-        [Required]
         [Column("certi_order_id")]
-        public int? CertiOrderId { get; set; }
+        public int? CertiOrderId { get; set; } // Removed [Required] since it's nullable
 
-        [Required]
         [Column("certi_branch_id")]
-        public int? CertiBranchId { get; set; }
+        public int? CertiBranchId { get; set; } // Removed [Required] since it's nullable
 
-        [Required]
         [Column("certi_product_type")]
-        public string? CertiProductType { get; set; }
+        public string? CertiProductType { get; set; } // Removed [Required] since it's nullable
 
-
-        [Required]
         [Column("certi_type")]
-        public string? CertiType { get; set; }
+        public string? CertiType { get; set; } // Removed [Required] since it's nullable
 
-        [Required]
         [Column("certi_jobfor")]
-        public string? CertiJobfor { get; set; }
+        public string? CertiJobfor { get; set; } // Removed [Required] since it's nullable
 
-        [Required]
         [Column("certi_no")]
-        public int? CertiNo { get; set; }
+        public int? CertiNo { get; set; } // Removed [Required] since it's nullable
 
         [Column("certi_date")]
         public DateTime? CertiDate { get; set; }
@@ -64,9 +57,6 @@ namespace FumicertiApi.Models
 
         [Column("certi_presser_tested")]
         public string? CertiPresserTested { get; set; }
-
-        //[Column("certi_temperature")]
-        //public string? CertiTemperature { get; set; }
 
         [Column("certi_humidity")]
         public string? CertiHumidity { get; set; }
@@ -196,6 +186,7 @@ namespace FumicertiApi.Models
 
         [Column("certi_phyto")]
         public string? CertiPhyto { get; set; }
+
         [Column("certi_jobtype")]
         public string? CertiJobType { get; set; }
 
@@ -204,5 +195,7 @@ namespace FumicertiApi.Models
 
         [Column("certi_2notify")]
         public bool? Certi2Notify { get; set; }
+        [Column("certi_companyid")]
+        public int? CertiCompanyId { get; set; }
     }
 }
