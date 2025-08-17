@@ -39,7 +39,19 @@ namespace FumicertiApi.Controllers
                 year.YearCreated = DateTime.UtcNow;
                 year.YearUpdated = DateTime.UtcNow;
 
-                _context.Years.Add(year);
+            // If this is being set as default, unset all others for the same company
+            if (year.YearIsDefault)
+            {
+                var existingDefaults = await _context.Years
+                    .Where(y => y.YearCompanyId == year.YearCompanyId && y.YearIsDefault)
+                    .ToListAsync();
+
+                foreach (var y in existingDefaults)
+                {
+                    y.YearIsDefault = false;
+                }
+            }
+            _context.Years.Add(year);
                 await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetYear), new { id = year.YearId }, year);
@@ -52,7 +64,19 @@ namespace FumicertiApi.Controllers
                     return BadRequest();
 
                 year.YearUpdated = DateTime.UtcNow;
-                _context.Entry(year).State = EntityState.Modified;
+            // If this is being set as default, unset all others for the same company
+            if (year.YearIsDefault)
+            {
+                var existingDefaults = await _context.Years
+                    .Where(y => y.YearCompanyId == year.YearCompanyId && y.YearId != year.YearId && y.YearIsDefault)
+                    .ToListAsync();
+
+                foreach (var y in existingDefaults)
+                {
+                    y.YearIsDefault = false;
+                }
+            }
+            _context.Entry(year).State = EntityState.Modified;
 
                 try
                 {
