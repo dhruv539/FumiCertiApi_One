@@ -457,8 +457,21 @@ namespace FumicertiApi.Controllers
                     CertiTemperature = c.CertiTemperature ?? 0,
                     CertiPresserTested = c.CertiPresserTested ?? "",
                     CertiHumidity = c.CertiHumidity ?? "",
-                   
-                    Certi2Notify = c.Certi2Notify ?? false
+                    CertiCountryDest=c.CertiCountryDest ?? "",
+                    CertiFinalReading=c.CertiFinalReading ?? "",
+
+                    CertiTgPacking =c.CertiTgPacking ?? false,
+                    CertiTgCommodity=c.CertiTgCommodity ?? false,
+                    CertiTgPackComm=c.CertiTgPackComm ?? false,
+                    CertiSurfaceThickness = c.CertiSurfaceThickness ?? "",
+                    CertiStack = c.CertiStack ?? false,
+                    CertiContainer = c.CertiContainer ?? false,
+                    CertiChamber = c.CertiChamber ?? false,
+                    CertiTestedContainer = c.CertiTestedContainer ?? false,
+                    CertiUnsheetedContainer = c.CertiUnsheetedContainer ?? false,
+                    CertiAppliedRate = c.CertiAppliedRate ?? 0f,
+
+            Certi2Notify = c.Certi2Notify ?? false
                 })
                 .FirstOrDefaultAsync();
 
@@ -513,6 +526,19 @@ namespace FumicertiApi.Controllers
                 CertiPresserTested = certiData.CertiPresserTested,
                 CertiHumidity = certiData.CertiHumidity,
                 Certi2Notify = certiData.Certi2Notify,
+               CertiCountryDest=certiData.CertiCountryDest,
+               CertiFinalReading=certiData.CertiFinalReading,
+
+                CertiTgPacking = certiData.CertiTgPacking,
+                CertiTgCommodity = certiData.CertiTgCommodity, 
+                CertiTgPackComm = certiData.CertiTgPackComm,
+                CertiSurfaceThickness = certiData.CertiSurfaceThickness,
+                CertiStack = certiData.CertiStack,
+                CertiContainer = certiData.CertiContainer,
+                CertiChamber = certiData.CertiChamber,
+                CertiTestedContainer = certiData.CertiTestedContainer,
+                CertiUnsheetedContainer = certiData.CertiUnsheetedContainer,
+
                 CompanyName = company?.Name ?? "N/A",
                 CompanyAddress = string.Join(", ", new[] {
             company?.Address1, company?.Address2, company?.Address3,

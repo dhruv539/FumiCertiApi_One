@@ -49,5 +49,8 @@ namespace FumicertiApi.Models
 
         [Column("product_updated")]
         public DateTime? ProductUpdated { get; set; } = DateTime.UtcNow;
+
+        [Column("product_type")]
+        public string? ProductType { get; set; }
     }
 }
