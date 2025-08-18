@@ -209,13 +209,17 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            Console.WriteLine($"[API] Delete Request for ID: {id}");
             var img = await _context.ImgData.FindAsync(id);
+            Console.WriteLine(img != null
+        ? $"[API] Found ImgData with ID: {id}"
+        : $"[API] ImgData with ID: {id} NOT FOUND");
             if (img == null) return NotFound("❌ Image not found.");
 
             _context.ImgData.Remove(img);
             await _context.SaveChangesAsync();
 
-            return Ok("✅ Deleted successfully.");
+            return Ok(true);
         }
 
 
