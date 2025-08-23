@@ -104,5 +104,15 @@ namespace FumicertiApi.Models
 
         [Column("bill_igst")]
         public float BillIgst { get; set; }
+
+        [Column("bill_filterpartyname")]
+        public string? filterpartyname { get; set; }
+
+        [Column("bill_remarks")]
+        public string? Remarks { get; set; }
+
+
+        [Column("bill_rate_40cont")]
+        public float BillRate40Cont { get; set; }
     }
 }

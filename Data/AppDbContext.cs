@@ -24,7 +24,7 @@ namespace FumicertiApi.Data
         public DbSet<ReportData> ReportDatas { get; set; }
        public DbSet<Year> Years { get; set; }
         public DbSet<Bill> Bills { get; set; }
-
+        public DbSet<State> States { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

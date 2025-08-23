@@ -51,7 +51,8 @@ namespace FumicertiApi.Controllers
                     Status = c.Status,
                     Remarks = c.Remarks,
                     City = c.City,
-                    Country = c.Country
+                    Country = c.Country,
+                       StateId = c.StateId
                 })
                 .ToListAsync();
 

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using FumicertiApi.Data;
 using FumicertiApi.Models;
-
 using FumicertiApi.Services;
 using FumicertiApi.DTOs.User;
 using FumicertiApi.DTOs;
@@ -31,23 +30,31 @@ namespace FumicertiApi.Controllers
             try
             {
                 var user = await _context.Users
+                      .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.UserEmail == dto.UserEmail);
 
                 if (user == null || !BCrypt.Net.BCrypt.Verify(dto.UserPassword, user.UserPassword))
                     return Unauthorized("Invalid credentials");
 
                 var token = _tokenService.CreateToken(user);
-                var tokenExpiry = DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds();
-
+                //var tokenExpiry = DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds();
+                var tokenExpiry = DateTimeOffset.UtcNow.AddMinutes(60).ToUnixTimeSeconds();
+                var refreshToken = _tokenService.GenerateRefreshToken();
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1);
+                await _context.SaveChangesAsync();
                 return Ok(new AuthResponseDto
                 {
                     Token = token,
+                    RefreshToken = refreshToken,
+                    RefreshtokenExp = user.RefreshTokenExpiryTime.Value,
                     UserName = user.UserName,
                     UserId = user.UserId,
                     Email = user.UserEmail,
                     //tokenExp = 60 * 60 * 24// Default to 1 day expiration
                     tokenExp = tokenExpiry,
-                    BranchId=user.UserBranchId
+                    BranchId=user.UserBranchId,
+                     Rolename = user.Role.RoleName
                 });
             }
             catch (Exception ex)
@@ -60,6 +67,28 @@ namespace FumicertiApi.Controllers
             }
         }
 
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken && u.RefreshTokenExpiryTime > DateTime.UtcNow);
+
+            if (user == null)
+                return Unauthorized("Invalid Refresh Token");
+
+            var newAccessToken = _tokenService.CreateToken(user);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // 7-day validity
+            await _context.SaveChangesAsync();
+
+            return Ok(new AuthResponseDto
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken
+            });
+        }
 
         // ✅ Register (optional, if needed)
         [HttpPost("register")]
