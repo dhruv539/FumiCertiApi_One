@@ -166,7 +166,21 @@ namespace FumicertiApi.Controllers
                 ContainerActualDoseRate = dto.ContainerActualDoseRate,
                 ContainerFirstTvl = dto.ContainerFirstTvl,
                 ContainerSecondTlv = dto.ContainerSecondTlv,
+
                 ContainerCalculateDose = dto.ContainerCalculateDose,
+                Container100Mbrgram= dto.Container100Mbrgram,
+                ContainerCid=dto.ContainerCid,
+                ContainerExcessqtygrams=dto.ContainerExcessqtygrams,
+                ContainerP1=dto.ContainerP1,
+                ContainerP2=dto.ContainerP2,
+                ContainerQtymbrgram=dto.ContainerQtymbrgram,
+                ContainerReqcylinder=dto.ContainerReqcylinder,
+                ContainerRequredprod1=dto.ContainerRequredprod1,
+                ContainerRequredprod2=dto.ContainerRequredprod2,
+                ContainerTotalqtyconsumed=dto.ContainerTotalqtyconsumed,
+                ContainerTotalqtygram=dto.ContainerTotalqtygram,
+                ContainerVolumecbm=dto.ContainerVolumecbm,
+
                 ContainerCreateUid = dto.ContainerCreateUid,
                 ContainerEditedUid = dto.ContainerEditedUid,
                 ContainerCreated = DateTime.UtcNow,
@@ -176,7 +190,7 @@ namespace FumicertiApi.Controllers
             _context.Containers.Add(model);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = model.ContainerCid }, model);
+            return Ok(true);
         }
 
         // PUT: api/Containers/5
@@ -232,7 +246,26 @@ namespace FumicertiApi.Controllers
             model.ContainerActualDoseRate = dto.ContainerActualDoseRate;
             model.ContainerFirstTvl = dto.ContainerFirstTvl;
             model.ContainerSecondTlv = dto.ContainerSecondTlv;
+
             model.ContainerCalculateDose = dto.ContainerCalculateDose;
+            model.Container100Mbrgram = dto.Container100Mbrgram;
+            model.ContainerCid = dto.ContainerCid;
+            model.ContainerExcessqtygrams = dto.ContainerExcessqtygrams;
+            model.ContainerP1 = dto.ContainerP1;
+            model.ContainerP2 = dto.ContainerP2;
+            model.ContainerQty1 = dto.ContainerQty1;
+            model.ContainerQty2 = dto.ContainerQty2;
+            model.ContainerQtymbrgram = dto.ContainerQtymbrgram;
+            model.ContainerReqcylinder = dto.ContainerReqcylinder;
+            model.ContainerRequredprod1 = dto.ContainerRequredprod1;
+            model.ContainerRequredprod2 = dto.ContainerRequredprod2;
+            model.ContainerVolumecbm = dto.ContainerVolumecbm;
+            model.ContainerTotalqtygram = dto.ContainerTotalqtygram;
+
+
+
+
+
             model.ContainerEditedUid = dto.ContainerEditedUid;
             model.ContainerUpdated = DateTime.UtcNow;
 
