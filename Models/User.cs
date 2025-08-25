@@ -130,6 +130,12 @@ namespace FumicertiApi.Models
         public DateTime? ResetTokenExpires { get; set; }
         [ForeignKey(nameof(UserRoleId))]
         public virtual UserRole Role { get; set; }
+        [Column("refresh_token")]
+        public string? RefreshToken { get; set; }
+
+        [Column("refresh_token_expiry")]
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+
     }
 
     public class PagedUserResponse

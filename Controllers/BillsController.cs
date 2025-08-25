@@ -31,7 +31,7 @@ namespace FumicertiApi.Controllers
             if (bill == null)
             {
                 return NotFound();
-            }
+            }   
             return bill;
         }
 
@@ -66,13 +66,14 @@ namespace FumicertiApi.Controllers
             var bill = await _context.Bills.FindAsync(id);
             if (bill == null)
             {
-                return NotFound();
+                return NotFound(false);
             }
 
             _context.Bills.Remove(bill);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(true);
+
         }
     }
 }
