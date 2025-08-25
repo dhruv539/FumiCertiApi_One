@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using FumicertiApi.Models;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 
 namespace FumicertiApi.Services
 {
@@ -14,6 +15,13 @@ namespace FumicertiApi.Services
         public TokenService(IConfiguration config)
         {
             _config = config;
+        }
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         public string CreateToken(User user)
