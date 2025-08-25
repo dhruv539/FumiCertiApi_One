@@ -11,7 +11,7 @@ namespace FumicertiApi.DTOs.Container
         public string? ContainerContainerNo { get; set; }
         [Required]
         public string? ContainerCsize { get; set; }
-        [Required]
+       
         public decimal? ContainerConsumeQty { get; set; }
 
         public DateTime? ContainerDt1 { get; set; }

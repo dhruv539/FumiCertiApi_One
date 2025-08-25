@@ -111,9 +111,81 @@ namespace FumicertiApi.Controllers
         public async Task<ActionResult<ContainerReadDto>> GetById(int id)
         {
             var container = await _context.Containers.FindAsync(id);
-            if (container == null) return NotFound();
-            return Ok(container);
+            if (container == null)
+                return NotFound();
+
+            // manual mapping from EF entity → DTO
+            var dto = new ContainerReadDto
+            {
+                ContainerCid = container.ContainerCid,
+                ContainerCertiId = container.ContainerCertiId,
+                ContainerContainerNo = container.ContainerContainerNo,
+                ContainerCsize = container.ContainerCsize,
+                ContainerConsumeQty = container.ContainerConsumeQty, // ✅ decimal?
+                ContainerDt1 = container.ContainerDt1,
+                ContainerDt2 = container.ContainerDt2,
+                ContainerDt3 = container.ContainerDt3,
+                ContainerTime1 = container.ContainerTime1,
+                ContainerTime2 = container.ContainerTime2,
+                ContainerTime3 = container.ContainerTime3,
+                ContainerFb1 = container.ContainerFb1,
+                ContainerFb2 = container.ContainerFb2,
+                ContainerFb3 = container.ContainerFb3,
+                ContainerMc1 = container.ContainerMc1,
+                ContainerMc2 = container.ContainerMc2,
+                ContainerMc3 = container.ContainerMc3,
+                ContainerTb1 = container.ContainerTb1,
+                ContainerTb2 = container.ContainerTb2,
+                ContainerTb3 = container.ContainerTb3,
+                ContainerEquilibrium = container.ContainerEquilibrium,
+                ContainerVolL = container.ContainerVolL,
+                ContainerVolB = container.ContainerVolB,
+                ContainerVolH = container.ContainerVolH,
+                ContainerProdID1 = container.ContainerProdID1,
+                ContainerProdID2 = container.ContainerProdID2,
+                ContainerProdID3 = container.ContainerProdID3,
+                ContainerQty1 = container.ContainerQty1,
+                ContainerQty2 = container.ContainerQty2,
+                ContainerWt1 = container.ContainerWt1,
+                ContainerWt2 = container.ContainerWt2,
+                ContainerWt3 = container.ContainerWt3,
+                ContainerFbper1 = container.ContainerFbper1,
+                ContainerFbper2 = container.ContainerFbper2,
+                ContainerFbper3 = container.ContainerFbper3,
+                ContainerMcper1 = container.ContainerMcper1,
+                ContainerMcper2 = container.ContainerMcper2,
+                ContainerMcper3 = container.ContainerMcper3,
+                ContainerTbper1 = container.ContainerTbper1,
+                ContainerTbper2 = container.ContainerTbper2,
+                ContainerTbper3 = container.ContainerTbper3,
+                ContainerEquipmentType = container.ContainerEquipmentType,
+                ContainerProductname = container.ContainerProductname,
+                ContainerActualDoseRate = container.ContainerActualDoseRate,
+                ContainerFirstTvl = container.ContainerFirstTvl,
+                ContainerSecondTlv = container.ContainerSecondTlv,
+                ContainerCalculateDose = container.ContainerCalculateDose,
+                ContainerCreateUid = container.ContainerCreateUid,
+                ContainerEditedUid = container.ContainerEditedUid,
+                ContainerCreated = container.ContainerCreated,
+                ContainerUpdated = container.ContainerUpdated,
+
+                // 👉 extra varchar fields you added in DB
+                ContainerVolumecbm = container.ContainerVolumecbm,
+                ContainerQtymbrgram = container.ContainerQtymbrgram,
+                Container100Mbrgram = container.Container100Mbrgram,
+                ContainerRequredprod1 = container.ContainerRequredprod1,
+                ContainerRequredprod2 = container.ContainerRequredprod2,
+                ContainerReqcylinder = container.ContainerReqcylinder,
+                ContainerP1 = container.ContainerP1,
+                ContainerP2 = container.ContainerP2,
+                ContainerTotalqtygram = container.ContainerTotalqtygram,
+                ContainerExcessqtygrams = container.ContainerExcessqtygrams,
+                ContainerTotalqtyconsumed = container.ContainerTotalqtyconsumed
+            };
+
+            return Ok(dto);
         }
+
 
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] ContainerAddDto dto)
@@ -191,6 +263,89 @@ namespace FumicertiApi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(true);
+        }
+
+
+        // ✅ Flexible Search (certiId, containerNo, or both)
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<ContainerReadDto>>> Search(
+            [FromQuery] string? certiId,
+            [FromQuery] string? containerNo)
+        {
+            var query = _context.Containers.AsQueryable();
+
+            // if certiId provided → filter
+            if (!string.IsNullOrEmpty(certiId))
+                query = query.Where(c => c.ContainerCertiId == certiId);
+
+            // if containerNo provided → filter
+            if (!string.IsNullOrEmpty(containerNo))
+                query = query.Where(c => c.ContainerContainerNo == containerNo);
+
+            var containers = await query.ToListAsync();
+
+            if (!containers.Any())
+                return NotFound(new { message = "No containers found for the given criteria." });
+
+            var result = containers.Select(MapToDto).ToList();
+            return Ok(result);
+        }
+        private ContainerReadDto MapToDto(Container container)
+        {
+            return new ContainerReadDto
+            {
+                ContainerCid = container.ContainerCid,
+                ContainerCertiId = container.ContainerCertiId,
+                ContainerContainerNo = container.ContainerContainerNo,
+                ContainerCsize = container.ContainerCsize,
+                ContainerConsumeQty = container.ContainerConsumeQty, // careful: string in DTO, decimal in DB
+                ContainerDt1 = container.ContainerDt1,
+                ContainerDt2 = container.ContainerDt2,
+                ContainerDt3 = container.ContainerDt3,
+                ContainerTime1 = container.ContainerTime1,
+                ContainerTime2 = container.ContainerTime2,
+                ContainerTime3 = container.ContainerTime3,
+                ContainerFb1 = container.ContainerFb1,
+                ContainerFb2 = container.ContainerFb2,
+                ContainerFb3 = container.ContainerFb3,
+                ContainerMc1 = container.ContainerMc1,
+                ContainerMc2 = container.ContainerMc2,
+                ContainerMc3 = container.ContainerMc3,
+                ContainerTb1 = container.ContainerTb1,
+                ContainerTb2 = container.ContainerTb2,
+                ContainerTb3 = container.ContainerTb3,
+                ContainerEquilibrium = container.ContainerEquilibrium,
+                ContainerVolL = container.ContainerVolL,
+                ContainerVolB = container.ContainerVolB,
+                ContainerVolH = container.ContainerVolH,
+                ContainerProdID1 = container.ContainerProdID1,
+                ContainerProdID2 = container.ContainerProdID2,
+                ContainerProdID3 = container.ContainerProdID3,
+                ContainerQty1 = container.ContainerQty1,
+                ContainerQty2 = container.ContainerQty2,
+                ContainerWt1 = container.ContainerWt1,
+                ContainerWt2 = container.ContainerWt2,
+                ContainerWt3 = container.ContainerWt3,
+                ContainerFbper1 = container.ContainerFbper1,
+                ContainerFbper2 = container.ContainerFbper2,
+                ContainerFbper3 = container.ContainerFbper3,
+                ContainerMcper1 = container.ContainerMcper1,
+                ContainerMcper2 = container.ContainerMcper2,
+                ContainerMcper3 = container.ContainerMcper3,
+                ContainerTbper1 = container.ContainerTbper1,
+                ContainerTbper2 = container.ContainerTbper2,
+                ContainerTbper3 = container.ContainerTbper3,
+                ContainerEquipmentType = container.ContainerEquipmentType,
+                ContainerProductname = container.ContainerProductname,
+                ContainerActualDoseRate = container.ContainerActualDoseRate,
+                ContainerFirstTvl = container.ContainerFirstTvl,
+                ContainerSecondTlv = container.ContainerSecondTlv,
+                ContainerCalculateDose = container.ContainerCalculateDose,
+                ContainerCreateUid = container.ContainerCreateUid,
+                ContainerEditedUid = container.ContainerEditedUid,
+                ContainerCreated = container.ContainerCreated,
+                ContainerUpdated = container.ContainerUpdated
+            };
         }
 
         // PUT: api/Containers/5

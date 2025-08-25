@@ -22,7 +22,7 @@ namespace FumicertiApi.Models
         [Column("container_csize")]
         public string? ContainerCsize { get; set; }
 
-        [Required]
+
         [Column("container_ConsumeQty")]
         public decimal? ContainerConsumeQty { get; set; }
 
@@ -195,6 +195,7 @@ namespace FumicertiApi.Models
         [Column("container_excessqtygrams")]
         public string? ContainerExcessqtygrams { get; set; }
 
+        [Required]
         [Column("container_totalqtyconsumed")]
         public string? ContainerTotalqtyconsumed { get; set; }
     }
