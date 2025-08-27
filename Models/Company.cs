@@ -82,7 +82,7 @@ namespace FumicertiApi.Models
         public string? CurrencySymbol { get; set; }
 
         [Column("company_status")]
-        public byte Status { get; set; }
+        public bool Status { get; set; }
 
         [Column("company_created")]
         public DateTime Created { get; set; }= DateTime.Now;

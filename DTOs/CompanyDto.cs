@@ -12,7 +12,7 @@ namespace FumicertiApi.DTOs
         public string? Mobile { get; set; }
         public bool IsGstApplicable { get; set; }
         public string? Gstin { get; set; }
-        public byte Status { get; set; }
+        public bool Status { get; set; }
         public string? Remarks { get; set; }
         public string? City { get; set; }
         public string? Country { get; set; }
@@ -29,7 +29,7 @@ namespace FumicertiApi.DTOs
         public string? Mobile { get; set; }
         public bool IsGstApplicable { get; set; }
         public string? Gstin { get; set; }
-        public byte Status { get; set; }
+        public bool Status { get; set; }
         public string? Remarks { get; set; }
         public string? City { get; set; }
         public string? Country { get; set; }

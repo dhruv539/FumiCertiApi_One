@@ -30,7 +30,7 @@ namespace FumicertiApi.DTOs.Notify
 
         public string? NotifyGstNo { get; set; }
 
-        public byte NotifyStatus { get; set; } = 1;
+        public bool NotifyStatus { get; set; } 
 
         public string? NotifyState { get; set; }
 

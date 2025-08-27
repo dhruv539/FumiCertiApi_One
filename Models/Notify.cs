@@ -43,7 +43,7 @@ namespace FumicertiApi.Models
         public string? NotifyGstNo { get; set; }
 
         [Column("notify_status")]
-        public byte NotifyStatus { get; set; } = 1;
+        public bool NotifyStatus { get; set; } 
 
         [Column("notify_state")]
         public string? NotifyState { get; set; }

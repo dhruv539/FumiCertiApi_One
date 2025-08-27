@@ -13,7 +13,7 @@
         public string? NotifyEmail { get; set; }
         public string? NotifyContactNo { get; set; }
         public string? NotifyGstNo { get; set; }
-        public byte NotifyStatus { get; set; }
+        public bool NotifyStatus { get; set; }
         public string? NotifyState { get; set; }
         public string? NotifyPincode { get; set; }
         public string? NotifyStateCode { get; set; }
