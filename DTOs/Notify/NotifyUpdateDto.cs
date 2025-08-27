@@ -25,7 +25,7 @@ namespace FumicertiApi.DTOs.Notify
         [StringLength(20)]
         public string? NotifyGstNo { get; set; }
 
-        public byte NotifyStatus { get; set; }
+        public bool NotifyStatus { get; set; }
 
         public string? NotifyState { get; set; }
         public string? NotifyPincode { get; set; }

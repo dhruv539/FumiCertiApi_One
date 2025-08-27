@@ -395,7 +395,7 @@ namespace FumicertiApi.Controllers
                             NotifyName = name,
                             NotifyAddress = address,
                             NotifyType = type, 
-                            NotifyStatus = 1 ,
+                            NotifyStatus = true ,
                             NotifyCreated = DateTime.Now,
                             NotifyUpdated = DateTime.Now
                         };
@@ -468,7 +468,7 @@ namespace FumicertiApi.Controllers
             // Fetch company - assuming single company for now
             var company = await _context.companies
     .AsNoTracking()
-    .FirstOrDefaultAsync(c => c.Status == (byte)1);
+    .FirstOrDefaultAsync(c => c.Status == true);
 
 
             var dto = new CertiPrintMbrDto
