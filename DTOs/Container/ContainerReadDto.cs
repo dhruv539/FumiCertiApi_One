@@ -53,6 +53,22 @@
         public string? ContainerEditedUid { get; set; }
         public DateTime? ContainerCreated { get; set; }
         public DateTime? ContainerUpdated { get; set; }
+        // 🚨 Extra fields from DB (all varchar)
+        public decimal? ContainerVolumecbm { get; set; }
+        public string? ContainerQtymbrgram { get; set; }
+
+        // ⚠ special case: column name has `%`
+        [System.ComponentModel.DataAnnotations.Schema.Column("container_100%mbrgram")]
+        public string? Container100Mbrgram { get; set; }
+
+        public string? ContainerRequredprod1 { get; set; }
+        public string? ContainerRequredprod2 { get; set; }
+        public string? ContainerReqcylinder { get; set; }
+        public string? ContainerP1 { get; set; }
+        public string? ContainerP2 { get; set; }
+        public string? ContainerTotalqtygram { get; set; }
+        public string? ContainerExcessqtygrams { get; set; }
+        public string? ContainerTotalqtyconsumed { get; set; }
     }
 
 }

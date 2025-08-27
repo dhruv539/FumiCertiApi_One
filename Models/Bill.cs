@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace FumicertiApi.Models
 {
     [Table("bills")]
@@ -24,8 +23,11 @@ namespace FumicertiApi.Models
         [Column("bill_party_id")]
         public int BillPartyId { get; set; }
 
+     
         [Column("bill_voucher_id")]
         public int BillVoucherId { get; set; }
+
+     
 
         [Column("bill_gross_amt")]
         public double BillGrossAmt { get; set; }
@@ -36,8 +38,11 @@ namespace FumicertiApi.Models
         [Column("bill_net_amt")]
         public double BillNetAmt { get; set; }
 
+        
         [Column("bill_pos_id")]
         public int BillPosId { get; set; }
+
+       
 
         [Column("bill_prefix")]
         public string? BillPrefix { get; set; }
@@ -106,13 +111,16 @@ namespace FumicertiApi.Models
         public float BillIgst { get; set; }
 
         [Column("bill_filterpartyname")]
-        public string? filterpartyname { get; set; }
+        public string? FilterPartyName { get; set; }
 
         [Column("bill_remarks")]
         public string? Remarks { get; set; }
 
-
         [Column("bill_rate_40cont")]
         public float BillRate40Cont { get; set; }
+
+        [Column("bill_company_id")]
+        public int BillCompanyId { get; set; }
+
     }
 }

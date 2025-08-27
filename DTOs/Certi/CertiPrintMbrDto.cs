@@ -58,6 +58,21 @@
         public string CompanyAddress { get; set; }
 
         public bool? Certi2Notify { get; set; }
+        public string? CertiCountryDest { get; set; }
+        public string? CertiFinalReading { get; set; }
+
+        public bool? CertiTgPacking { get; set; }
+        public bool? CertiTgCommodity { get; set; }
+        public bool? CertiTgPackComm { get; set; }
+        public string? CertiSurfaceThickness { get; set; }
+        public bool? CertiStack { get; set; }
+        public bool? CertiContainer { get; set; }
+        public bool? CertiChamber { get; set; }
+        public bool? CertiTestedContainer { get; set; }
+        public bool? CertiUnsheetedContainer { get; set; }
+        public float? CertiAppliedRate { get; set; }
+
+
 
     }
 

@@ -22,7 +22,7 @@ namespace FumicertiApi.Models
         [Column("container_csize")]
         public string? ContainerCsize { get; set; }
 
-        [Required]
+
         [Column("container_ConsumeQty")]
         public decimal? ContainerConsumeQty { get; set; }
 
@@ -163,6 +163,41 @@ namespace FumicertiApi.Models
 
         [Column("container_updated")]
         public DateTime? ContainerUpdated { get; set; }
+
+        //new fiedls
+        [Column("container_volumecbm")]
+        public decimal? ContainerVolumecbm { get; set; }
+
+        [Column("container_qtymbrgram")]
+        public string? ContainerQtymbrgram { get; set; }
+
+        [Column("container_100%mbrgram")]
+        public string? Container100Mbrgram { get; set; }
+
+        [Column("container_requredprod1")]
+        public string? ContainerRequredprod1 { get; set; }
+
+        [Column("container_requredprod2")]
+        public string? ContainerRequredprod2 { get; set; }
+
+        [Column("container_reqcylinder")]
+        public string? ContainerReqcylinder { get; set; }
+
+        [Column("container_p1")]
+        public string? ContainerP1 { get; set; }
+
+        [Column("container_p2")]
+        public string? ContainerP2 { get; set; }
+
+        [Column("container_totalqtygram")]
+        public string? ContainerTotalqtygram { get; set; }
+
+        [Column("container_excessqtygrams")]
+        public string? ContainerExcessqtygrams { get; set; }
+
+        [Required]
+        [Column("container_totalqtyconsumed")]
+        public string? ContainerTotalqtyconsumed { get; set; }
     }
 
 }
