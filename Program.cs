@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sieve.Models;
 using Sieve.Services;
+using System.Security.Claims;
 using System.Text;
 
 namespace FumicertiApi
@@ -56,7 +57,8 @@ namespace FumicertiApi
                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidAudience = builder.Configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)) ,
+                        RoleClaimType = ClaimTypes.Role
                     };
                 });
 

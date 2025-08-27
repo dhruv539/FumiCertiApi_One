@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FumicertiApi.Data;
+﻿using FumicertiApi.Data;
+using FumicertiApi.DTOs;
+using FumicertiApi.DTOs.Certi;
 using FumicertiApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FumicertiApi.Controllers
 {
@@ -75,5 +77,103 @@ namespace FumicertiApi.Controllers
             return Ok(true);
 
         }
+
+        [HttpGet("print/{id}")]
+        public async Task<ActionResult<PrintBillDto>> GetPrintBill(int id)
+        {
+            try
+            {
+                var result = await (
+                    from bill in _context.Bills.AsNoTracking()
+                    join company in _context.companies.AsNoTracking()
+                        on bill.BillCompanyId equals company.CompanyId
+                    join notify in _context.Notifies.AsNoTracking()
+                        on bill.BillPartyId equals notify.NotifyId
+                    where bill.BillId == id
+                    select new PrintBillDto
+                    {
+                        // Bill Info
+                        BillId = bill.BillId,
+                        BillNoStr = bill.BillNoStr,
+                        BillPrefix = bill.BillPrefix,
+                        BillSufix = bill.BillSufix,
+                        BillDate = bill.BillDate,
+                        PartyId = bill.BillPartyId,
+                        ShipParty = bill.BillShipParty,
+                        Address1 = bill.BillAddress1,
+                        Address2 = bill.BillAddress2,
+                        Address3 = bill.BillAddress3,
+                        State = bill.BillState,
+                        Gstin = bill.BillGstin,
+                        Pin = bill.BillPin,
+                        ContactNo = bill.BillContactNo,
+                        GrossAmount = bill.BillGrossAmt,
+                        TaxableAmount = bill.BillTaxable,
+                        NetAmount = bill.BillNetAmt,
+                        Sgst = bill.BillSgst,
+                        Cgst = bill.BillCgst,
+                        Igst = bill.BillIgst,
+                        RatePerContainer = bill.BillRatePerCont,
+                        Rate40Container = bill.BillRate40Cont,
+                        SupplyType = bill.BillSupplyType,
+                        IrnNo = bill.BillIrnNo,
+                        AckNo = bill.BillAckNo,
+                        AckDate = bill.BillAckDate,
+                        Remarks = bill.Remarks,
+                        BillDateFrom = bill.BillDateFrom,
+                        BillDateTo = bill.BillDateTo,
+
+                        // Company Info
+                        CompanyId = company.CompanyId,
+                        CompanyName = company.Name,
+                        CompanyAddress = company.Address1,
+                        CompanyGstin = company.Gstin,
+                        CompanyState = company.StateId,
+                        CompanyContactNo = company.Mobile,
+                        CompanyEmail = company.Email,
+
+                        // Notify Info
+                        Notify = new NotifyDto
+                        {
+                            NotifyId = notify.NotifyId,
+                            NotifyName = notify.NotifyName,
+                            Address = notify.NotifyAddress,                        
+                            State = notify.NotifyState,
+                            Gstin = notify.NotifyGstNo,
+                            Pin = notify.NotifyPincode,
+                            ContactNo = notify.NotifyContactNo,
+                            Email = notify.NotifyEmail
+                        },
+
+                        // Collect all Certis
+                        Certis = _context.Certi
+                            .Where(c => c.CertiBillId == bill.BillId)
+                            .Select(c => new Certiprintbillbto
+                            {
+                                CertiNo = c.CertiNo,
+                                CertiDate = c.CertiDate,
+                                ContainerNo = c.CertiContainers,
+                                Commodity = c.CertiTgCommodity,
+                                PortOfLoading = c.CertiPol,
+                                PortOfDischarge = c.CertiPod,
+                                ContainerSize = c.CertiContainerSize,
+                                DoseRate = c.CertiDoseRate,
+                                InvoiceNo = c.CertiInvoiceNo
+                            })
+                            .ToList()
+                    }
+                ).FirstOrDefaultAsync();
+
+                if (result == null) return NotFound();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Failed to fetch PrintBill: {ex.Message}");
+            }
+        }
+
+
+
     }
 }

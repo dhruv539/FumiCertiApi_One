@@ -149,5 +149,50 @@ namespace FumicertiApi.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpGet("type/{type}")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetByType(string type, [FromQuery] SieveModel sieveModel)
+        {
+            var currentPage = sieveModel.Page ?? 1;
+            var pageSize = sieveModel.PageSize ?? 10;
+
+            var query = _context.products
+                .AsNoTracking()
+                .Where(p => p.ProductType == type); // Assuming ProductType exists
+
+            var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
+
+            var totalRecords = await filteredQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            var pagedProducts = await filteredQuery
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new ProductDto
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    ProductUnit = p.ProductUnit,
+                    ProductOpening = (decimal)p.ProductOpening,
+                    ProductOpeningUnit = p.ProductOpeningUnit,
+                    ProductWeightPerUnit = (decimal)p.ProductWeightPerUnit,
+                    ProductTotalWt = (decimal)p.ProductTotalWt,
+                    ProductConsumeQty = (decimal)p.ProductConsumeQty
+                })
+                .ToListAsync();
+
+            return Ok(new
+            {
+                pagination = new
+                {
+                    page = currentPage,
+                    pageSize = pageSize,
+                    totalRecords = totalRecords,
+                    totalPages = totalPages
+                },
+                data = pagedProducts
+            });
+        }
+
     }
 }
