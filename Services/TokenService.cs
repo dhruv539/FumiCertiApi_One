@@ -31,9 +31,11 @@ namespace FumicertiApi.Services
                 new Claim(ClaimTypes.Name, user.UserName),
                  new Claim("UserId", user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.UserEmail),
-                new Claim(ClaimTypes.Role, user.UserRoleId),
+                 new Claim(ClaimTypes.Role, user.Role.RoleName),
+                  new Claim("RoleId", user.UserRoleId),
                 new Claim("BranchId", user.UserBranchId?.ToString() ?? string.Empty),  
                  new Claim("CompanyId", user.UserCompanyId.ToString())
+              
 
             };
 

@@ -34,7 +34,7 @@ namespace FumicertiApi.Models
         public DateTime? YearDateTo { get; set; }
 
         [Column("year_status")]
-        public byte YearStatus { get; set; }
+        public bool YearStatus { get; set; }
 
         [Column("year_created")]
         public DateTime YearCreated { get; set; }

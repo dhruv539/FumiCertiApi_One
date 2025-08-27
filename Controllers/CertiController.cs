@@ -471,17 +471,17 @@ namespace FumicertiApi.Controllers
                     CertiUnsheetedContainer = c.CertiUnsheetedContainer ?? false,
                     CertiAppliedRate = c.CertiAppliedRate ?? 0f,
 
-            Certi2Notify = c.Certi2Notify ?? false
-                })
-                .FirstOrDefaultAsync();
+                    Certi2Notify = c.Certi2Notify ?? false
+                    })
+                    .FirstOrDefaultAsync();
 
-            if (certiData == null)
-                return NotFound();
+                if (certiData == null)
+                    return NotFound();
 
             // Fetch company - assuming single company for now
             var company = await _context.companies
-    .AsNoTracking()
-    .FirstOrDefaultAsync(c => c.Status == (byte)1);
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Status == (byte)1);
 
 
             var dto = new CertiPrintMbrDto
@@ -545,7 +545,6 @@ namespace FumicertiApi.Controllers
             company?.City, company?.StateCode, company?.Country, company?.Pincode
         }.Where(s => !string.IsNullOrWhiteSpace(s)))
             };
-
             return Ok(dto);
         }
 
