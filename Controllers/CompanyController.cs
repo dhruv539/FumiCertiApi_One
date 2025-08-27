@@ -52,7 +52,8 @@ namespace FumicertiApi.Controllers
                     Remarks = c.Remarks,
                     City = c.City,
                     Country = c.Country,
-                       StateId = c.StateId
+                       StateId = c.StateId,
+                        Panno = c.Panno
                 })
                 .ToListAsync();
 
@@ -89,7 +90,8 @@ namespace FumicertiApi.Controllers
                 Status = company.Status,
                 Remarks = company.Remarks,
                 City = company.City,
-                Country = company.Country
+                Country = company.Country,
+                Panno = company.Panno
             });
         }
 
@@ -113,6 +115,7 @@ namespace FumicertiApi.Controllers
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
                 StateId = dto.StateId,
+                Panno = dto.Panno,
                 AddedByUserId = GetUserId().ToString() // 👈 replace with logged-in user if available
             };
 
@@ -141,6 +144,7 @@ namespace FumicertiApi.Controllers
             company.Country = dto.Country;
             company.Updated = DateTime.UtcNow;
             company.StateId = dto.StateId;
+            company.Panno = dto.Panno;
             company.UpdatedByUserId = GetUserId().ToString(); // 👈 replace with logged-in user
 
             await _context.SaveChangesAsync();

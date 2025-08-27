@@ -17,6 +17,7 @@ namespace FumicertiApi.DTOs
         public string? City { get; set; }
         public string? Country { get; set; }
         public string? StateId { get; set; }
+        public string? Panno { get; set; }
 
     }
     public class CompanyDto
@@ -34,6 +35,7 @@ namespace FumicertiApi.DTOs
         public string? City { get; set; }
         public string? Country { get; set; }
         public string? StateId { get; set; }
+        public string? Panno { get; set; }
 
     }
 }
