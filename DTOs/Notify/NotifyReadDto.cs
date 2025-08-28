@@ -3,7 +3,7 @@
     public class NotifyReadDto
     {
         public int NotifyId { get; set; }
-        public string NotifyCompanyId { get; set; } = string.Empty;
+        public int NotifyCompanyId { get; set; } 
         public int NotifyStateId { get; set; }
         public string NotifyCreateUid { get; set; } = string.Empty;
         public string? NotifyEditedUid { get; set; }

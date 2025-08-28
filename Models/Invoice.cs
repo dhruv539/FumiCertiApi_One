@@ -74,7 +74,7 @@ namespace FumicertiApi.Models
         public string? Invprodtype { get; set; }
 
         [Column("inv_company_id")]
-        public int InvCompanyId { get; set; }
+        public int? InvCompanyId { get; set; }
 
 
         // Don't serialize this, to avoid infinite loop
