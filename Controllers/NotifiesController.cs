@@ -112,7 +112,7 @@ namespace FumicertiApi.Controllers
         {
             var notify = new Notify
             {
-                NotifyCompanyId = GetCompanyId().ToString(),     // 🔒 Backend-only
+                NotifyCompanyId = GetCompanyId(),     // 🔒 Backend-only
                 NotifyCreateUid = GetUserId().ToString(),        // 🔒 Backend-only
                 NotifyCreated = DateTime.UtcNow,
                 NotifyUpdated = DateTime.UtcNow,
@@ -171,7 +171,7 @@ namespace FumicertiApi.Controllers
             notify.NotifyEmail = dto.NotifyEmail;
             notify.NotifyType = dto.NotifyType;
             notify.NotifyStatus = dto.NotifyStatus;
-            notify.NotifyCompanyId = GetCompanyId().ToString();
+            notify.NotifyCompanyId = GetCompanyId();
             notify.NotifyAddress = dto.NotifyAddress;
             notify.NotifyContactNo = dto.NotifyContactNo;
             notify.NotifyGstNo = dto.NotifyGstNo;
@@ -203,7 +203,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("type/{type}")]
         public async Task<IActionResult> GetByType(string type)
         {
-            var companyId = GetCompanyId().ToString();
+            var companyId = GetCompanyId();
 
             // Log incoming type and companyId for debug
             Console.WriteLine($"🔍 Input type: {type}, CompanyId: {companyId}");

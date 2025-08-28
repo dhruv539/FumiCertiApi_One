@@ -127,7 +127,7 @@ namespace FumicertiApi.Controllers
                 UserImage = dto.UserImage,
                 UserAddress = dto.UserAddress,
                 UserBranchId= GetBranchId(),
-                UserCompanyId = GetCompanyId().ToString(), // Set if available
+                UserCompanyId = GetCompanyId(), // Set if available
                 UserName = dto.UserName,
                 UserStatus = 1, // default active
                 UserCreated = DateTime.UtcNow

@@ -17,8 +17,7 @@ namespace FumicertiApi.DTOs.UserRole
     public class UserRoleCreateDto
     {
         [Required]
-        [StringLength(30)]
-        public string RoleCompanyId { get; set; } = default!;
+        public int RoleCompanyId { get; set; } = default!;
 
         [Required]
         [StringLength(60)]
