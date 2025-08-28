@@ -10,7 +10,7 @@ namespace FumicertiApi.Models
         public int NotifyId { get; set; }
 
         [Column("notify_company_id")]
-        public string NotifyCompanyId { get; set; } = string.Empty;
+        public int NotifyCompanyId { get; set; } 
 
 
         [Column("notify_state_id")]

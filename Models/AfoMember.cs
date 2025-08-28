@@ -32,6 +32,9 @@ namespace FumicertiApi.Models
 
         [Column("afo_updated")]
         public DateTime? AfoUpdated { get; set; }
+
+        [Column("afo_company_id")]
+        public int AfoCompanyId { get; set; }
     }
     public class PagedAfoMemberListViewModel
     {

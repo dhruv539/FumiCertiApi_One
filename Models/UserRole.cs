@@ -19,9 +19,8 @@ namespace FumicertiApi.Models
         public string RoleUuid { get; set; } = string.Empty;
 
         [Column("role_company_id")]
-        [StringLength(45)]
-    
-        public  string RoleCompanyId { get; set; }
+        
+        public  int RoleCompanyId { get; set; }
 
         [Column("role_create_uid")]
         [StringLength(60)]

@@ -198,6 +198,9 @@ namespace FumicertiApi.Models
         [Required]
         [Column("container_totalqtyconsumed")]
         public string? ContainerTotalqtyconsumed { get; set; }
+
+        [Column("container_company_id")]
+        public int CotainerCompanyId { get; set; }
     }
 
 }

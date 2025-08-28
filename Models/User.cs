@@ -115,7 +115,7 @@ namespace FumicertiApi.Models
         public string? UserUpdatebyUserId { get; set; }
 
         [Column("user_company_id")]
-        public string? UserCompanyId { get; set; }
+        public int UserCompanyId { get; set; }
 
         [Column("user_name")]
         public string? UserName { get; set; }

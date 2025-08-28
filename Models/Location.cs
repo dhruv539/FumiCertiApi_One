@@ -31,5 +31,7 @@ namespace FumicertiApi.Models
         [Column("locations_edited_uid")]
         [MaxLength(60)]
         public string? EditedBy { get; set; }
+        [Column("locations_company_id")]
+        public int CompanyId { get; set; }
     }
 }
