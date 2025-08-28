@@ -1,9 +1,12 @@
-﻿namespace FumicertiApi.DTOs.Certi
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FumicertiApi.DTOs.Certi
 {
     public class CertiReadDto : CertiAddDto
     {
         public string? CertiId { get; set; } = string.Empty;
-        public int? CertiCompanyId { get; set; }
+
+        public int CertiCompanyId { get; set; }
 
         public string? CertiEditedUid { get; set; }
         public DateTime? CertiCreated { get; set; }
