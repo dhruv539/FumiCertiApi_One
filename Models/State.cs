@@ -10,8 +10,8 @@ namespace FumicertiApi.Models
         public int StateId { get; set; }
 
         [Column("state_company_id")]
-        [StringLength(30)]
-        public string? StateCompanyId { get; set; }
+        
+        public int StateCompanyId { get; set; }
 
         [Column("state_addedby_user_id")]
         [StringLength(30)]

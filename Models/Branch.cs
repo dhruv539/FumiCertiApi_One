@@ -64,7 +64,7 @@ namespace FumicertiApi.Models
         public DateTime? Created { get; set; }
 
         [Column("branch_company_id")]
-        public string? CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         [Column("branch_state")]
         public string? State { get; set; }

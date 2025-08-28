@@ -12,8 +12,8 @@ namespace FumicertiApi.Models
         public int YearId { get; set; }
 
         [Column("year_company_id")]
-        [MaxLength(30)]
-        public string YearCompanyId { get; set; }
+        
+        public int YearCompanyId { get; set; }
 
         [Column("year_addby_user_id")]
         [MaxLength(30)]

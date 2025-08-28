@@ -44,5 +44,8 @@ namespace FumicertiApi.Models
         [Column("imgdata_edited_uid")]
         [MaxLength(60)]
         public string? ImgDataEditedUid { get; set; } // Editor user ID
+
+        [Column("imgdata_company_id")]
+        public int ImgDataCompanyId { get; set; }
     }
 }

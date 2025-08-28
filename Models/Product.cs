@@ -52,5 +52,8 @@ namespace FumicertiApi.Models
 
         [Column("product_type")]
         public string? ProductType { get; set; }
+
+        [Column("product_company_id")]
+        public int? ProductCompanyId { get; set; }
     }
 }

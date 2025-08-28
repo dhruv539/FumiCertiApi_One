@@ -73,6 +73,9 @@ namespace FumicertiApi.Models
         [Column("inv_prod_type")]
         public string? Invprodtype { get; set; }
 
+        [Column("inv_company_id")]
+        public int InvCompanyId { get; set; }
+
 
         // Don't serialize this, to avoid infinite loop
         [InverseProperty("Invoice")]
