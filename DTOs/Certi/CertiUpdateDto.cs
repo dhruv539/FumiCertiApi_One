@@ -1,4 +1,6 @@
-﻿namespace FumicertiApi.DTOs.Certi
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FumicertiApi.DTOs.Certi
 {
     public class CertiUpdateDto
     {
@@ -61,6 +63,8 @@
         public string? CertiPhyto { get; set; }
         public string? CertiJobType { get; set; }
         public bool? Certi2Notify { get; set; }
+     
+        public int CertiCompanyId { get; set; }
 
     }
 }

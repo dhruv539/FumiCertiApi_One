@@ -104,7 +104,8 @@ namespace FumicertiApi.Controllers
                         CertiCreated = c.CertiCreated,
                         CertiUpdated = c.CertiUpdated,
                         CertiBillId = c.CertiBillId,
-                        CertiLockedBy = c.CertiLockedBy
+                        CertiLockedBy = c.CertiLockedBy,
+                        CertiCompanyId = c.CertiCompanyId
                     })
 
                     .ToListAsync();
@@ -194,7 +195,8 @@ namespace FumicertiApi.Controllers
                             CertiUpdated = certi.CertiUpdated,
                             CertiBillId = certi.CertiBillId,
                             CertiLockedBy = certi.CertiLockedBy,
-                            Certi2Notify = certi.Certi2Notify
+                            Certi2Notify = certi.Certi2Notify,
+                              CertiCompanyId = certi.CertiCompanyId
 
                         };
 
@@ -360,7 +362,8 @@ namespace FumicertiApi.Controllers
                          certi.CertiBillId = dto.CertiBillId;
             certi.Certi2Notify = dto.Certi2Notify;
             certi.CertiLockedBy = dto.CertiLockedBy;
-                        certi.CertiUpdated = DateTime.Now;
+            certi.CertiCompanyId = dto.CertiCompanyId;
+            certi.CertiUpdated = DateTime.Now;
                         _context.SaveChanges();
 
                     return Ok(true);
