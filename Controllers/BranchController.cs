@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
+using System.ComponentModel.Design;
 
 namespace FumicertiApi.Controllers
 {
@@ -49,7 +50,8 @@ namespace FumicertiApi.Controllers
                     Country = b.Country,
                     Email = b.Email,
                     ContactNo = b.ContactNo,
-                    Status = b.Status
+                    Status = b.Status,
+                    CompanyId = b.CompanyId
                 })
                 .ToListAsync();
 
@@ -85,7 +87,8 @@ namespace FumicertiApi.Controllers
                 Country = branch.Country,
                 Email = branch.Email,
                 ContactNo = branch.ContactNo,
-                Status = branch.Status
+                Status = branch.Status,
+                CompanyId = branch.CompanyId
             });
         }
 
@@ -106,6 +109,7 @@ namespace FumicertiApi.Controllers
                 Status = dto.Status,
                 Created = DateTime.UtcNow,
                 AddBy = GetUserId().ToString(),
+                CompanyId = GetCompanyId()
             };
 
             _context.branches.Add(branch);
@@ -132,6 +136,7 @@ namespace FumicertiApi.Controllers
             branch.Status = dto.Status;
             branch.Updated = DateTime.UtcNow;
             branch.UpdateBy = GetUserId().ToString();
+            branch.CompanyId = GetCompanyId();
 
             await _context.SaveChangesAsync();
             return NoContent();

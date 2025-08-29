@@ -46,7 +46,8 @@ namespace FumicertiApi.Controllers
                     RoleName = r.RoleName,
                     RoleStatus = r.RoleStatus,
                     RoleCreated = r.RoleCreated,
-                    RoleUpdated = r.RoleUpdated
+                    RoleUpdated = r.RoleUpdated,
+                    RoleCompanyId = r.RoleCompanyId
                 })
                 .ToListAsync();
 
@@ -78,7 +79,8 @@ namespace FumicertiApi.Controllers
                 RoleName = role.RoleName,
                 RoleStatus = role.RoleStatus,
                 RoleCreated = role.RoleCreated,
-                RoleUpdated = role.RoleUpdated
+                RoleUpdated = role.RoleUpdated,
+                RoleCompanyId = role.RoleCompanyId
             };
 
             return Ok(result);
@@ -91,7 +93,7 @@ namespace FumicertiApi.Controllers
             var role = new UserRole
             {
                 RoleUuid = Guid.NewGuid().ToString(),
-                RoleCompanyId = dto.RoleCompanyId,
+                RoleCompanyId = GetCompanyId(),
                 RoleAddedByUserId =GetUserId().ToString(),
                 RoleName = dto.RoleName,
                 RoleStatus = 1,
@@ -122,7 +124,7 @@ namespace FumicertiApi.Controllers
             var role = await _context.UserRoles.FirstOrDefaultAsync(r => r.RoleUuid == uuid);
             if (role == null)
                 return NotFound();
-
+            role.RoleCompanyId = GetCompanyId();
             role.RoleName = dto.RoleName;
             role.RoleUpdated = DateTime.UtcNow;
             role.RoleStatus = dto.RoleStatus;

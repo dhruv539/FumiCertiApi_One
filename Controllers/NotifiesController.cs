@@ -43,7 +43,7 @@ namespace FumicertiApi.Controllers
                 NotifyEmail = n.NotifyEmail,
                 NotifyType = n.NotifyType,
                 NotifyStatus = n.NotifyStatus,
-                NotifyCompanyId = GetCompanyId(),
+                NotifyCompanyId = n.NotifyCompanyId,
                 NotifyAddress = n.NotifyAddress,
                 NotifyContactNo = n.NotifyContactNo,
                 NotifyCreated = n.NotifyCreated,
@@ -55,7 +55,8 @@ namespace FumicertiApi.Controllers
                 NotifyCountry = n.NotifyCountry,
                 NotifyStateId = n.NotifyStateId,
                 NotifyCreateUid = GetUserId().ToString(),
-                NotifyEditedUid = GetUserId().ToString()
+                NotifyEditedUid = GetUserId().ToString(),
+               
             }).ToList();
 
             var result = new
@@ -88,7 +89,7 @@ namespace FumicertiApi.Controllers
                 NotifyEmail = notify.NotifyEmail,
                 NotifyType = notify.NotifyType,
                 NotifyStatus = notify.NotifyStatus,
-                NotifyCompanyId =GetCompanyId(),
+                NotifyCompanyId = notify.NotifyCompanyId,
                 NotifyAddress = notify.NotifyAddress,
                 NotifyContactNo = notify.NotifyContactNo,
                 NotifyCreated = notify.NotifyCreated,

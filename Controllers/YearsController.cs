@@ -8,8 +8,8 @@ namespace FumicertiApi.Controllers
    
         [Route("api/[controller]")]
         [ApiController]
-        public class YearsController : ControllerBase
-        {
+        public class YearsController : BaseController
+    {
             private readonly AppDbContext _context;
 
             public YearsController(AppDbContext context)
@@ -35,8 +35,9 @@ namespace FumicertiApi.Controllers
 
             [HttpPost]
             public async Task<ActionResult<Year>> CreateYear(Year year)
-            {
-                year.YearCreated = DateTime.UtcNow;
+        {
+            year.YearCompanyId =GetCompanyId();
+            year.YearCreated = DateTime.UtcNow;
                 year.YearUpdated = DateTime.UtcNow;
 
             // If this is being set as default, unset all others for the same company

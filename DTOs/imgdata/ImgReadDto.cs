@@ -16,6 +16,7 @@ namespace FumicertiApi.DTOs.imgdata
         public DateTime? ImgDataUpdated { get; set; }        // Updated timestamp
         public string? ImgDataCreateUid { get; set; }        // Creator user ID
         public string? ImgDataEditedUid { get; set; }        // Editor user ID
+        public int ImgDataCompanyId { get; set; }
     }
 
 }

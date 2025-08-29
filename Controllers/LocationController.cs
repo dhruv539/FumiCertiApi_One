@@ -62,7 +62,7 @@ namespace FumicertiApi.Controllers
             model.CreatedAt = DateTime.UtcNow;
             model.UpdatedAt = DateTime.UtcNow;
             model.CreatedBy = userId;
-          
+            model.CompanyId = GetCompanyId();
 
             _context.Locations.Add(model);
             await _context.SaveChangesAsync();
@@ -85,7 +85,7 @@ namespace FumicertiApi.Controllers
             existing.LocationName = model.LocationName;
             existing.UpdatedAt = DateTime.UtcNow;
             existing.EditedBy = GetUserId();
-
+            existing.CompanyId = GetCompanyId();
             await _context.SaveChangesAsync();
             return NoContent(); 
         }

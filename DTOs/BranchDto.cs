@@ -15,6 +15,7 @@ namespace FumicertiApi.DTOs
         public string? Email { get; set; }
         public string? ContactNo { get; set; }
         public bool Status { get; set; }
+        public int CompanyId { get; set; }
     }
 
     public class BranchAddDto
@@ -30,6 +31,7 @@ namespace FumicertiApi.DTOs
         public string? Email { get; set; }
         public string? ContactNo { get; set; }
         public bool Status { get; set; }
+        public int CompanyId { get; set; }
     }
 
     public class PagedBranchListViewModel

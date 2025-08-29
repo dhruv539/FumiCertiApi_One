@@ -8,6 +8,7 @@ namespace FumicertiApi.DTOs
         public string? AfoName { get; set; }
         public string? AfoMbrNo { get; set; }
         public string? AfoAlpNo { get; set; }
+        public int AfoCompanyId { get; set; }
     }
     public class AfoMemberAddDto
     {
@@ -16,5 +17,6 @@ namespace FumicertiApi.DTOs
         public string? AfoName { get; set; }
         public string? AfoMbrNo { get; set; }
         public string? AfoAlpNo { get; set; }
+        public int AfoCompanyId { get; set; }
     }
 }

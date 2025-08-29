@@ -359,6 +359,7 @@ namespace FumicertiApi.Controllers
                         certi.CertiAppliedRate = dto.CertiAppliedRate;
                         certi.CertiFinalReading = dto.CertiFinalReading;
                         certi.CertiEditedUid =GetUserId().ToString();
+            certi.CertiCompanyId = GetCompanyId();
                          certi.CertiBillId = dto.CertiBillId;
             certi.Certi2Notify = dto.Certi2Notify;
             certi.CertiLockedBy = dto.CertiLockedBy;
