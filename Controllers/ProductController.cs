@@ -53,6 +53,7 @@ namespace FumicertiApi.Controllers
                     ProductOpeningUnit = p.ProductOpeningUnit,
                     ProductWeightPerUnit = (decimal)p.ProductWeightPerUnit,
                     ProductTotalWt = (decimal)p.ProductTotalWt,
+                    ProductCompanyId = p.ProductCompanyId,
                     ProductConsumeQty = (decimal)p.ProductConsumeQty
                 })
                 .ToListAsync();
@@ -86,6 +87,7 @@ namespace FumicertiApi.Controllers
                 ProductOpeningUnit = product.ProductOpeningUnit,
                 ProductWeightPerUnit = (decimal)product.ProductWeightPerUnit,
                 ProductTotalWt = (decimal)product.ProductTotalWt,
+                ProductCompanyId = product.ProductCompanyId,
                 ProductConsumeQty = (decimal)product.ProductConsumeQty
             };
 
@@ -108,6 +110,7 @@ namespace FumicertiApi.Controllers
                 ProductConsumeQty = (float)dto.ProductConsumeQty,
                 ProductCreated = DateTime.UtcNow,
                 ProductUpdated = DateTime.UtcNow,
+                ProductCompanyId = GetCompanyId(),
                 ProductCreatedBy = userId,
                 ProductEditBy = userId
             };
@@ -133,6 +136,7 @@ namespace FumicertiApi.Controllers
             product.ProductTotalWt = (float)dto.ProductTotalWt;
             product.ProductConsumeQty = (float)dto.ProductConsumeQty;
             product.ProductUpdated = DateTime.UtcNow;
+            product.ProductCompanyId = GetCompanyId();
             product.ProductEditBy = userId;
 
             await _context.SaveChangesAsync();
@@ -173,6 +177,7 @@ namespace FumicertiApi.Controllers
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
                     ProductUnit = p.ProductUnit,
+                    ProductCompanyId = p.ProductCompanyId,
                     ProductOpening = (decimal)p.ProductOpening,
                     ProductOpeningUnit = p.ProductOpeningUnit,
                     ProductWeightPerUnit = (decimal)p.ProductWeightPerUnit,

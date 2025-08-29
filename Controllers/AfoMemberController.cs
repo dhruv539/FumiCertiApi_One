@@ -46,7 +46,8 @@ namespace FumicertiApi.Controllers
                     AfoId = m.AfoId,
                     AfoName = m.AfoName,
                     AfoMbrNo = m.AfoMbrNo,
-                    AfoAlpNo = m.AfoAlpNo
+                    AfoAlpNo = m.AfoAlpNo,
+                     AfoCompanyId = m.AfoCompanyId
                 })
                 .ToListAsync();
 
@@ -76,7 +77,8 @@ namespace FumicertiApi.Controllers
                 AfoId = member.AfoId,
                 AfoName = member.AfoName,
                 AfoMbrNo = member.AfoMbrNo,
-                AfoAlpNo = member.AfoAlpNo
+                AfoAlpNo = member.AfoAlpNo,
+                AfoCompanyId = member.AfoCompanyId
             });
         }
 
@@ -92,7 +94,8 @@ namespace FumicertiApi.Controllers
                 AfoAlpNo = dto.AfoAlpNo,
                 AfoAddBy = userId,
                 AfoCreated = DateTime.UtcNow,
-                AfoUpdated = DateTime.UtcNow
+                AfoUpdated = DateTime.UtcNow,
+                AfoCompanyId = GetCompanyId()
             };
 
             _context.afo_members.Add(entity);
@@ -113,6 +116,7 @@ namespace FumicertiApi.Controllers
             member.AfoAlpNo = dto.AfoAlpNo;
             member.AfoEditBy = userId;
             member.AfoUpdated = DateTime.UtcNow;
+            member.AfoCompanyId = GetCompanyId();
 
             await _context.SaveChangesAsync();
             return Ok(new { success = true });

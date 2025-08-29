@@ -180,7 +180,8 @@ namespace FumicertiApi.Controllers
                 ImgDataCreated = x.ImgDataCreated,
                 ImgDataUpdated = x.ImgDataUpdated,
                 ImgDataCreateUid = x.ImgDataCreateUid,
-                ImgDataEditedUid = x.ImgDataEditedUid
+                ImgDataEditedUid = x.ImgDataEditedUid,
+                ImgDataCompanyId = x.ImgDataCompanyId
             }).ToList();
 
 
@@ -247,6 +248,7 @@ namespace FumicertiApi.Controllers
             record.ImgDataExtractedText = dto.ExtractedText;
             record.ImgDataEditedUid = GetUserId().ToString();
             record.ImgDataUpdated = DateTime.Now;
+            record.ImgDataCompanyId = GetCompanyId();
 
             await _context.SaveChangesAsync();
 
@@ -275,6 +277,7 @@ namespace FumicertiApi.Controllers
                 ImgDataUserUploaded = GetUserId(),
                 ImgDataCreateUid = GetUserId().ToString(),
                 ImgDataCreated = DateTime.Now,
+                ImgDataCompanyId = GetCompanyId(),
                 ImgDataUpdated = DateTime.Now
             };
 

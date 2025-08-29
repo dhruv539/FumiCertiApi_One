@@ -14,7 +14,8 @@ namespace FumicertiApi.DTOs.User
         public string? UserCountryCode { get; set; }
         public required string UserMobile { get; set; }
         public required byte UserStatus { get; set; }
-      
+        public int UserCompanyId { get; set; }
+
 
         public required string UserRoleName { get; set; }
         public string? UserRoleId { get; set; }

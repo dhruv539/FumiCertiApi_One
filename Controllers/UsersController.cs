@@ -57,7 +57,8 @@ namespace FumicertiApi.Controllers
                 UserStatus = (byte)u.UserStatus,
                 UserRoleId = u.UserRoleId,
                 UserRoleName = u.Role?.RoleName ?? "-",
-                UserAddress = u.UserAddress
+                UserAddress = u.UserAddress,
+                UserCompanyId = u.UserCompanyId
             });
 
             return Ok(new
@@ -100,8 +101,9 @@ namespace FumicertiApi.Controllers
                 UserRoleId = user.UserRoleId,
                 UserRoleName = user.Role?.RoleName ?? "",
                 UserAddress = user.UserAddress,
-                UserBranchId = user.UserBranchId
-                         
+                UserBranchId = user.UserBranchId,
+                UserCompanyId = user.UserCompanyId
+
             };
 
             return Ok(result);
@@ -130,7 +132,7 @@ namespace FumicertiApi.Controllers
                 UserCompanyId = GetCompanyId(), // Set if available
                 UserName = dto.UserName,
                 UserStatus = 1, // default active
-                UserCreated = DateTime.UtcNow
+                UserCreated = DateTime.UtcNow,
             };
 
             _context.Users.Add(user);
@@ -162,6 +164,7 @@ namespace FumicertiApi.Controllers
             user.UserStatus = dto.UserStatus;
      
             user.UserName = dto.UserName;
+            user.UserCompanyId =GetCompanyId();
 
             await _context.SaveChangesAsync();
             return Ok(user);

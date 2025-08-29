@@ -12,6 +12,7 @@ namespace FumicertiApi.DTOs.UserRole
         public int RoleStatus { get; set; }
         public DateTime RoleCreated { get; set; }
         public DateTime RoleUpdated { get; set; }
+        public int RoleCompanyId { get; set; }
     }
 
     public class UserRoleCreateDto

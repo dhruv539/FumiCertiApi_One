@@ -12,6 +12,7 @@ namespace FumicertiApi.DTOs
         public decimal ProductWeightPerUnit { get; set; }
         public decimal ProductTotalWt { get; set; }
         public decimal ProductConsumeQty { get; set; }
+        public int ProductCompanyId { get; set; }
     }
 
     public class ProductAddDto
@@ -25,6 +26,7 @@ namespace FumicertiApi.DTOs
         public decimal ProductWeightPerUnit { get; set; }
         public decimal ProductTotalWt { get; set; }
         public decimal ProductConsumeQty { get; set; }
+        public int ProductCompanyId { get; set; }
     }
 
 }

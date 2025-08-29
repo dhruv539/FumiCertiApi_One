@@ -72,6 +72,7 @@ namespace FumicertiApi.Controllers
         {
             dto.InvoiceDetailCreated = DateTime.UtcNow;
             dto.InvoiceDetailCreateUid = GetUserId().ToString();
+            dto.InvoiceDetailCompanyId = GetCompanyId();
 
             _context.InvoiceDetails.Add(dto);
             await _context.SaveChangesAsync();
@@ -87,7 +88,7 @@ namespace FumicertiApi.Controllers
             _context.Entry(detail).CurrentValues.SetValues(dto);
             detail.InvoiceDetailUpdated = DateTime.UtcNow;
             detail.InvoiceDetailEditedUid = GetUserId().ToString();
-
+            detail.InvoiceDetailCompanyId = GetCompanyId();
             await _context.SaveChangesAsync();
             return NoContent();
         }

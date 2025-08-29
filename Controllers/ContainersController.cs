@@ -12,7 +12,7 @@ namespace FumicertiApi.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ContainersController : ControllerBase
+    public class ContainersController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly ISieveProcessor _sieveProcessor;
@@ -90,6 +90,7 @@ namespace FumicertiApi.Controllers
                     ContainerCreateUid = c.ContainerCreateUid,
                     ContainerEditedUid = c.ContainerEditedUid,
                     ContainerCreated = c.ContainerCreated,
+                    CotainerCompanyId = c.CotainerCompanyId,
                     ContainerUpdated = c.ContainerUpdated
                 })
                 .ToListAsync();
@@ -180,6 +181,7 @@ namespace FumicertiApi.Controllers
                 ContainerP2 = container.ContainerP2,
                 ContainerTotalqtygram = container.ContainerTotalqtygram,
                 ContainerExcessqtygrams = container.ContainerExcessqtygrams,
+                CotainerCompanyId = container.CotainerCompanyId,
                 ContainerTotalqtyconsumed = container.ContainerTotalqtyconsumed
             };
 
@@ -256,6 +258,7 @@ namespace FumicertiApi.Controllers
                 ContainerCreateUid = dto.ContainerCreateUid,
                 ContainerEditedUid = dto.ContainerEditedUid,
                 ContainerCreated = DateTime.UtcNow,
+                CotainerCompanyId = GetCompanyId(),
                 ContainerUpdated = DateTime.UtcNow
             };
 
@@ -417,7 +420,7 @@ namespace FumicertiApi.Controllers
             model.ContainerVolumecbm = dto.ContainerVolumecbm;
             model.ContainerTotalqtygram = dto.ContainerTotalqtygram;
 
-
+            model.CotainerCompanyId = GetCompanyId();
 
 
 

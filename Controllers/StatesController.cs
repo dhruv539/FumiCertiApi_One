@@ -7,7 +7,7 @@ namespace FumicertiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatesController : ControllerBase
+    public class StatesController : BaseController
     {
         private readonly AppDbContext _context;
 
@@ -42,6 +42,7 @@ namespace FumicertiApi.Controllers
         public async Task<ActionResult<State>> PostState(State state)
         {
             state.StateCreated = DateTime.UtcNow;
+            state.StateCompanyId = GetCompanyId();
             _context.States.Add(state);
             await _context.SaveChangesAsync();
 
@@ -69,6 +70,7 @@ namespace FumicertiApi.Controllers
             state.StateName = updatedState.StateName;
             state.StateCode = updatedState.StateCode;
             state.StateStatus = updatedState.StateStatus;
+            state.StateCompanyId = GetCompanyId();
             state.StateUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
