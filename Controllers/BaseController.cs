@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace FumicertiApi.Controllers
@@ -40,5 +41,14 @@ namespace FumicertiApi.Controllers
         {
             return User.FindFirst(ClaimTypes.Role)?.Value ?? "Unknown";
         }
+
+        protected IQueryable<T> FilterByCompany<T>(IQueryable<T> query, string companyPropName)
+        {
+            var companyId = GetCompanyId();
+
+            // Build lambda dynamically: e => EF.Property<int>(e, "companyPropName") == companyId
+            return query.Where(e => EF.Property<int>(e, companyPropName) == companyId);
+        }
+
     }
 }
