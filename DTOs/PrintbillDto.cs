@@ -23,6 +23,7 @@ namespace FumicertiApi.DTOs
         public double GrossAmount { get; set; }
         public double TaxableAmount { get; set; }
         public double NetAmount { get; set; }
+        public int BillPosId { get; set; }
 
         public float GstRate { get; set; }
         public float Sgst { get; set; }
@@ -59,6 +60,8 @@ namespace FumicertiApi.DTOs
         public string? CompanyContactNo { get; set; }
         public string? CompanyEmail { get; set; }
         public string? Panno { get; set; }
+
+        public string PosStateName { get; set; } = string.Empty;
 
 
 

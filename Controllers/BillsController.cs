@@ -89,6 +89,9 @@ namespace FumicertiApi.Controllers
                         on bill.BillCompanyId equals company.CompanyId
                     join notify in _context.Notifies.AsNoTracking()
                         on bill.BillPartyId equals notify.NotifyId
+                    join state in _context.States.AsNoTracking() // yeh join add kiya
+                        on bill.BillPosId equals state.StateId
+
                     where bill.BillId == id
                     select new PrintBillDto
                     {
@@ -98,6 +101,7 @@ namespace FumicertiApi.Controllers
                         BillPrefix = bill.BillPrefix,
                         BillSufix = bill.BillSufix,
                         BillDate = bill.BillDate,
+                        BillPosId=bill.BillPosId,
                         PartyId = bill.BillPartyId,
                         ShipParty = bill.BillShipParty,
                         Address1 = bill.BillAddress1,
@@ -131,6 +135,9 @@ namespace FumicertiApi.Controllers
                         CompanyState = company.StateId,
                         CompanyContactNo = company.Mobile,
                         CompanyEmail = company.Email,
+
+                        PosStateName = state.StateName,   // yeh naya field tumhare DTO me daal do
+                      
 
                         // Notify Info
                         Notify = new NotifyDto

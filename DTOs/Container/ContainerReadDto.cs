@@ -69,6 +69,8 @@
         public string? ContainerTotalqtygram { get; set; }
         public string? ContainerExcessqtygrams { get; set; }
         public string? ContainerTotalqtyconsumed { get; set; }
+        public int CotainerCompanyId { get; set; }
+
     }
 
 }
