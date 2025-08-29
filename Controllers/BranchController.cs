@@ -28,7 +28,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.branches.AsNoTracking();
+            var query = FilterByCompany( _context.branches.AsNoTracking(), "CompanyId");
 
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
@@ -72,7 +72,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BranchDto>> Get(int id)
         {
-            var branch = await _context.branches.FindAsync(id);
+            var branch = await FilterByCompany(_context.branches.AsNoTracking(), "CompanyId").FirstOrDefaultAsync(b => b.BranchId == id);
             if (branch == null) return NotFound();
 
             return Ok(new BranchDto
