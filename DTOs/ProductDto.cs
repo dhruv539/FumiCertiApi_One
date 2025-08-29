@@ -13,6 +13,8 @@ namespace FumicertiApi.DTOs
         public decimal ProductTotalWt { get; set; }
         public decimal ProductConsumeQty { get; set; }
         public int ProductCompanyId { get; set; }
+        public string? ProductType { get; set; }
+
     }
 
     public class ProductAddDto

@@ -23,20 +23,20 @@ namespace FumicertiApi.Models
         public string? ProductUnit { get; set; }
 
         [Column("product_opening")]
-        public float ProductOpening { get; set; }
+        public decimal ProductOpening { get; set; }
 
         [Column("product_opening_unit")]
         [StringLength(45)]
         public string? ProductOpeningUnit { get; set; }
 
         [Column("product_weight_per_unit")]
-        public float ProductWeightPerUnit { get; set; }
+        public decimal ProductWeightPerUnit { get; set; }
 
         [Column("product_total_wt")]
-        public float ProductTotalWt { get; set; }
+        public decimal ProductTotalWt { get; set; }
 
         [Column("product_consume_qty")]
-        public float ProductConsumeQty { get; set; }
+        public decimal ProductConsumeQty { get; set; }
 
         [Column("product_create_uid")]
         public string? ProductCreatedBy { get; set; }

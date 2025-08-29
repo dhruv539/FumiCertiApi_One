@@ -54,7 +54,9 @@ namespace FumicertiApi.Controllers
                     ProductWeightPerUnit = (decimal)p.ProductWeightPerUnit,
                     ProductTotalWt = (decimal)p.ProductTotalWt,
                     ProductCompanyId = p.ProductCompanyId,
-                    ProductConsumeQty = (decimal)p.ProductConsumeQty
+                    ProductConsumeQty = (decimal)p.ProductConsumeQty,
+                    ProductType = p.ProductType
+
                 })
                 .ToListAsync();
 
@@ -103,16 +105,18 @@ namespace FumicertiApi.Controllers
             {
                 ProductName = dto.ProductName,
                 ProductUnit = dto.ProductUnit,
-                ProductOpening = (float)dto.ProductOpening,
+                ProductOpening = dto.ProductOpening,
                 ProductOpeningUnit = dto.ProductOpeningUnit,
-                ProductWeightPerUnit = (float)dto.ProductWeightPerUnit,
-                ProductTotalWt = (float)dto.ProductTotalWt,
-                ProductConsumeQty = (float)dto.ProductConsumeQty,
+                ProductWeightPerUnit = dto.ProductWeightPerUnit,
+                ProductTotalWt = dto.ProductTotalWt,
+                ProductConsumeQty = dto.ProductConsumeQty,
                 ProductCreated = DateTime.UtcNow,
                 ProductUpdated = DateTime.UtcNow,
                 ProductCompanyId = GetCompanyId(),
                 ProductCreatedBy = userId,
-                ProductEditBy = userId
+                ProductEditBy = userId,
+                ProductType= dto.ProductType
+
             };
 
             _context.products.Add(product);
@@ -130,11 +134,11 @@ namespace FumicertiApi.Controllers
 
             product.ProductName = dto.ProductName;
             product.ProductUnit = dto.ProductUnit;
-            product.ProductOpening = (float)dto.ProductOpening;
+            product.ProductOpening = dto.ProductOpening;
             product.ProductOpeningUnit = dto.ProductOpeningUnit;
-            product.ProductWeightPerUnit = (float)dto.ProductWeightPerUnit;
-            product.ProductTotalWt = (float)dto.ProductTotalWt;
-            product.ProductConsumeQty = (float)dto.ProductConsumeQty;
+            product.ProductWeightPerUnit = dto.ProductWeightPerUnit;
+            product.ProductTotalWt = dto.ProductTotalWt;
+            product.ProductConsumeQty = dto.ProductConsumeQty;
             product.ProductUpdated = DateTime.UtcNow;
             product.ProductCompanyId = GetCompanyId();
             product.ProductEditBy = userId;
