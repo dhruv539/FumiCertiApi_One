@@ -28,8 +28,8 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.afo_members
-                .AsNoTracking(); // you can include relationships if needed
+            var query = FilterByCompany(_context.afo_members
+                .AsNoTracking(), "AfoCompanyId"); // you can include relationships if needed
 
             // Apply filtering/sorting using Sieve
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
@@ -69,7 +69,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AfoMemberDto>> Get(int id)
         {
-            var member = await _context.afo_members.FindAsync(id);
+            var member = await FilterByCompany(_context.afo_members.AsNoTracking(), "AfoCompanyId").FirstOrDefaultAsync(b => b.AfoId ==id);
             if (member == null) return NotFound();
 
             return Ok(new AfoMemberDto
@@ -126,7 +126,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var member = await _context.afo_members.FindAsync(id);
+            var member = await FilterByCompany(_context.afo_members.AsNoTracking(), "AfoCompanyId").FirstOrDefaultAsync(b => b.AfoId == id);
             if (member == null) return NotFound();
 
             _context.afo_members.Remove(member);

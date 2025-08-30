@@ -145,7 +145,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var branch = await _context.branches.FindAsync(id);
+            var branch = await FilterByCompany(_context.branches.AsNoTracking(), "CompanyId").FirstOrDefaultAsync(b => b.BranchId == id);
             if (branch == null) return NotFound();
 
             _context.branches.Remove(branch);

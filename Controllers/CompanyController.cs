@@ -28,7 +28,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.companies.AsNoTracking();
+            var query = FilterByCompany(_context.companies.AsNoTracking(), "CompanyId");
 
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
@@ -74,7 +74,8 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDto>> Get(int id)
         {
-            var company = await _context.companies.FindAsync(id);
+            var company = await FilterByCompany(_context.companies.AsNoTracking(), "CompanyId")
+    .FirstOrDefaultAsync(c => c.CompanyId == id);
             if (company == null) return NotFound();
 
             return Ok(new CompanyDto

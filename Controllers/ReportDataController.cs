@@ -33,7 +33,7 @@ namespace FumicertiApi.Controllers
 
                 var query = _context.ReportDatas.AsNoTracking();
 
-                var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
+            var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
                 var totalRecords = await filteredQuery.CountAsync();
                 var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
@@ -72,7 +72,7 @@ namespace FumicertiApi.Controllers
             public async Task<ActionResult<ReportDataDto>> Get(int id)
             {
                 var record = await _context.ReportDatas.FindAsync(id);
-                if (record == null) return NotFound();
+            if (record == null) return NotFound();
 
                 return Ok(new ReportDataDto
                 {
@@ -101,7 +101,7 @@ namespace FumicertiApi.Controllers
                     VchId = dto.VchId,
                     CopyFormat = dto.CopyFormat,
                     NextFormat = dto.NextFormat,
-                    CompanyId = dto.CompanyId,
+                    CompanyId = GetCompanyId(),
                     Status = dto.Status,
                     CreateUid = userId,
                     Created = DateTime.UtcNow,
@@ -128,7 +128,7 @@ namespace FumicertiApi.Controllers
                 entity.VchId = dto.VchId;
                 entity.CopyFormat = dto.CopyFormat;
                 entity.NextFormat = dto.NextFormat;
-                entity.CompanyId = dto.CompanyId;
+                entity.CompanyId = GetCompanyId();
                 entity.Status = dto.Status;
                 entity.EditedUid = userId;
                 entity.Updated = DateTime.UtcNow;
@@ -140,8 +140,8 @@ namespace FumicertiApi.Controllers
             [HttpDelete("{id}")]
             public async Task<IActionResult> Delete(int id)
             {
-                var entity = await _context.ReportDatas.FindAsync(id);
-                if (entity == null) return NotFound();
+                var entity = await FilterByCompany(_context.ReportDatas.AsNoTracking(), "CompanyId").FirstOrDefaultAsync(r => r.ReportDataId == id);
+            if (entity == null) return NotFound();
 
                 _context.ReportDatas.Remove(entity);
                 await _context.SaveChangesAsync();

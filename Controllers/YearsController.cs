@@ -20,14 +20,15 @@ namespace FumicertiApi.Controllers
             [HttpGet]
             public async Task<ActionResult<IEnumerable<Year>>> GetYears()
             {
-                return await _context.Years.ToListAsync();
-            }
+            return await FilterByCompany(_context.Years.AsNoTracking(), "YearCompanyId").ToListAsync();
+        }
 
             [HttpGet("{id}")]
             public async Task<ActionResult<Year>> GetYear(int id)
             {
-                var year = await _context.Years.FindAsync(id);
-                if (year == null)
+                var year = await FilterByCompany(_context.Years.AsNoTracking(), "YearCompanyId")
+        .FirstOrDefaultAsync(y => y.YearId == id);
+            if (year == null)
                     return NotFound();
 
                 return year;
@@ -63,7 +64,7 @@ namespace FumicertiApi.Controllers
             {
                 if (id != year.YearId)
                     return BadRequest();
-
+            year.YearCompanyId = GetCompanyId();
                 year.YearUpdated = DateTime.UtcNow;
             // If this is being set as default, unset all others for the same company
             if (year.YearIsDefault)
@@ -96,7 +97,7 @@ namespace FumicertiApi.Controllers
             [HttpDelete("{id}")]
             public async Task<IActionResult> DeleteYear(int id)
             {
-                var year = await _context.Years.FindAsync(id);
+                var year = await FilterByCompany( _context.Years, "YearCompanyId").FirstOrDefaultAsync(b => b.YearId == id); ;
                 if (year == null)
                     return NotFound();
 

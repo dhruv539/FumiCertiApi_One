@@ -29,11 +29,11 @@ namespace FumicertiApi.Controllers
             {
                 var currentPage = sieveModel.Page ?? 1;
                 var pageSize = sieveModel.PageSize ?? 10;
+            var activeYear = await _context.Years.AsNoTracking().FirstOrDefaultAsync(y => y.YearIsDefault && y.YearCompanyId == GetCompanyId());
+            var query = FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId").Where(c => c.CertiYearId == activeYear.YearId); 
 
-                var query = _context.Certi.AsNoTracking();
-
-                // Apply filtering and sorting without pagination first
-                var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
+            // Apply filtering and sorting without pagination first
+            var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
                 var totalRecords = await filteredQuery.CountAsync();
                 var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
@@ -105,7 +105,9 @@ namespace FumicertiApi.Controllers
                         CertiUpdated = c.CertiUpdated,
                         CertiBillId = c.CertiBillId,
                         CertiLockedBy = c.CertiLockedBy,
-                        CertiCompanyId = c.CertiCompanyId
+                        CertiCompanyId = c.CertiCompanyId,
+                        CertiYearId = c.CertiYearId
+
                     })
 
                     .ToListAsync();
@@ -126,12 +128,12 @@ namespace FumicertiApi.Controllers
 
                 // GET: api/Certi/{id}
                 [HttpGet("{id}")]
-                    public ActionResult<CertiReadDto> GetById(string id)
+                    public async Task<ActionResult<CertiReadDto>> GetById(string id)
                     {
-                        var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
-                        if (certi == null) return NotFound();
+            var certi = await FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId")
+     .FirstOrDefaultAsync(c => c.CertiId == id);
 
-                        var dto = new CertiReadDto
+            var dto = new CertiReadDto
                         {
                             CertiId = certi.CertiId,
                             CertiPhyto = certi.CertiPhyto,
@@ -210,7 +212,7 @@ namespace FumicertiApi.Controllers
                        await CheckAndAddNotify(dto.CertiExpName, dto.CertiExpAddress, "Exporter");
                        await CheckAndAddNotify(dto.CertiConsignee, dto.CertiConsigneeAddress, "Consignee");
                        await CheckAndAddNotify(dto.CertiNotifyParty, dto.CertiNotifyAddress, "Notify");
-                    var exists = await _context.Certi.AnyAsync(c => c.CertiNo == dto.CertiNo);
+                    var exists = await _context.Certi.AnyAsync(c => c.CertiNo == dto.CertiNo && c.CertiCompanyId == GetCompanyId());
                     if (exists)
                     {
                         return Conflict(new { message = "Certificate number already exists." });
@@ -294,7 +296,7 @@ namespace FumicertiApi.Controllers
                 [HttpPut("{id}")]
                     public ActionResult Update(string id, [FromBody] CertiUpdateDto dto)
                     {
-                    var exists = _context.Certi.Any(c => c.CertiNo == dto.CertiNo && c.CertiId != id);
+                    var exists = _context.Certi.Any(c => c.CertiNo == dto.CertiNo && c.CertiId != id && c.CertiCompanyId == GetCompanyId());
                     if (exists)
                     {
                         return Conflict(new { message = "Certificate number already exists." });
@@ -374,7 +376,7 @@ namespace FumicertiApi.Controllers
                     [HttpDelete("{id}")]
                     public ActionResult Delete(string id)
                     {
-                        var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
+                        var certi = FilterByCompany( _context.Certi, "CertiCompanyId").FirstOrDefault(c => c.CertiId == id);
                         if (certi == null) return NotFound();
 
                         _context.Certi.Remove(certi);
@@ -417,8 +419,8 @@ namespace FumicertiApi.Controllers
                 return BadRequest(new { message = "ID or Certificate Number is required." });
 
             // Select only the fields you need and project to anonymous type first
-            var certiData = await _context.Certi
-                .AsNoTracking()
+            var certiData = await FilterByCompany( _context.Certi
+                .AsNoTracking(), "CertiCompanyId")
                 .Where(c => c.CertiId == value || c.CertiNo.ToString() == value)
                 .Select(c => new
                 {

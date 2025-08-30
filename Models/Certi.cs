@@ -197,5 +197,9 @@ namespace FumicertiApi.Models
         public bool? Certi2Notify { get; set; }
         [Column("certi_companyid")]
         public int CertiCompanyId { get; set; }
+        [Column("certi_yearid")]
+        public int CertiYearId { get; set; }
+
+        public Year Year { get; set; }
     }
 }

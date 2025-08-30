@@ -30,9 +30,10 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var usersQuery = _context.Users
-                .Include(u => u.Role)
-                .AsNoTracking();
+            var usersQuery = FilterByCompany(
+        _context.Users.Include(u => u.Role).AsNoTracking(),
+        "UserCompanyId"
+    );
 
             var filteredUsers = _sieveProcessor.Apply(sieveModel, usersQuery, applyPagination: false);
             var totalRecords = await filteredUsers.CountAsync();
@@ -81,9 +82,8 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserReadDTo>> GetUserbyId(string id)
         {
-            var user = await _context.Users
-                .Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await FilterByCompany(_context.Users.Include(u => u.Role), "UserCompanyId")
+        .FirstOrDefaultAsync(u => u.UserId == id);
 
             if (user == null) return NotFound();
 
@@ -174,7 +174,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await FilterByCompany(_context.Users.Include(u => u.Role), "UserCompanyId").FirstOrDefaultAsync(u => u.UserId == id);
             if (user == null) return NotFound();
 
             _context.Users.Remove(user);

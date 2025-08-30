@@ -28,7 +28,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.Invoices.AsNoTracking();
+            var query = FilterByCompany(_context.Invoices.AsNoTracking(), "InvCompanyId");
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
             var totalRecords = await filteredQuery.CountAsync();
@@ -55,10 +55,13 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var invoice = await _context.Invoices
-                .Include(i => i.InvoiceDetails) // Include details
-                .FirstOrDefaultAsync(i => i.InvId == id);
-
+            //var invoice = await _context.Invoices
+            //    .Include(i => i.InvoiceDetails) // Include details
+            //    .FirstOrDefaultAsync(i => i.InvId == id);+
+            var invoice = await FilterByCompany(_context.Invoices
+            .Include(i => i.InvoiceDetails)
+            .AsNoTracking(), "InvCompanyId")
+        .FirstOrDefaultAsync(i => i.InvId == id);
             if (invoice == null) return NotFound();
             return Ok(invoice);
         }
@@ -110,9 +113,10 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var invoice = await _context.Invoices
-                .Include(i => i.InvoiceDetails)
-                .FirstOrDefaultAsync(i => i.InvId == id);
+            var invoice = await FilterByCompany(_context.Invoices
+            .Include(i => i.InvoiceDetails)
+            .AsNoTracking(), "InvCompanyId")
+        .FirstOrDefaultAsync(i => i.InvId == id);
 
             if (invoice == null) return NotFound();
 

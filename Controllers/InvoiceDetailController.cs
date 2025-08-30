@@ -30,7 +30,7 @@ namespace FumicertiApi.Controllers
                 var currentPage = sieveModel.Page ?? 1;
                 var pageSize = sieveModel.PageSize ?? 10;
 
-                var query = _context.InvoiceDetails.AsNoTracking(); // FIXED!
+                var query = FilterByCompany( _context.InvoiceDetails.AsNoTracking(), "InvoiceDetailCompanyId"); // FIXED!
                 var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
                 var totalRecords = await filteredQuery.CountAsync();
@@ -62,7 +62,8 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var detail = await _context.InvoiceDetails.FindAsync(id);
+            var detail = await FilterByCompany(_context.InvoiceDetails, "InvoiceDetailCompanyId")
+        .FirstOrDefaultAsync(d => d.InvoiceDetailId == id);
             if (detail == null) return NotFound();
             return Ok(detail);
         }
@@ -96,7 +97,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var detail = await _context.InvoiceDetails.FindAsync(id);
+            var detail = await FilterByCompany(_context.InvoiceDetails, "InvoiceDetailCompanyId").FirstOrDefaultAsync(d => d.InvoiceDetailId == id);
             if (detail == null) return NotFound();
 
             _context.InvoiceDetails.Remove(detail);
@@ -109,7 +110,7 @@ namespace FumicertiApi.Controllers
         {
             try
             {
-                var details = await _context.InvoiceDetails
+                var details = await FilterByCompany( _context.InvoiceDetails, "InvoiceDetailCompanyId")
                     .Where(d => d.InvoiceDetailInvoiceId == invoiceId)
                     .ToListAsync();
 
