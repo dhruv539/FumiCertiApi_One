@@ -28,7 +28,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.Containers.AsNoTracking();
+            var query =  FilterByCompany(_context.Containers.AsNoTracking(), "CotainerCompanyId");
 
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
@@ -111,7 +111,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ContainerReadDto>> GetById(int id)
         {
-            var container = await _context.Containers.FindAsync(id);
+            var container =  await FilterByCompany(_context.Containers.AsNoTracking(), "CotainerCompanyId").FirstOrDefaultAsync(b => b.ContainerCid == id);
             if (container == null)
                 return NotFound();
 
@@ -275,7 +275,7 @@ namespace FumicertiApi.Controllers
             [FromQuery] string? certiId,
             [FromQuery] string? containerNo)
         {
-            var query = _context.Containers.AsQueryable();
+            var query = FilterByCompany( _context.Containers.AsQueryable(), "CotainerCompanyId");
 
             // if certiId provided → filter
             if (!string.IsNullOrEmpty(certiId))
@@ -442,7 +442,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var container = await _context.Containers.FindAsync(id);
+            var container = await FilterByCompany(_context.Containers.AsNoTracking(), "CotainerCompanyId").FirstOrDefaultAsync(b => b.ContainerCid == id);
             if (container == null) return NotFound();
 
             _context.Containers.Remove(container);

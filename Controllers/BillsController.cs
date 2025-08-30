@@ -9,7 +9,7 @@ namespace FumicertiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class BillsController : BaseController
     {
         private readonly AppDbContext _context;
 
@@ -22,14 +22,16 @@ namespace FumicertiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bill>>> GetBills()
         {
-            return await _context.Bills.ToListAsync();
+            var bills = await FilterByCompany(_context.Bills.AsNoTracking(), "BillCompanyId").ToListAsync();
+            return bills;
         }
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bill>> GetBill(int id)
         {
-            var bill = await _context.Bills.FindAsync(id);
+            var bill = await FilterByCompany(_context.Bills.AsNoTracking(), "BillCompanyId")
+        .FirstOrDefaultAsync(b => b.BillId == id);
             if (bill == null)
             {
                 return NotFound();
@@ -41,6 +43,12 @@ namespace FumicertiApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Bill>> PostBill(Bill bill)
         {
+            bill.BillCompanyId = GetCompanyId();
+            var exists = await _context.Bills.AnyAsync(c => c.BillNoStr == bill.BillNoStr && c.BillCompanyId == GetCompanyId());
+            if (exists)
+            {
+                return Conflict(new { message = "Bill number already exists." });
+            }
             _context.Bills.Add(bill);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetBill), new { id = bill.BillId }, bill);
@@ -54,7 +62,7 @@ namespace FumicertiApi.Controllers
             {
                 return BadRequest();
             }
-
+            bill.BillCompanyId = GetCompanyId();
             _context.Entry(bill).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
@@ -65,7 +73,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBill(int id)
         {
-            var bill = await _context.Bills.FindAsync(id);
+            var bill = await FilterByCompany(_context.Bills.AsNoTracking(), "BillCompanyId").FirstOrDefaultAsync(b => b.BillId == id);
             if (bill == null)
             {
                 return NotFound(false);

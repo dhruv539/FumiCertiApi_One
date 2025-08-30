@@ -28,7 +28,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("report/html")]
         public async Task<IActionResult> GetImageReportHtml([FromQuery] string? user)
         {
-            var query = _context.ImgData.AsQueryable();
+            var query = FilterByCompany(_context.ImgData.AsQueryable(), "ImgDataCompanyId");
 
             if (!string.IsNullOrWhiteSpace(user))
                 query = query.Where(i => i.ImgDataCreateUid == user);
@@ -95,7 +95,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("report")]
         public async Task<IActionResult> GetImageReport()
         {
-            var data = await _context.ImgData.ToListAsync();
+            var data = await FilterByCompany( _context.ImgData, "ImgDataCompanyId").ToListAsync();
 
             var report = data
                 .GroupBy(x => x.ImgDataLocation)
@@ -120,7 +120,7 @@ namespace FumicertiApi.Controllers
     [FromQuery] string? uploadedBy = null
 )
         {
-            var query = _context.ImgData.AsQueryable();
+            var query = FilterByCompany(_context.ImgData.AsQueryable(), "ImgDataCompanyId");
 
             // Filters
             if (!string.IsNullOrEmpty(location))
@@ -155,7 +155,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.ImgData.AsNoTracking();
+            var query = FilterByCompany(_context.ImgData.AsNoTracking(), "ImgDataCompanyId");
             if (!string.IsNullOrEmpty(user))
             {
                 query = query.Where(x => x.ImgDataCreateUid == user);
@@ -202,7 +202,7 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var img = await _context.ImgData.FindAsync(id);
+            var img = await FilterByCompany(_context.ImgData.AsNoTracking(), "ImgDataCompanyId").FirstOrDefaultAsync(b => b.ImgDataId == id);
             if (img == null) return NotFound("❌ Image not found.");
             return Ok(img);
         }
@@ -211,7 +211,7 @@ namespace FumicertiApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             Console.WriteLine($"[API] Delete Request for ID: {id}");
-            var img = await _context.ImgData.FindAsync(id);
+            var img =  await FilterByCompany(_context.ImgData, "ImgDataCompanyId").FirstOrDefaultAsync(i => i.ImgDataId == id);
             Console.WriteLine(img != null
         ? $"[API] Found ImgData with ID: {id}"
         : $"[API] ImgData with ID: {id} NOT FOUND");

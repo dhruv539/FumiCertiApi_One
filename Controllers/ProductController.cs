@@ -34,7 +34,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.products.AsNoTracking();
+            var query = FilterByCompany(_context.products.AsNoTracking(), "ProductCompanyId");
 
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);
 
@@ -75,7 +75,8 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDto>> Get(int id)
         {
-            var product = await _context.products.FindAsync(id);
+            var product = await FilterByCompany(_context.products, "ProductCompanyId")
+                .FirstOrDefaultAsync(p => p.ProductId == id);
             if (product == null) return NotFound();
 
             var dto = new ProductDto
@@ -146,7 +147,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _context.products.FindAsync(id);
+            var product = await FilterByCompany(_context.products, "ProductCompanyId").FirstOrDefaultAsync(p => p.ProductId == id);
             if (product == null) return NotFound();
 
             _context.products.Remove(product);
@@ -160,7 +161,7 @@ namespace FumicertiApi.Controllers
             var currentPage = sieveModel.Page ?? 1;
             var pageSize = sieveModel.PageSize ?? 10;
 
-            var query = _context.products
+            var query = FilterByCompany( _context.products, "ProductCompanyId")
                 .AsNoTracking()
                 .Where(p => p.ProductType == type); // Assuming ProductType exists
 

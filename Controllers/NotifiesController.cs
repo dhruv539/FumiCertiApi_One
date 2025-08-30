@@ -27,7 +27,7 @@ namespace FumicertiApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] SieveModel sieveModel)
         {
-            var query = _context.Notifies.AsQueryable();
+            var query = FilterByCompany(_context.Notifies.AsQueryable(), "NotifyCompanyId");
 
             // Apply filtering/sorting/pagination via Sieve
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query);
@@ -79,7 +79,8 @@ namespace FumicertiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<NotifyReadDto>> GetById(int id)
         {
-            var notify = await _context.Notifies.FindAsync(id);
+            var notify = await FilterByCompany(_context.Notifies, "NotifyCompanyId")
+    .FirstOrDefaultAsync(n => n.NotifyId == id);
             if (notify == null) return NotFound();
 
             var dto = new NotifyReadDto
@@ -192,7 +193,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var notify = await _context.Notifies.FindAsync(id);
+            var notify = await FilterByCompany(_context.Notifies, "NotifyCompanyId").FirstOrDefaultAsync(n => n.NotifyId == id);
             if (notify == null) return NotFound();
 
             _context.Notifies.Remove(notify);

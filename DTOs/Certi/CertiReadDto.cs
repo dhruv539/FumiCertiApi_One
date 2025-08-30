@@ -11,5 +11,6 @@ namespace FumicertiApi.DTOs.Certi
         public string? CertiEditedUid { get; set; }
         public DateTime? CertiCreated { get; set; }
         public DateTime? CertiUpdated { get; set; }
+        public int CertiYearId { get; set; }
     }
 }
