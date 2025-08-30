@@ -65,6 +65,7 @@ namespace FumicertiApi.DTOs.Certi
         public bool? Certi2Notify { get; set; }
      
         public int CertiCompanyId { get; set; }
+        public int CertiYearId { get; set; }
 
     }
 }

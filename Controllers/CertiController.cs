@@ -198,9 +198,10 @@ namespace FumicertiApi.Controllers
                             CertiBillId = certi.CertiBillId,
                             CertiLockedBy = certi.CertiLockedBy,
                             Certi2Notify = certi.Certi2Notify,
-                              CertiCompanyId = certi.CertiCompanyId
+                              CertiCompanyId = certi.CertiCompanyId,
+                                CertiYearId = certi.CertiYearId
 
-                        };
+            };
 
                         return Ok(dto);
                     }
@@ -280,10 +281,11 @@ namespace FumicertiApi.Controllers
                             CertiLockedBy = dto.CertiLockedBy,
                         Certi2Notify = dto.Certi2Notify,
                         CertiCompanyId = GetCompanyId(),
-                        CertiCreated =DateTime.Now 
-                    
-                   
-                        };
+                        CertiCreated =DateTime.Now ,
+                        CertiYearId = dto.CertiYearId
+
+
+                    };
 
                         _context.Certi.Add(model);
                         _context.SaveChanges();
@@ -367,7 +369,8 @@ namespace FumicertiApi.Controllers
             certi.CertiLockedBy = dto.CertiLockedBy;
             certi.CertiCompanyId = dto.CertiCompanyId;
             certi.CertiUpdated = DateTime.Now;
-                        _context.SaveChanges();
+            certi.CertiYearId = dto.CertiYearId;
+            _context.SaveChanges();
 
                     return Ok(true);
                 }
