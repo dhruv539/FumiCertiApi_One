@@ -55,8 +55,8 @@ namespace FumicertiApi.Controllers
                     ProductTotalWt = (decimal)p.ProductTotalWt,
                     ProductCompanyId = p.ProductCompanyId,
                     ProductConsumeQty = (decimal)p.ProductConsumeQty,
-                    ProductType = p.ProductType
-
+                    ProductType = p.ProductType,
+                    ProductAlpwtperTablets= p.ProductAlpwtperTablets
                 })
                 .ToListAsync();
 
@@ -90,7 +90,8 @@ namespace FumicertiApi.Controllers
                 ProductWeightPerUnit = (decimal)product.ProductWeightPerUnit,
                 ProductTotalWt = (decimal)product.ProductTotalWt,
                 ProductCompanyId = product.ProductCompanyId,
-                ProductConsumeQty = (decimal)product.ProductConsumeQty
+                ProductConsumeQty = (decimal)product.ProductConsumeQty,
+                ProductAlpwtperTablets= product.ProductAlpwtperTablets
             };
 
             return Ok(dto);
@@ -115,7 +116,8 @@ namespace FumicertiApi.Controllers
                 ProductCompanyId = GetCompanyId(),
                 ProductCreatedBy = userId,
                 ProductEditBy = userId,
-                ProductType= dto.ProductType
+                ProductType= dto.ProductType,
+                ProductAlpwtperTablets= dto.ProductAlpwtperTablets
 
             };
 
@@ -142,6 +144,7 @@ namespace FumicertiApi.Controllers
             product.ProductUpdated = DateTime.UtcNow;
             product.ProductCompanyId = GetCompanyId();
             product.ProductEditBy = userId;
+            product.ProductAlpwtperTablets = dto.ProductAlpwtperTablets;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -186,7 +189,8 @@ namespace FumicertiApi.Controllers
                     ProductOpeningUnit = p.ProductOpeningUnit,
                     ProductWeightPerUnit = (decimal)p.ProductWeightPerUnit,
                     ProductTotalWt = (decimal)p.ProductTotalWt,
-                    ProductConsumeQty = (decimal)p.ProductConsumeQty
+                    ProductConsumeQty = (decimal)p.ProductConsumeQty,
+                    ProductAlpwtperTablets= p.ProductAlpwtperTablets
                 })
                 .ToListAsync();
 

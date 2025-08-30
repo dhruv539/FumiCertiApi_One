@@ -55,5 +55,9 @@ namespace FumicertiApi.Models
 
         [Column("product_company_id")]
         public int ProductCompanyId { get; set; }
+
+        [Column("product_alpwtper_tablets")]
+        public int ProductAlpwtperTablets { get; set; }
+
     }
 }

@@ -84,13 +84,13 @@ namespace FumicertiApi.Models
         public decimal? ContainerVolH { get; set; }
 
         [Column("container_ProdID1")]
-        public string? ContainerProdID1 { get; set; }
+        public int ContainerProdID1 { get; set; }
 
         [Column("container_ProdID2")]
-        public string? ContainerProdID2 { get; set; }
+        public int ContainerProdID2 { get; set; }
 
         [Column("container_ProdID3")]
-        public string? ContainerProdID3 { get; set; }
+        public int ContainerProdID3 { get; set; }
 
         [Column("container_Qty1")]
         public decimal? ContainerQty1 { get; set; }

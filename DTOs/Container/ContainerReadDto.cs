@@ -27,9 +27,9 @@
         public decimal? ContainerVolL { get; set; }
         public decimal? ContainerVolB { get; set; }
         public decimal? ContainerVolH { get; set; }
-        public string? ContainerProdID1 { get; set; }
-        public string? ContainerProdID2 { get; set; }
-        public string? ContainerProdID3 { get; set; }
+        public int ContainerProdID1 { get; set; }
+        public int ContainerProdID2 { get; set; }
+        public int ContainerProdID3 { get; set; }
         public decimal? ContainerQty1 { get; set; }
         public decimal? ContainerQty2 { get; set; }
         public decimal? ContainerWt1 { get; set; }
