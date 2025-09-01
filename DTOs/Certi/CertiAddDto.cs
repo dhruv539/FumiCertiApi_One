@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FumicertiApi.DTOs.Certi
 {
@@ -70,6 +71,8 @@ namespace FumicertiApi.DTOs.Certi
         public string? CertiPhyto { get; set; }
         public string? CertiJobType { get; set; }
         public bool? Certi2Notify { get; set; }
+        [Column("certi_yearid")]
+        public int CertiYearId { get; set; }
 
 
     }

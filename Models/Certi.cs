@@ -200,6 +200,6 @@ namespace FumicertiApi.Models
         [Column("certi_yearid")]
         public int CertiYearId { get; set; }
 
-        public Year Year { get; set; }
+        
     }
 }
