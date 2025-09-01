@@ -44,7 +44,7 @@ namespace FumicertiApi.Controllers
         public async Task<ActionResult<Bill>> PostBill(Bill bill)
         {
             bill.BillCompanyId = GetCompanyId();
-            var exists = await _context.Bills.AnyAsync(c => c.BillNoStr == bill.BillNoStr && c.BillCompanyId == GetCompanyId());
+            var exists = await _context.Bills.AnyAsync(c => c.BillNoStr == bill.BillNoStr && c.BillCompanyId == GetCompanyId() && c.BillYearId== bill.BillYearId);
             if (exists)
             {
                 return Conflict(new { message = "Bill number already exists." });

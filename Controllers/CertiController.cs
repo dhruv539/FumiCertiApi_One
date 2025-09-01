@@ -30,7 +30,7 @@ namespace FumicertiApi.Controllers
                 var currentPage = sieveModel.Page ?? 1;
                 var pageSize = sieveModel.PageSize ?? 10;
             var activeYear = await _context.Years.AsNoTracking().FirstOrDefaultAsync(y => y.YearIsDefault && y.YearCompanyId == GetCompanyId());
-            var query = FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId").Where(c => c.CertiYearId == activeYear.YearId); 
+            var query = FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId");
 
             // Apply filtering and sorting without pagination first
             var filteredQuery = _sieveProcessor.Apply(sieveModel, query, applyPagination: false);

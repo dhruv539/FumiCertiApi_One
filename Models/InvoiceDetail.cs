@@ -44,6 +44,8 @@ namespace FumicertiApi.Models
 
         [Column("invoicedetail_company_id")]
         public int InvoiceDetailCompanyId { get; set; }
+        [Column("invoicedetail_year_id")]
+        public int InvoiceDetailYearId { get; set; }
 
         [ForeignKey("InvoiceDetailInvoiceId")]
         [JsonIgnore]
