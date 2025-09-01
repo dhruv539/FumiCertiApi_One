@@ -11,6 +11,8 @@
             public string? NextFormat { get; set; }
             public int CompanyId { get; set; }
             public byte? Status { get; set; }
+
+
         }
 
         public class ReportDataAddDto
