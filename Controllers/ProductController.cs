@@ -92,7 +92,8 @@ namespace FumicertiApi.Controllers
                 ProductTotalWt = (decimal)product.ProductTotalWt,
                 ProductCompanyId = product.ProductCompanyId,
                 ProductConsumeQty = (decimal)product.ProductConsumeQty,
-                ProductAlpwtperTablets= product.ProductAlpwtperTablets
+                ProductAlpwtperTablets= product.ProductAlpwtperTablets,
+                ProductType = product.ProductType
             };
 
             return Ok(dto);
@@ -146,6 +147,7 @@ namespace FumicertiApi.Controllers
             product.ProductCompanyId = GetCompanyId();
             product.ProductEditBy = userId;
             product.ProductAlpwtperTablets = dto.ProductAlpwtperTablets;
+            product.ProductType = dto.ProductType;
 
             await _context.SaveChangesAsync();
             return NoContent();
