@@ -122,5 +122,8 @@ namespace FumicertiApi.Models
         [Column("bill_company_id")]
         public int BillCompanyId { get; set; }
 
+        [Column("bill_year_id")]
+        public int BillYearId { get; set; }
+
     }
 }
