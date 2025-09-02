@@ -25,7 +25,7 @@ namespace FumicertiApi.Data
        public DbSet<Year> Years { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<State> States { get; set; }
-
+        public DbSet<VoucherConfig> VoucherConfigs { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
