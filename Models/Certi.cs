@@ -200,6 +200,9 @@ namespace FumicertiApi.Models
         [Column("certi_yearid")]
         public int CertiYearId { get; set; }
 
+        [Column("certi_doserate_unit")]
+        public string? CertiDoseRateUnit { get; set; }
+
         
     }
 }

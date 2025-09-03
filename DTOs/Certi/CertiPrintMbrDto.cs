@@ -71,8 +71,11 @@
         public bool? CertiTestedContainer { get; set; }
         public bool? CertiUnsheetedContainer { get; set; }
         public float? CertiAppliedRate { get; set; }
+        public string? CertiDoseRateUnit { get; set; }
 
-
+        public string? AfoName { get; set; }
+        public string? AfoAlpNo { get; set; }
+        public string? AfoMbrNo { get; set; }
 
     }
 

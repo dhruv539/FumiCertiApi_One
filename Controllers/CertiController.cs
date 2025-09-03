@@ -106,7 +106,8 @@ namespace FumicertiApi.Controllers
                         CertiBillId = c.CertiBillId,
                         CertiLockedBy = c.CertiLockedBy,
                         CertiCompanyId = c.CertiCompanyId,
-                        CertiYearId = c.CertiYearId
+                        CertiYearId = c.CertiYearId,
+                        CertiDoseRateUnit= c.CertiDoseRateUnit
 
                     })
 
@@ -199,7 +200,8 @@ namespace FumicertiApi.Controllers
                             CertiLockedBy = certi.CertiLockedBy,
                             Certi2Notify = certi.Certi2Notify,
                               CertiCompanyId = certi.CertiCompanyId,
-                                CertiYearId = certi.CertiYearId
+                                CertiYearId = certi.CertiYearId,
+                                CertiDoseRateUnit= certi.CertiDoseRateUnit
 
             };
 
@@ -282,7 +284,8 @@ namespace FumicertiApi.Controllers
                         Certi2Notify = dto.Certi2Notify,
                         CertiCompanyId = GetCompanyId(),
                         CertiCreated =DateTime.Now ,
-                        CertiYearId = dto.CertiYearId
+                        CertiYearId = dto.CertiYearId,
+                        CertiDoseRateUnit= dto.CertiDoseRateUnit
 
 
                     };
@@ -370,6 +373,8 @@ namespace FumicertiApi.Controllers
             certi.CertiCompanyId = dto.CertiCompanyId;
             certi.CertiUpdated = DateTime.Now;
             certi.CertiYearId = dto.CertiYearId;
+            certi.CertiDoseRateUnit= dto.CertiDoseRateUnit;
+                    
             _context.SaveChanges();
 
                     return Ok(true);
@@ -421,15 +426,14 @@ namespace FumicertiApi.Controllers
             if (string.IsNullOrWhiteSpace(value))
                 return BadRequest(new { message = "ID or Certificate Number is required." });
 
-            // Select only the fields you need and project to anonymous type first
-            var certiData = await FilterByCompany( _context.Certi
-                .AsNoTracking(), "CertiCompanyId")
+            // Fetch certificate by id or number
+            var certiData = await FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId")
                 .Where(c => c.CertiId == value || c.CertiNo.ToString() == value)
                 .Select(c => new
                 {
                     CertiNo = c.CertiNo ?? 0,
-                    CertiCompanyId = c.CertiCompanyId,
-                    CertiDate = c.CertiDate,
+                    c.CertiCompanyId,
+                    c.CertiDate,
                     CertiJobType = c.CertiJobType ?? "",
                     CertiPhyto = c.CertiPhyto ?? "",
                     CertiExpName = c.CertiExpName ?? "",
@@ -445,9 +449,9 @@ namespace FumicertiApi.Controllers
                     CertiNetUnit = c.CertiNetUnit ?? "",
                     CertiGrossUnit = c.CertiGrossUnit ?? "",
                     CertiInvoiceNo = c.CertiInvoiceNo ?? "",
-                    CertiInvoiceDate = c.CertiInvoiceDate,
+                    c.CertiInvoiceDate,
                     CertiFumiplace = c.CertiFumiplace ?? "",
-                    CertiFumidate = c.CertiFumidate,
+                    c.CertiFumidate,
                     CertiFumiduration = c.CertiFumiduration ?? "",
                     CertiDoseRate = c.CertiDoseRate ?? 0,
                     CertiContainers = c.CertiContainers ?? "",
@@ -466,38 +470,39 @@ namespace FumicertiApi.Controllers
                     CertiTemperature = c.CertiTemperature ?? 0,
                     CertiPresserTested = c.CertiPresserTested ?? "",
                     CertiHumidity = c.CertiHumidity ?? "",
-                    CertiCountryDest=c.CertiCountryDest ?? "",
-                    CertiFinalReading=c.CertiFinalReading ?? "",
-
-                    CertiTgPacking =c.CertiTgPacking ?? false,
-                    CertiTgCommodity=c.CertiTgCommodity ?? false,
-                    CertiTgPackComm=c.CertiTgPackComm ?? false,
+                    CertiCountryDest = c.CertiCountryDest ?? "",
+                    CertiFinalReading = c.CertiFinalReading ?? "",
+                    c.CertiDoseRateUnit,
+                    c.CertiTgPacking,
+                    c.CertiTgCommodity,
+                    c.CertiTgPackComm,
                     CertiSurfaceThickness = c.CertiSurfaceThickness ?? "",
-                    CertiStack = c.CertiStack ?? false,
-                    CertiContainer = c.CertiContainer ?? false,
-                    CertiChamber = c.CertiChamber ?? false,
-                    CertiTestedContainer = c.CertiTestedContainer ?? false,
-                    CertiUnsheetedContainer = c.CertiUnsheetedContainer ?? false,
+                    c.CertiStack,
+                    c.CertiContainer,
+                    c.CertiChamber,
+                    c.CertiTestedContainer,
+                    c.CertiUnsheetedContainer,
                     CertiAppliedRate = c.CertiAppliedRate ?? 0f,
+                    c.Certi2Notify
+                })
+                .FirstOrDefaultAsync();
 
-                    Certi2Notify = c.Certi2Notify ?? false
-                    })
-                    .FirstOrDefaultAsync();
+            if (certiData == null)
+                return NotFound();
 
-                if (certiData == null)
-                    return NotFound();
-
-            // Fetch company - assuming single company for now
+            // Fetch active company
             var company = await _context.companies
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Status == true);
 
-    .AsNoTracking()
-    .FirstOrDefaultAsync(c => c.Status == true);
-
-           
-
+            // Fetch AFO Member by name (better: use an ID if available)
+            var afoMember = await _context.afo_members
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.AfoName == certiData.CertiAfoName);
 
             var dto = new CertiPrintMbrDto
             {
+                // certi mapping
                 CertiNo = certiData.CertiNo,
                 CertiCompanyId = certiData.CertiCompanyId,
                 CertiDate = certiData.CertiDate,
@@ -538,11 +543,10 @@ namespace FumicertiApi.Controllers
                 CertiPresserTested = certiData.CertiPresserTested,
                 CertiHumidity = certiData.CertiHumidity,
                 Certi2Notify = certiData.Certi2Notify,
-               CertiCountryDest=certiData.CertiCountryDest,
-               CertiFinalReading=certiData.CertiFinalReading,
-
+                CertiCountryDest = certiData.CertiCountryDest,
+                CertiFinalReading = certiData.CertiFinalReading,
                 CertiTgPacking = certiData.CertiTgPacking,
-                CertiTgCommodity = certiData.CertiTgCommodity, 
+                CertiTgCommodity = certiData.CertiTgCommodity,
                 CertiTgPackComm = certiData.CertiTgPackComm,
                 CertiSurfaceThickness = certiData.CertiSurfaceThickness,
                 CertiStack = certiData.CertiStack,
@@ -550,15 +554,25 @@ namespace FumicertiApi.Controllers
                 CertiChamber = certiData.CertiChamber,
                 CertiTestedContainer = certiData.CertiTestedContainer,
                 CertiUnsheetedContainer = certiData.CertiUnsheetedContainer,
+                CertiDoseRateUnit = certiData.CertiDoseRateUnit,
 
+                // company mapping
                 CompanyName = company?.Name ?? "N/A",
-                CompanyAddress = string.Join(", ", new[] {
+                CompanyAddress = string.Join(", ", new[]
+                {
             company?.Address1, company?.Address2, company?.Address3,
             company?.City, company?.StateCode, company?.Country, company?.Pincode
-        }.Where(s => !string.IsNullOrWhiteSpace(s)))
+        }.Where(s => !string.IsNullOrWhiteSpace(s))),
+
+                // afo member mapping
+                AfoName = afoMember?.AfoName ?? "N/A",
+                AfoAlpNo = afoMember?.AfoAlpNo ?? "",
+                AfoMbrNo = afoMember?.AfoMbrNo ?? ""
             };
+
             return Ok(dto);
         }
+
 
 
     }
