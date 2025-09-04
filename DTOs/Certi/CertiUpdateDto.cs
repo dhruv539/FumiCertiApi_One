@@ -67,6 +67,8 @@ namespace FumicertiApi.DTOs.Certi
 
         public int CertiCompanyId { get; set; }
         public int CertiYearId { get; set; }
+        public string? Certiprefix { get; set; }
+        public string? Certisuffix { get; set; }
 
     }
 }

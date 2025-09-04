@@ -31,5 +31,8 @@ namespace FumicertiApi.Models
         [Column("voucherconfig_islock")]
         public bool VoucherConfig_IsLock { get; set; }
 
+        [Column("voucherconfig_phyto")]
+        public string? VoucherConfig_Phyto { get; set; }
+
     }
 }

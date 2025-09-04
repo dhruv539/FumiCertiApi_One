@@ -20,14 +20,14 @@ namespace FumicertiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VoucherConfig>>> GetVoucherConfigs()
         {
-            return await _context.VoucherConfigs.ToListAsync();
+            return await FilterByCompany(_context.VoucherConfigs, "VoucherConfig_CompnayId").ToListAsync();
         }
 
         // GET: api/voucherconfig/5
         [HttpGet("{id}")]
         public async Task<ActionResult<VoucherConfig>> GetVoucherConfig(int id)
         {
-            var config = await _context.VoucherConfigs.FindAsync(id);
+            var config = await FilterByCompany(_context.VoucherConfigs, "VoucherConfig_CompnayId").FirstOrDefaultAsync(b => b.VoucherConfig_Id == id); 
             if (config == null) return NotFound();
             return config;
         }
@@ -36,6 +36,7 @@ namespace FumicertiApi.Controllers
         [HttpPost]
         public async Task<ActionResult<VoucherConfig>> CreateVoucherConfig(VoucherConfig config)
         {
+            config.VoucherConfig_CompnayId = GetCompanyId();
             _context.VoucherConfigs.Add(config);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetVoucherConfig), new { id = config.VoucherConfig_Id }, config);
@@ -46,7 +47,7 @@ namespace FumicertiApi.Controllers
         public async Task<IActionResult> UpdateVoucherConfig(int id, VoucherConfig config)
         {
             if (id != config.VoucherConfig_Id) return BadRequest();
-
+            config.VoucherConfig_CompnayId = GetCompanyId();
             _context.Entry(config).State = EntityState.Modified;
 
             try
@@ -68,7 +69,7 @@ namespace FumicertiApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVoucherConfig(int id)
         {
-            var config = await _context.VoucherConfigs.FindAsync(id);
+            var config = await FilterByCompany(_context.VoucherConfigs, "VoucherConfig_CompnayId").FirstOrDefaultAsync(b => b.VoucherConfig_Id == id);
             if (config == null) return NotFound();
 
             _context.VoucherConfigs.Remove(config);
