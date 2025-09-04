@@ -205,5 +205,11 @@ namespace FumicertiApi.Models
         [Column("certi_suffix")]
         public string? Certisuffix { get; set; }
 
+
+        [Column("certi_doserate_unit")]
+        public string? CertiDoseRateUnit { get; set; }
+
+        
+
     }
 }

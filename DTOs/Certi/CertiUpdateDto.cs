@@ -63,7 +63,8 @@ namespace FumicertiApi.DTOs.Certi
         public string? CertiPhyto { get; set; }
         public string? CertiJobType { get; set; }
         public bool? Certi2Notify { get; set; }
-     
+        public string CertiDoseRateUnit { get; set; }
+
         public int CertiCompanyId { get; set; }
         public int CertiYearId { get; set; }
         public string? Certiprefix { get; set; }

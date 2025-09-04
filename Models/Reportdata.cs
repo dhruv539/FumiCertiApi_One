@@ -49,6 +49,8 @@ namespace FumicertiApi.Models
 
         [Column("reportdata_updated")]
         public DateTime? Updated { get; set; }
+        [Column("reportdata_code")]
+        public DateTime? ReportCode { get; set; }
     }
 }
 

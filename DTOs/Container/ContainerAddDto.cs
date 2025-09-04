@@ -69,6 +69,7 @@ namespace FumicertiApi.DTOs.Container
         public string? ContainerQtymbrgram { get; set; }
         public decimal? ContainerVolumecbm { get; set; }
 
+        public int CertiDoseRateUnit { get; set; }
 
         public string? ContainerCreateUid { get; set; }
         public string? ContainerEditedUid { get; set; }
