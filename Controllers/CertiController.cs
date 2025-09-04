@@ -107,7 +107,10 @@ namespace FumicertiApi.Controllers
                         CertiLockedBy = c.CertiLockedBy,
                         CertiCompanyId = c.CertiCompanyId,
                         CertiYearId = c.CertiYearId,
-                        CertiDoseRateUnit= c.CertiDoseRateUnit
+                        CertiDoseRateUnit= c.CertiDoseRateUnit,
+                        Certiprefix=c.Certiprefix,
+                        Certisuffix=c.Certisuffix,
+                        Certi2Notify=c.Certi2Notify
 
                     })
 
@@ -201,7 +204,9 @@ namespace FumicertiApi.Controllers
                             Certi2Notify = certi.Certi2Notify,
                               CertiCompanyId = certi.CertiCompanyId,
                                 CertiYearId = certi.CertiYearId,
-                                CertiDoseRateUnit= certi.CertiDoseRateUnit
+                                CertiDoseRateUnit= certi.CertiDoseRateUnit,
+                Certisuffix=certi.Certisuffix,
+                Certiprefix=certi.Certiprefix
 
             };
 
@@ -285,7 +290,9 @@ namespace FumicertiApi.Controllers
                         CertiCompanyId = GetCompanyId(),
                         CertiCreated =DateTime.Now ,
                         CertiYearId = dto.CertiYearId,
-                        CertiDoseRateUnit= dto.CertiDoseRateUnit
+                        CertiDoseRateUnit= dto.CertiDoseRateUnit,
+                        Certiprefix=dto.Certiprefix,
+                        Certisuffix=dto.Certisuffix
 
 
                     };
@@ -374,6 +381,8 @@ namespace FumicertiApi.Controllers
             certi.CertiUpdated = DateTime.Now;
             certi.CertiYearId = dto.CertiYearId;
             certi.CertiDoseRateUnit= dto.CertiDoseRateUnit;
+            certi.Certiprefix = dto.Certiprefix;
+            certi.Certisuffix = dto.Certisuffix;
                     
             _context.SaveChanges();
 
@@ -483,7 +492,10 @@ namespace FumicertiApi.Controllers
                     c.CertiTestedContainer,
                     c.CertiUnsheetedContainer,
                     CertiAppliedRate = c.CertiAppliedRate ?? 0f,
-                    c.Certi2Notify
+                    c.Certi2Notify,
+                    c.Certiprefix,
+                    c.Certisuffix
+
                 })
                 .FirstOrDefaultAsync();
 
@@ -567,7 +579,8 @@ namespace FumicertiApi.Controllers
                 // afo member mapping
                 AfoName = afoMember?.AfoName ?? "N/A",
                 AfoAlpNo = afoMember?.AfoAlpNo ?? "",
-                AfoMbrNo = afoMember?.AfoMbrNo ?? ""
+                AfoMbrNo = afoMember?.AfoMbrNo ?? "",
+          
             };
 
             return Ok(dto);

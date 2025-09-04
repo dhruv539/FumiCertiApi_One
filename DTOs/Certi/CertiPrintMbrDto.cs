@@ -76,7 +76,10 @@
         public string? AfoName { get; set; }
         public string? AfoAlpNo { get; set; }
         public string? AfoMbrNo { get; set; }
+        public string? Certiprefix { get; set; }
+        public string? Certisuffix { get; set; }
+
+    }        
+
 
     }
-
-}
