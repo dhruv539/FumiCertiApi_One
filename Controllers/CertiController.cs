@@ -567,6 +567,8 @@ namespace FumicertiApi.Controllers
                 CertiTestedContainer = certiData.CertiTestedContainer,
                 CertiUnsheetedContainer = certiData.CertiUnsheetedContainer,
                 CertiDoseRateUnit = certiData.CertiDoseRateUnit,
+                Certiprefix=certiData.Certiprefix,
+                Certisuffix=certiData.Certisuffix,
 
                 // company mapping
                 CompanyName = company?.Name ?? "N/A",
@@ -580,6 +582,7 @@ namespace FumicertiApi.Controllers
                 AfoName = afoMember?.AfoName ?? "N/A",
                 AfoAlpNo = afoMember?.AfoAlpNo ?? "",
                 AfoMbrNo = afoMember?.AfoMbrNo ?? "",
+                
           
             };
 
