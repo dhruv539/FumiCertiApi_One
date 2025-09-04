@@ -1,4 +1,5 @@
 ﻿using FumicertiApi.Data;
+using FumicertiApi.DTOs;
 using FumicertiApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,31 @@ namespace FumicertiApi.Controllers
 
         // GET: api/voucherconfig
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VoucherConfig>>> GetVoucherConfigs()
+        public async Task<ActionResult<IEnumerable<VoucherConfigDto>>> GetVoucherConfigs()
         {
-            return await FilterByCompany(_context.VoucherConfigs, "VoucherConfig_CompnayId").ToListAsync();
+            // return await FilterByCompany(_context.VoucherConfigs, "VoucherConfig_CompnayId").ToListAsync();
+
+            return await FilterByCompany(_context.VoucherConfigs, "VoucherConfig_CompnayId")
+        .Join(_context.branches,
+              v => v.VoucherConfig_Branch_Id,
+              b => b.BranchId,
+              (v, b) => new VoucherConfigDto
+              {
+                  VoucherConfig_Id = v.VoucherConfig_Id,
+                  VoucherConfig_FinYear_Id = v.VoucherConfig_FinYear_Id,
+                  VoucherConfig_Branch_Id = v.VoucherConfig_Branch_Id,
+                  BranchName = b.BranchName, // mapped
+                  VoucherConfig_ProdType = v.VoucherConfig_ProdType,
+                  VoucherConfig_Prefix = v.VoucherConfig_Prefix,
+                  VoucherConfig_Suffix = v.VoucherConfig_Suffix,
+                  VoucherConfig_VoucherDigit = v.VoucherConfig_VoucherDigit,
+                  VoucherConfig_LastVoucherNo = v.VoucherConfig_LastVoucherNo,
+                  VoucherConfig_Remarks = v.VoucherConfig_Remarks,
+                  VoucherConfig_CompanyId = v.VoucherConfig_CompnayId,
+                  VoucherConfig_IsLock = v.VoucherConfig_IsLock,
+                  VoucherConfig_Phyto = v.VoucherConfig_Phyto
+              })
+        .ToListAsync();
         }
 
         // GET: api/voucherconfig/5
