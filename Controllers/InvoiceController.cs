@@ -71,7 +71,7 @@ namespace FumicertiApi.Controllers
         {
             dto.InvCreated = DateTime.UtcNow;
             dto.InvCreateUid = GetUserId().ToString();
-
+            dto.InvCompanyId = GetCompanyId();
             var details = dto.InvoiceDetails?.ToList();
             dto.InvoiceDetails = null;
 

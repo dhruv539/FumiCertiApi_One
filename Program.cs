@@ -1,4 +1,5 @@
 ﻿using FumicertiApi.Data;
+using FumicertiApi.Interface;
 using FumicertiApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -37,12 +38,16 @@ namespace FumicertiApi
                 options.UseMySql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 36))));
+
+
             builder.Services.AddScoped<ISieveProcessor, SieveProcessor>();
+
             builder.Services.Configure<SieveOptions>(builder.Configuration.GetSection("Sieve"));
 
             // ✅ 3. Add services
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<EmailService>();
+            builder.Services.AddScoped<IConsumptionReportService, ConsumptionReportService>();
 
             // ✅ 4. Add JWT Authentication
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
