@@ -184,7 +184,8 @@ namespace FumicertiApi.Services
                             company?.City, company?.StateCode, company?.Country, company?.Pincode
                         }.Where(s => !string.IsNullOrWhiteSpace(s))),
                         Contact = company?.Mobile ?? "",
-                        Email = company?.Email ?? ""
+                        Email = company?.Email ?? "",
+                        Mobile = company?.Mobile ?? ""
                     },
                     Afo = new
                     {
