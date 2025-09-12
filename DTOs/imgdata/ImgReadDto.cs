@@ -6,7 +6,7 @@ namespace FumicertiApi.DTOs.imgdata
     {
         public int ImgDataId { get; set; }
         [Required]
-        public string? ImgDataImg { get; set; }              // Base64 or path
+        public string ImgData_Img_Url { get; set; }              // Base64 or path
         public string? ImgDataLocation { get; set; }         // Location/GPS
         public DateTime? ImgDataTimedate { get; set; }       // Capture time
         [Required]
