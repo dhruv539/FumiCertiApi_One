@@ -43,7 +43,7 @@ namespace FumicertiApi
             // ✅ 3. Add services
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<EmailService>();
-
+            builder.Services.AddSingleton<AzureBlobService>();
             // ✅ 4. Add JWT Authentication
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

@@ -1,9 +1,12 @@
-﻿using FumicertiApi.Data;
+﻿using Azure.Storage.Blobs;
+using FumicertiApi.Data;
 using FumicertiApi.DTOs.imgdata;
 using FumicertiApi.DTOs.YourApp.DTOs;
 using FumicertiApi.Models;
+using FumicertiApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Sieve.Models;
@@ -19,11 +22,12 @@ namespace FumicertiApi.Controllers
     {
         private readonly AppDbContext _context;
         private readonly ISieveProcessor _sieveProcessor;
-        public ImgDataController(AppDbContext context, ISieveProcessor sieveProcessor)
+        private readonly AzureBlobService _blobService;
+        public ImgDataController(AppDbContext context, ISieveProcessor sieveProcessor, AzureBlobService blobService )
         {
             _context = context;
             _sieveProcessor = sieveProcessor;
-            
+            _blobService = blobService;
         }
         [HttpGet("report/html")]
         public async Task<IActionResult> GetImageReportHtml([FromQuery] string? user)
@@ -136,6 +140,15 @@ namespace FumicertiApi.Controllers
                 .OrderByDescending(x => x.ImgDataId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
+                .Select(x => new ImgDataReadDto
+                {
+                    ImgDataId = x.ImgDataId,
+                    ImgData_Img_Url = x.ImgData_Img_Url!,
+                    ImgDataLocation = x.ImgDataLocation,
+                    ImgDataExtractedText = x.ImgDataExtractedText,
+                    ImgDataUserUploaded = x.ImgDataUserUploaded,
+                    ImgDataTimedate = x.ImgDataTimedate
+                })
                 .ToListAsync();
 
             return Ok(new
@@ -172,7 +185,7 @@ namespace FumicertiApi.Controllers
             var pagedResult = rawData.Select(x => new ImgDataReadDto
             {
                 ImgDataId = x.ImgDataId,
-                ImgDataImg = x.ImgDataImg != null ? Convert.ToBase64String(x.ImgDataImg) : null, // ✅ convert here
+                ImgData_Img_Url = x.ImgData_Img_Url,
                 ImgDataLocation = x.ImgDataLocation,
                 ImgDataTimedate = x.ImgDataTimedate,
                 ImgDataExtractedText = x.ImgDataExtractedText,
@@ -212,11 +225,10 @@ namespace FumicertiApi.Controllers
         {
             Console.WriteLine($"[API] Delete Request for ID: {id}");
             var img =  await FilterByCompany(_context.ImgData, "ImgDataCompanyId").FirstOrDefaultAsync(i => i.ImgDataId == id);
-            Console.WriteLine(img != null
-        ? $"[API] Found ImgData with ID: {id}"
-        : $"[API] ImgData with ID: {id} NOT FOUND");
+            Console.WriteLine(img != null? $"[API] Found ImgData with ID: {id}": $"[API] ImgData with ID: {id} NOT FOUND");
             if (img == null) return NotFound("❌ Image not found.");
-
+            if (!string.IsNullOrEmpty(img.ImgData_Img_Url))
+                await _blobService.DeleteAsync(img.ImgData_Img_Url);
             _context.ImgData.Remove(img);
             await _context.SaveChangesAsync();
 
@@ -225,22 +237,25 @@ namespace FumicertiApi.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditImage([FromForm] ImgUpdateDto dto)
+        public async Task<IActionResult> EditImage(int id, [FromForm] ImgUpdateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var record = await _context.ImgData.FindAsync(dto.ImgDataId);
+            var record = await _context.ImgData.FindAsync(id);
             if (record == null)
                 return NotFound("❌ Record not found.");
 
-            // If new image uploaded, update base64
+           
             if (dto.ImageFile != null && dto.ImageFile.Length > 0)
             {
-                using var ms = new MemoryStream();
-                await dto.ImageFile.CopyToAsync(ms);
-                var imageBytes = ms.ToArray();
-                record.ImgDataImg = imageBytes;
+                // Delete old blob if exists
+                if (!string.IsNullOrEmpty(record.ImgData_Img_Url))
+                    await _blobService.DeleteAsync(record.ImgData_Img_Url);
+
+                // Upload new blob with same ImageId-based filename
+                var newUrl = await _blobService.UploadAsync(dto.ImageFile, id);
+                record.ImgData_Img_Url = newUrl;
             }
 
             // Update other fields
@@ -256,21 +271,25 @@ namespace FumicertiApi.Controllers
         }
 
 
-        [HttpPost("upload-base64")]
-        public async Task<IActionResult> UploadImageAsBase64([FromForm] ImgUploadDto dto)
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadImage([FromForm] ImgUploadDto dto)
         {
             if (dto.ImageFile == null || dto.ImageFile.Length == 0)
                 return BadRequest("❌ No image uploaded.");
+        
 
             // Convert to Base64 string
-            using var ms = new MemoryStream();
-            await dto.ImageFile.CopyToAsync(ms);
-            var imageBytes = ms.ToArray();
+            //using var ms = new MemoryStream();
+            //await dto.ImageFile.CopyToAsync(ms);
+            //var imageBytes = ms.ToArray();
+
+
             //var base64String = Convert.ToBase64String(imageBytes);
 
             var record = new ImgData
             {
-                ImgDataImg = imageBytes,
+                ImgData_Img_Url = null,
+                // ImgDataImg = imageBytes,
                 ImgDataLocation = dto.Location,
                 ImgDataTimedate = DateTime.Now,
                 ImgDataExtractedText = dto.ExtractedText,
@@ -292,9 +311,30 @@ namespace FumicertiApi.Controllers
                 Console.WriteLine("🔍 StackTrace: " + ex.StackTrace);
                 return StatusCode(500, $"❌ DB Error: {ex.Message}");
             }
+            // Step 2: Upload to Azure with the generated ID
+            string blobUrl;
+            try
+            {
+                blobUrl = await _blobService.UploadAsync(dto.ImageFile, record.ImgDataId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"❌ Azure Upload Failed: {ex.Message}");
+            }
 
+            // Step 3: Update DB with blob URL
+            try
+            {
+                record.ImgData_Img_Url = blobUrl;
+                _context.ImgData.Update(record);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"❌ DB Update Failed: {ex.Message}");
+            }
 
-            return Ok(new { message = "✅ Image (base64) uploaded successfully.", id = record.ImgDataId });
+            return Ok(new { message = "✅ Image (base64) uploaded to Azure successfully .", id = record.ImgDataId, url = blobUrl });
         }
 
     }
