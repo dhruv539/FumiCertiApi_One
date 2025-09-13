@@ -251,6 +251,9 @@
 //        }
 //    }
 //}
+
+
+
 using FumicertiApi.Interface;
 using FumicertiApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -258,6 +261,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FumicertiApi.Controllers
 {
+
+
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -290,4 +295,8 @@ namespace FumicertiApi.Controllers
         }
 
     }
+
+
+
+
 }

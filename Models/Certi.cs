@@ -52,7 +52,7 @@ namespace FumicertiApi.Models
         [Column("certi_fumiduration")]
         public string? CertiFumiduration { get; set; }
 
-        [Column("certi_dose_rate")]
+        [Column("certi_dose_rate")] 
         public double? CertiDoseRate { get; set; }
 
         [Column("certi_presser_tested")]
