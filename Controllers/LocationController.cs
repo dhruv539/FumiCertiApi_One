@@ -54,6 +54,14 @@ namespace FumicertiApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Location model)
         {
+
+            bool exists = await _context.Locations
+      .AnyAsync(b => b.LocationName == model.LocationName &&b.LocationType==model.LocationType && b.CompanyId == GetCompanyId());
+
+            if (exists)
+            {
+                return Conflict(new { message = "A Location with the same name already exists." });
+            }
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

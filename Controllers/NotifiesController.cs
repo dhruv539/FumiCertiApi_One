@@ -112,6 +112,14 @@ namespace FumicertiApi.Controllers
         [HttpPost]
         public async Task<ActionResult<NotifyReadDto>> Create([FromBody] NotifyAddDto dto)
         {
+
+            bool exists = await _context.Notifies
+       .AnyAsync(b => b.NotifyName == dto.NotifyName && b.NotifyCompanyId == GetCompanyId());
+
+            if (exists)
+            {
+                return Conflict(new { message = "A Notify with the same name already exists." });
+            }
             var notify = new Notify
             {
                 NotifyCompanyId = GetCompanyId(),     // 🔒 Backend-only
