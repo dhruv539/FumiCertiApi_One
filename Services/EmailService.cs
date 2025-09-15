@@ -19,12 +19,13 @@ public class EmailService
         string smtpUser = _config["Email:User"];
         string smtpPass = _config["Email:Pass"];
 
-        string resetLink = $"https://Fumicerti.com/reset-password?token={token}";
+        string resetLink = $"http://localhost:7226/reset-password?email={toEmail}&token={token}";
+        //string resetLink = $"http://147.79.68.129/reset-password?email={toEmail}&token={token}";
 
         var message = new MailMessage(fromEmail, toEmail)
         {
             Subject = "Password Reset Request",
-            Body = $"Click the link below to reset your password:\n{resetLink}",
+            Body = $"Hi,\n\nClick the link below to reset your password:\n{resetLink}\n\nThis link will expire in 15 minutes.",
             IsBodyHtml = false
         };
 

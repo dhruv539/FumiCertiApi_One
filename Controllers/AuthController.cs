@@ -16,11 +16,14 @@ namespace FumicertiApi.Controllers
     {
         private readonly AppDbContext _context;
         private readonly TokenService _tokenService;
+        private readonly EmailService _emailService;
 
-        public AuthController(AppDbContext context, TokenService tokenService)
+
+        public AuthController(AppDbContext context, TokenService tokenService, EmailService emailService)
         {
             _context = context;
             _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         // ✅ Login Endpoint
@@ -111,11 +114,14 @@ namespace FumicertiApi.Controllers
                 UserStatus = 1
             };
 
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return Ok("User registered successfully.");
         }
+
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
         {
@@ -134,14 +140,14 @@ namespace FumicertiApi.Controllers
 
             await _context.SaveChangesAsync();
 
-            // 📎 4. Generate reset link (to send by email or return to frontend)
             string resetLink = $"http://localhost:4200/reset-password?email={dto.Email}&token={token}";
 
-            // ✅ 5. Return reset link for testing (you can send it via email in production)
+            await _emailService.SendResetPasswordEmailAsync(dto.Email, token);
+
             return Ok(new
             {
                 message = "Password reset link generated successfully.",
-                resetToken = token,
+                resetToken = token, 
                 resetLink = resetLink
             });
         }
@@ -149,29 +155,24 @@ namespace FumicertiApi.Controllers
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
-            // 🔍 1. Find user by email and token
             var user = await _context.Users.FirstOrDefaultAsync(u =>
                 u.UserEmail == dto.Email &&
                 u.PasswordResetToken == dto.Token);
 
             if (user == null)
-                return NotFound("Invalid email or token.");
+                return NotFound(ServiceResponse.Fail("Invalid email or token."));
 
-            // 🕒 2. Check if token is expired
             if (user.ResetTokenExpires == null || user.ResetTokenExpires < DateTime.UtcNow)
-                return BadRequest("Reset token has expired.");
+                return BadRequest(ServiceResponse.Fail("Reset token has expired."));
 
-            // 🔐 3. Update password (⚠️ hash in production)
             user.UserPassword = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
-
-            // 🧹 4. Clear token fields
             user.PasswordResetToken = null;
             user.ResetTokenExpires = null;
-
             await _context.SaveChangesAsync();
 
-            return Ok("Password reset successfully.");
+            return Ok(ServiceResponse.Success("Password reset successfully."));
         }
+
 
     }
 }
