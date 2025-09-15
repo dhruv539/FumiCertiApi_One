@@ -95,6 +95,14 @@ namespace FumicertiApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BranchAddDto dto)
         {
+            bool exists = await _context.branches
+        .AnyAsync(b => b.BranchName == dto.BranchName && b.CompanyId == GetCompanyId());
+
+            if (exists)
+            {
+                return Conflict(new { message = "A branch with the same name already exists." });
+            }
+
             var branch = new Branch
             {
                 BranchName = dto.BranchName,
