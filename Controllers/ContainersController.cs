@@ -1,6 +1,7 @@
 ﻿using FumicertiApi.Data;
 using FumicertiApi.DTOs.Container;
 using FumicertiApi.Models;
+using FumicertiApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -450,5 +451,30 @@ namespace FumicertiApi.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("report")]
+        public async Task<ActionResult> GetCertiContainerReport(
+            [FromQuery] DateTime fromdate,
+            [FromQuery] DateTime todate,
+            [FromQuery] string? certiNo,
+            [FromQuery] string? containerNo,
+            [FromQuery] string? certiType,
+            [FromServices] ReportService reportService)
+        {
+            var result = await reportService.GetCertiContainerReportAsync(fromdate, todate, certiNo, containerNo, certiType);
+
+            if (result == null || !result.Any())
+                return NotFound(new { message = "No records found for given filters." });
+
+            return Ok(new
+            {
+                filter = new { fromdate, todate, certiNo, containerNo, certiType },
+                count = result.Count,
+                data = result
+            });
+        }
+
+
+
     }
 }
