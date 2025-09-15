@@ -60,6 +60,14 @@ namespace FumicertiApi.Controllers
         public async Task<ActionResult<VoucherConfig>> CreateVoucherConfig(VoucherConfig config)
         {
             config.VoucherConfig_CompnayId = GetCompanyId();
+            bool exists = await _context.VoucherConfigs
+      .AnyAsync(b => b.VoucherConfig_Branch_Id == config.VoucherConfig_Branch_Id && b.VoucherConfig_Phyto == config.VoucherConfig_Phyto 
+      && b.VoucherConfig_ProdType == config .VoucherConfig_ProdType && b.VoucherConfig_CompnayId == GetCompanyId());
+
+            if (exists)
+            {
+                return Conflict(new { message = "A Location with the same name already exists." });
+            }
             _context.VoucherConfigs.Add(config);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetVoucherConfig), new { id = config.VoucherConfig_Id }, config);
