@@ -78,8 +78,9 @@
         public string? AfoMbrNo { get; set; }
         public string? Certiprefix { get; set; }
         public string? Certisuffix { get; set; }
-
-    }        
-
+        public string? Certificatenumber { get; set; } = string.Empty;
 
     }
+
+
+}

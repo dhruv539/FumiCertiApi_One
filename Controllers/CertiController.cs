@@ -308,19 +308,19 @@ namespace FumicertiApi.Controllers
                 [HttpPut("{id}")]
                     public ActionResult Update(string id, [FromBody] CertiUpdateDto dto)
                     {
-                    var exists = _context.Certi.Any(c => c.CertiNo == dto.CertiNo && c.CertiId != id && c.CertiCompanyId == GetCompanyId());
-                    if (exists)
-                    {
-                        return Conflict(new { message = "Certificate number already exists." });
-                    }
+                        var exists = _context.Certi.Any(c => c.CertiNo == dto.CertiNo && c.CertiId != id && c.CertiCompanyId == GetCompanyId());
+                        if (exists)
+                        {
+                            return Conflict(new { message = "Certificate number already exists." });
+                        }
 
-                    var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
+                      var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
                         if (certi == null) return NotFound();
 
                         certi.CertiOrderId = dto.CertiOrderId;
-                    certi.CertiPhyto = dto.CertiPhyto;
-                    certi.CertiJobType = dto.CertiJobType;
-                    certi.CertiBranchId = dto.CertiBranchId;
+                        certi.CertiPhyto = dto.CertiPhyto;
+                        certi.CertiJobType = dto.CertiJobType;
+                        certi.CertiBranchId = dto.CertiBranchId;
                         certi.CertiProductType = dto.CertiProductType;
                         certi.CertiType = dto.CertiType;
                         certi.CertiJobfor = dto.CertiJobfor;
@@ -373,21 +373,21 @@ namespace FumicertiApi.Controllers
                         certi.CertiAppliedRate = dto.CertiAppliedRate;
                         certi.CertiFinalReading = dto.CertiFinalReading;
                         certi.CertiEditedUid =GetUserId().ToString();
-            certi.CertiCompanyId = GetCompanyId();
-                         certi.CertiBillId = dto.CertiBillId;
-            certi.Certi2Notify = dto.Certi2Notify;
-            certi.CertiLockedBy = dto.CertiLockedBy;
-            certi.CertiCompanyId = dto.CertiCompanyId;
-            certi.CertiUpdated = DateTime.Now;
-            certi.CertiYearId = dto.CertiYearId;
-            certi.CertiDoseRateUnit= dto.CertiDoseRateUnit;
-            certi.Certiprefix = dto.Certiprefix;
-            certi.Certisuffix = dto.Certisuffix;
+                        certi.CertiCompanyId = GetCompanyId();
+                        certi.CertiBillId = dto.CertiBillId;
+                        certi.Certi2Notify = dto.Certi2Notify;
+                        certi.CertiLockedBy = dto.CertiLockedBy;
+                        certi.CertiCompanyId = dto.CertiCompanyId;
+                        certi.CertiUpdated = DateTime.Now;
+                        certi.CertiYearId = dto.CertiYearId;
+                        certi.CertiDoseRateUnit= dto.CertiDoseRateUnit;
+                        certi.Certiprefix = dto.Certiprefix;
+                        certi.Certisuffix = dto.Certisuffix;
                     
-            _context.SaveChanges();
+                         _context.SaveChanges();
 
-                    return Ok(true);
-                }
+                            return Ok(true);
+                    }
 
                     // DELETE: api/Certi/{id}
                     [HttpDelete("{id}")]
@@ -494,7 +494,8 @@ namespace FumicertiApi.Controllers
                     CertiAppliedRate = c.CertiAppliedRate ?? 0f,
                     c.Certi2Notify,
                     c.Certiprefix,
-                    c.Certisuffix
+                    c.Certisuffix,
+
 
                 })
                 .FirstOrDefaultAsync();
@@ -570,30 +571,24 @@ namespace FumicertiApi.Controllers
                 Certiprefix=certiData.Certiprefix,
                 Certisuffix=certiData.Certisuffix,
 
+                Certificatenumber = $"{certiData.Certiprefix}/{certiData.CertiNo}/{certiData.Certisuffix}",
+
                 // company mapping
                 CompanyName = company?.Name ?? "N/A",
                 CompanyAddress = string.Join(", ", new[]
                 {
-            company?.Address1, company?.Address2, company?.Address3,
-            company?.City, company?.StateCode, company?.Country, company?.Pincode
-        }.Where(s => !string.IsNullOrWhiteSpace(s))),
+                    company?.Address1, company?.Address2, company?.Address3,
+                    company?.City, company?.StateCode, company?.Country, company?.Pincode
+                }.Where(s => !string.IsNullOrWhiteSpace(s))),
 
                 // afo member mapping
                 AfoName = afoMember?.AfoName ?? "N/A",
                 AfoAlpNo = afoMember?.AfoAlpNo ?? "",
                 AfoMbrNo = afoMember?.AfoMbrNo ?? "",
-                
-          
-            };
 
+            };
             return Ok(dto);
         }
-
-
-
-
-
-
     }
 
 }
