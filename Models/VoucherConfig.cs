@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FumicertiApi.Models
 
 {
-    [Table("VoucherConfig")]
+    [Table("voucherconfig")]
     public class VoucherConfig
     {
         [Key]
