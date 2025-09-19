@@ -220,7 +220,7 @@ namespace FumicertiApi.Controllers
                        await CheckAndAddNotify(dto.CertiExpName, dto.CertiExpAddress, "Exporter");
                        await CheckAndAddNotify(dto.CertiConsignee, dto.CertiConsigneeAddress, "Consignee");
                        await CheckAndAddNotify(dto.CertiNotifyParty, dto.CertiNotifyAddress, "Notify");
-                    var exists = await _context.Certi.AnyAsync(c => c.CertiNo == dto.CertiNo && c.CertiCompanyId == GetCompanyId());
+                    var exists = await _context.Certi.AnyAsync(c => c.CertiNo == dto.CertiNo && c.CertiCompanyId == GetCompanyId() && c.CertiType == dto.CertiType);
                     if (exists)
                     {
                         return Conflict(new { message = "Certificate number already exists." });
