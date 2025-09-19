@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FumicertiApi.Models
 {
+    [Table("states")]
     public class State
     {
         [Key]

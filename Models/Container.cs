@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FumicertiApi.Models
 {
+    [Table("containers")]
     public class Container
     {
         [Key]
