@@ -110,7 +110,8 @@ namespace FumicertiApi.Controllers
                         CertiDoseRateUnit= c.CertiDoseRateUnit,
                         Certiprefix=c.Certiprefix,
                         Certisuffix=c.Certisuffix,
-                        Certi2Notify=c.Certi2Notify
+                        Certi2Notify=c.Certi2Notify,
+                        CertiExpContact=c.CertiExpContact
 
                     })
 
@@ -134,8 +135,8 @@ namespace FumicertiApi.Controllers
                 [HttpGet("{id}")]
                     public async Task<ActionResult<CertiReadDto>> GetById(string id)
                     {
-            var certi = await FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId")
-     .FirstOrDefaultAsync(c => c.CertiId == id);
+                      var certi = await FilterByCompany(_context.Certi.AsNoTracking(), "CertiCompanyId")
+                     .FirstOrDefaultAsync(c => c.CertiId == id);
 
             var dto = new CertiReadDto
                         {
@@ -206,7 +207,8 @@ namespace FumicertiApi.Controllers
                                 CertiYearId = certi.CertiYearId,
                                 CertiDoseRateUnit= certi.CertiDoseRateUnit,
                 Certisuffix=certi.Certisuffix,
-                Certiprefix=certi.Certiprefix
+                Certiprefix=certi.Certiprefix,
+                CertiExpContact=certi.CertiExpContact
 
             };
 
@@ -292,7 +294,8 @@ namespace FumicertiApi.Controllers
                         CertiYearId = dto.CertiYearId,
                         CertiDoseRateUnit= dto.CertiDoseRateUnit,
                         Certiprefix=dto.Certiprefix,
-                        Certisuffix=dto.Certisuffix
+                        Certisuffix=dto.Certisuffix,
+                        CertiExpContact=dto.CertiExpContact
 
 
                     };
@@ -383,27 +386,37 @@ namespace FumicertiApi.Controllers
                         certi.CertiDoseRateUnit= dto.CertiDoseRateUnit;
                         certi.Certiprefix = dto.Certiprefix;
                         certi.Certisuffix = dto.Certisuffix;
-                    
-                         _context.SaveChanges();
+                        certi.CertiExpContact = dto.CertiExpContact;
+
+            _context.SaveChanges();
 
                             return Ok(true);
                     }
 
-                    // DELETE: api/Certi/{id}
-                    [HttpDelete("{id}")]
-                    public ActionResult Delete(string id)
-                    {
-                        var certi = FilterByCompany( _context.Certi, "CertiCompanyId").FirstOrDefault(c => c.CertiId == id);
-                        if (certi == null) return NotFound();
+        // DELETE: api/Certi/{id}
+        [HttpDelete("{id}")]
+        public ActionResult Delete(string id)
+        {
+            var certi = FilterByCompany(_context.Certi, "CertiCompanyId")
+                        .FirstOrDefault(c => c.CertiId == id);
 
-                        _context.Certi.Remove(certi);
-                        _context.SaveChanges();
+            if (certi == null) return NotFound();
 
-                        return Ok(true);
-                    }
+            // Optional: Remove all Containers linked to this Certi
+            var relatedContainers = _context.Containers.Where(c => c.ContainerCertiId == id).ToList();
+            if (relatedContainers.Any())
+            {
+                _context.Containers.RemoveRange(relatedContainers);
+            }
+
+            _context.Certi.Remove(certi);
+            _context.SaveChanges();
+
+            return Ok(true);
+        }
 
 
-                private async Task CheckAndAddNotify(string? name, string? address, string type)
+        private async Task CheckAndAddNotify(string? name, string? address, string type)
                 {
                     if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(address))
                         return;
@@ -448,6 +461,7 @@ namespace FumicertiApi.Controllers
                     CertiExpName = c.CertiExpName ?? "",
                     CertiExpAddress = c.CertiExpAddress ?? "",
                     CertiExpEmail = c.CertiExpEmail ?? "",
+                    c.CertiExpContact,
                     CertiConsignee = c.CertiConsignee ?? "",
                     CertiConsigneeAddress = c.CertiConsigneeAddress ?? "",
                     CertiNotifyParty = c.CertiNotifyParty ?? "",
@@ -570,6 +584,7 @@ namespace FumicertiApi.Controllers
                 CertiDoseRateUnit = certiData.CertiDoseRateUnit,
                 Certiprefix=certiData.Certiprefix,
                 Certisuffix=certiData.Certisuffix,
+                CertiExpContact=certiData.CertiExpContact,
 
                 Certificatenumber = $"{certiData.Certiprefix}/{certiData.CertiNo}/{certiData.Certisuffix}",
 

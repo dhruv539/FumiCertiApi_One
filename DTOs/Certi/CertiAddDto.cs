@@ -77,5 +77,8 @@ namespace FumicertiApi.DTOs.Certi
 
         public string? Certiprefix { get; set; }
         public string? Certisuffix { get; set; }
+
+        public string? CertiExpContact { get; set; }
+
     }
 }

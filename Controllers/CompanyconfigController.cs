@@ -82,7 +82,8 @@ namespace FumicertiApi.Controllers
                                           VoucherEntryVisible = c.VoucherEntryVisible,
                                           CertificateEntryVisible = c.CertificateEntryVisible,
                                           ReportVisible = c.ReportVisible,
-                                          AboutVisible = c.AboutVisible
+                                          AboutVisible = c.AboutVisible,
+                                          CompanyConfigVisible=c.CompanyConfigVisible
                                       })
                                       .Skip((currentPage - 1) * pageSize)
                                       .Take(pageSize)
@@ -103,51 +104,74 @@ namespace FumicertiApi.Controllers
 
 
         [HttpGet("{id}")]
-            public async Task<ActionResult<CompanyConfigDto>> Get(int id)
-            {
-                var config = await _context.CompanyConfigs
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(c => c.CompanyConfigId == id);
+        public async Task<ActionResult<CompanyConfigDto>> Get(int id)
+        {
+            var config = await (from c in _context.CompanyConfigs.AsNoTracking()
+                                where c.CompanyConfigId == id
+                                join comp in _context.companies on c.CompanyId equals comp.CompanyId into compJoin
+                                from comp in compJoin.DefaultIfEmpty()
+                                join usr in _context.Users on c.UserId equals usr.UserId into userJoin
+                                from usr in userJoin.DefaultIfEmpty()
+                                join role in _context.UserRoles on c.UserRoleId equals role.RoleUuid into roleJoin
+                                from role in roleJoin.DefaultIfEmpty()
+                                select new CompanyConfigDto
+                                {
+                                    CompanyConfigId = c.CompanyConfigId,
 
-                if (config == null) return NotFound();
+                                    CompanyId = c.CompanyId,
+                                    CompanyName = comp != null ? comp.Name : null,
 
-                return Ok(new CompanyConfigDto
-                {
-                    CompanyConfigId = config.CompanyConfigId,
-                    CompanyId = config.CompanyId,
-                    UserId = config.UserId,
-                    UserRoleId = config.UserRoleId,
-                    AfoVisible = config.AfoVisible,
-                    BranchVisible = config.BranchVisible,
-                    CertImbrVisible = config.CertImbrVisible,
-                    CertIalpVisible = config.CertIalpVisible,
-                    CertIafasVisible = config.CertIafasVisible,
-                    CompanyVisible = config.CompanyVisible,
-                    ContainerListVisible = config.ContainerListVisible,
-                    IndexVisible = config.IndexVisible,
-                    PurchaseInvoiceVisible = config.PurchaseInvoiceVisible,
-                    SellInvoiceVisible = config.SellInvoiceVisible,
-                    LocationVisible = config.LocationVisible,
-                    NotifyVisible = config.NotifyVisible,
-                    ProductVisible = config.ProductVisible,
-                    UserVisible = config.UserVisible,
-                    VoucherConfigVisible = config.VoucherConfigVisible,
-                    YearVisible = config.YearVisible,
-                    AllCertiVisible = config.AllCertiVisible,
-                    GroupHomeVisible = config.GroupHomeVisible,
-                    GroupAdminVisible = config.GroupAdminVisible,
-                    MasterVisible = config.MasterVisible,
-                    VoucherEntryVisible = config.VoucherEntryVisible,
-                    CertificateEntryVisible = config.CertificateEntryVisible,
-                    ReportVisible = config.ReportVisible,
-                    AboutVisible = config.AboutVisible
-                });
-            }
+                                    UserId = c.UserId,
+                                    UserName = usr != null ? usr.UserName : null,
 
-            [HttpPost]
+                                    UserRoleId = c.UserRoleId,
+                                    UserRoleName = role != null ? role.RoleName : null,
+
+                                    AfoVisible = c.AfoVisible,
+                                    BranchVisible = c.BranchVisible,
+                                    CertImbrVisible = c.CertImbrVisible,
+                                    CertIalpVisible = c.CertIalpVisible,
+                                    CertIafasVisible = c.CertIafasVisible,
+                                    CompanyVisible = c.CompanyVisible,
+                                    ContainerListVisible = c.ContainerListVisible,
+                                    IndexVisible = c.IndexVisible,
+                                    PurchaseInvoiceVisible = c.PurchaseInvoiceVisible,
+                                    SellInvoiceVisible = c.SellInvoiceVisible,
+                                    LocationVisible = c.LocationVisible,
+                                    NotifyVisible = c.NotifyVisible,
+                                    ProductVisible = c.ProductVisible,
+                                    UserVisible = c.UserVisible,
+                                    VoucherConfigVisible = c.VoucherConfigVisible,
+                                    YearVisible = c.YearVisible,
+                                    AllCertiVisible = c.AllCertiVisible,
+                                    GroupHomeVisible = c.GroupHomeVisible,
+                                    GroupAdminVisible = c.GroupAdminVisible,
+                                    MasterVisible = c.MasterVisible,
+                                    VoucherEntryVisible = c.VoucherEntryVisible,
+                                    CertificateEntryVisible = c.CertificateEntryVisible,
+                                    ReportVisible = c.ReportVisible,
+                                    AboutVisible = c.AboutVisible,
+                                    CompanyConfigVisible=c.CompanyConfigVisible,
+
+                                }).FirstOrDefaultAsync();
+
+            if (config == null) return NotFound();
+
+            return Ok(config);
+        }
+
+
+        [HttpPost]
             public async Task<IActionResult> Create(CompanyConfigAddDto dto)
             {
-                var config = new CompanyConfig
+                var exists = await _context.CompanyConfigs
+                .AnyAsync(x => x.CompanyId == dto.CompanyId
+                        && x.UserId == dto.UserId
+                        && x.UserRoleId == dto.UserRoleId);
+
+                if (exists)
+                    return BadRequest("Duplicate entry not allowed!");
+            var config = new CompanyConfig
                 {
                     CompanyId = dto.CompanyId,
                     UserId = dto.UserId,
@@ -176,6 +200,7 @@ namespace FumicertiApi.Controllers
                     CertificateEntryVisible = dto.CertificateEntryVisible,
                     ReportVisible = dto.ReportVisible,
                     AboutVisible = dto.AboutVisible,
+                    CompanyConfigVisible=dto.CompanyConfigVisible,
                     CreateUid = GetUserId().ToString(),
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
@@ -219,6 +244,7 @@ namespace FumicertiApi.Controllers
                 config.CertificateEntryVisible = dto.CertificateEntryVisible;
                 config.ReportVisible = dto.ReportVisible;
                 config.AboutVisible = dto.AboutVisible;
+                config.CompanyConfigVisible = dto.CompanyConfigVisible;
                 config.EditedUid = GetUserId().ToString();
                 config.Updated = DateTime.UtcNow;
 

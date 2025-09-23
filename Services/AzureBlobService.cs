@@ -41,5 +41,36 @@ namespace FumicertiApi.Services
 
             await _containerClient.DeleteBlobIfExistsAsync(blobName);
         }
+
+
+
+
+        /// <summary> Dhruv HAdiya
+        /// Upload a PDF certificate to Azure Blob Storage
+        /// </summary>
+        public async Task<string> UploadCertificateAsync(IFormFile file, int certificateId)
+        {
+            // Ensure it's a PDF
+            if (Path.GetExtension(file.FileName).ToLower() != ".pdf")
+                throw new InvalidOperationException("Only PDF files are allowed.");
+
+            // Optional: unique filename to avoid collisions
+            var blobName = $"certificates/CertificateId{certificateId}_{Guid.NewGuid()}.pdf";
+            var blobClient = _containerClient.GetBlobClient(blobName);
+
+            using var stream = file.OpenReadStream();
+            await blobClient.UploadAsync(stream, overwrite: true);
+
+            return blobClient.Uri.ToString(); // Save this URL in your DB
+        }
+
+        /// <summary>
+        /// Delete a PDF certificate from Azure Blob Storage
+        /// </summary>
+        public async Task DeleteCertificateAsync(string blobUrl)
+        {
+            var blobClient = new BlobClient(new Uri(blobUrl));
+            await blobClient.DeleteIfExistsAsync();
+        }
     }
 }

@@ -10,6 +10,8 @@
         public string? CertiExpName { get; set; }
         public string? CertiExpAddress { get; set; }
         public string? CertiExpEmail { get; set; }
+        public string? CertiExpContact { get; set; }
+
 
         public string? CertiConsignee { get; set; }
         public string? CertiConsigneeAddress { get; set; }

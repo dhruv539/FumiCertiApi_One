@@ -91,6 +91,9 @@ namespace FumicertiApi.Models
         [Column("certi_exp_email")]
         public string? CertiExpEmail { get; set; }
 
+        [Column("certi_exp_contact")]
+        public string? CertiExpContact { get; set; }
+
         [Column("certi_consignee")]
         public string? CertiConsignee { get; set; }
 

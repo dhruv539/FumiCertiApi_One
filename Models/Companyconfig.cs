@@ -4,9 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FumicertiApi.Models
 {
-    
-
-  
         [Table("company_config")]
         public class CompanyConfig
         {
@@ -110,7 +107,11 @@ namespace FumicertiApi.Models
 
             [Column("company_config_aboutvisible")]
             public bool? AboutVisible { get; set; }
-        }
+
+        [Column("company_config_visible")]
+        public bool? CompanyConfigVisible { get; set; }
+
+    }
 
     public class CompanyConfigDto
     {
@@ -150,6 +151,8 @@ namespace FumicertiApi.Models
         public bool? CertificateEntryVisible { get; set; }
         public bool? ReportVisible { get; set; }
         public bool? AboutVisible { get; set; }
+        public bool? CompanyConfigVisible { get; set; }
+
     }
 
     public class CompanyConfigAddDto
@@ -183,5 +186,7 @@ namespace FumicertiApi.Models
         public bool? CertificateEntryVisible { get; set; }
         public bool? ReportVisible { get; set; }
         public bool? AboutVisible { get; set; }
+        public bool? CompanyConfigVisible { get; set; }
+
     }
 }

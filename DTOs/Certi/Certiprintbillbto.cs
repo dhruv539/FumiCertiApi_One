@@ -11,6 +11,8 @@
         public int? ContainerSize { get; set; }
         public double? DoseRate { get; set; }
         public string? InvoiceNo { get; set; }
+        public string? CertiExpContact { get; set; }
+
 
     }
 }
