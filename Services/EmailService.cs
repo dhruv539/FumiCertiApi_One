@@ -20,7 +20,7 @@ public class EmailService
         string smtpPass = _config["Email:Pass"];
 
         //string resetLink = $"http://localhost:7226/reset-password?email={toEmail}&token={token}";
-        string resetLink = $"http://147.79.68.129/reset-password?email={toEmail}&token={token}";
+        string resetLink = $"reset-password?email={toEmail}&token={token}";
 
         var message = new MailMessage(fromEmail, toEmail)
         {

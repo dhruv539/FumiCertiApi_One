@@ -78,4 +78,24 @@ namespace FumicertiApi.Models
         [Column("branch_status")]
         public bool Status { get; set; } = true;
     }
+
+    public class WpMailConfigDto
+    {
+        public int Id { get; set; }
+        public string? MsgType { get; set; }
+        public string? TemplateText { get; set; }
+        public string? MailSub { get; set; }
+        public int? CompanyId { get; set; }
+        public bool IsDefault { get; set; } // <-- add this
+
+    }
+
+    public class WpMailConfigAddDto
+    {
+        public bool IsDefault { get; set; } // <-- add this
+
+        public string? MsgType { get; set; }
+        public string? TemplateText { get; set; }
+        public string? MailSub { get; set; }
+    }
 }

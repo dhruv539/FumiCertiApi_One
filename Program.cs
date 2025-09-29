@@ -49,6 +49,7 @@ namespace FumicertiApi
             builder.Services.AddScoped<EmailService>();
             builder.Services.AddScoped<ReportService>();
             builder.Services.AddSingleton<AzureBlobService>();
+            builder.Services.AddScoped<SentWpEmailService>();
 
             builder.Services.AddScoped<IConsumptionReportService, ConsumptionReportService>();
 

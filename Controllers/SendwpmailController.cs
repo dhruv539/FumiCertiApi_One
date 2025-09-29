@@ -20,15 +20,18 @@ namespace FumicertiApi.Controllers
         {
             private readonly AppDbContext _context;
             private readonly ISieveProcessor _sieveProcessor;
+            private readonly SentWpEmailService _SentWpEmailService;
 
-            public SendWpMailController(AppDbContext context, ISieveProcessor sieveProcessor)
-            {
-                _context = context;
-                _sieveProcessor = sieveProcessor;
-            }
 
-            // GET all (with pagination & filtering)
-            [HttpGet]
+        public SendWpMailController(AppDbContext context, ISieveProcessor sieveProcessor, SentWpEmailService sentWpEmailService)
+        {
+            _context = context;
+            _sieveProcessor = sieveProcessor;
+            _SentWpEmailService = sentWpEmailService; // correct
+        }
+
+        // GET all (with pagination & filtering)
+        [HttpGet]
             public async Task<ActionResult> GetAll([FromQuery] SieveModel sieveModel)
             {
                 var currentPage = sieveModel.Page ?? 1;
@@ -165,7 +168,86 @@ namespace FumicertiApi.Controllers
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
+        //============================================================================
+        [HttpGet("config")]
+        public async Task<IActionResult> GetConfig()
+        {
+            var companyId = GetCompanyId();
+            var config = await _context.SendWpMails
+                .Where(x => x.SendWpMailCompanyid == companyId)
+                .FirstOrDefaultAsync();
+
+            if (config == null) return NotFound();
+            return Ok(config);
         }
-    
+        [HttpPost("config")]
+        public async Task<IActionResult> SaveConfig([FromBody] SendWpMailConfigDto dto)
+        {
+            var companyId = GetCompanyId();
+
+            // Check agar record exist hai
+            var config = await _context.SendWpMails
+                .FirstOrDefaultAsync(x => x.SendWpMailCompanyid == companyId);
+
+            if (config == null)
+            {
+                // --- Naya record banega ---
+                config = new SendWpMail
+                {
+                    SendWpMailCompanyid = companyId,
+                    SendWpMailEmailFrom = dto.EmailFrom,
+                    SendWpMailSmtpServer = dto.SmtpServer,
+                    SendWpMailSmtpPort = dto.SmtpPort,
+                    SendWpMailEmailUser = dto.EmailUser,
+                    SendWpMailEmailPass = dto.EmailPass,
+                    SendWpMailEnableSsl = dto.EnableSsl,
+                    SendWpMailCreated = DateTime.UtcNow
+                };
+                _context.SendWpMails.Add(config);
+            }
+            else
+            {
+                // --- Purana record update hoga ---
+                config.SendWpMailEmailFrom = dto.EmailFrom;
+                config.SendWpMailSmtpServer = dto.SmtpServer;
+                config.SendWpMailSmtpPort = dto.SmtpPort;
+                config.SendWpMailEmailUser = dto.EmailUser;
+                config.SendWpMailEmailPass = dto.EmailPass;
+                config.SendWpMailEnableSsl = dto.EnableSsl;
+                config.SendWpMailUpdated = DateTime.UtcNow;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(config);
+        }
+
+        // POST send email
+        [HttpPost("send")]
+        public async Task<IActionResult> SendEmail([FromBody] SendEmailRequestDto dto)
+        {
+            var companyId = GetCompanyId();
+            var mailConfig = await _context.SendWpMails
+                .FirstOrDefaultAsync(x => x.SendWpMailCompanyid == companyId);
+
+            if (mailConfig == null)
+                return BadRequest("Email configuration not found for your company.");
+
+            try
+            {
+                await _SentWpEmailService.SendEmailAsync(mailConfig, dto);
+
+                return Ok(new { message = "Email sent successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = $"Email sending failed: {ex.Message}" });
+            }
+        }
+
+    }
+
+
+
 
 }

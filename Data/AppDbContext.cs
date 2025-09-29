@@ -28,6 +28,7 @@ namespace FumicertiApi.Data
         public DbSet<VoucherConfig> VoucherConfigs { get; set; }
         public DbSet<CompanyConfig> CompanyConfigs { get; set; }
         public DbSet<SendWpMail> SendWpMails { get; set; }
+        public DbSet<WpMailConfig> wpMailConfigs { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

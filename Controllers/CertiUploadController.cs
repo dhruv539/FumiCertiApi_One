@@ -1,5 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using FumicertiApi.Controllers;
+using FumicertiApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
@@ -47,6 +48,8 @@ public class CertiuploadController : BaseController
     {
         try
         {
+           
+
             var extension = Path.GetExtension(file.FileName).ToLower();
             if (extension != ".pdf")
                 throw new InvalidOperationException("Only PDF files are allowed.");
@@ -59,8 +62,8 @@ public class CertiuploadController : BaseController
             // Original filename without extension
             var originalFileName = Path.GetFileNameWithoutExtension(file.FileName);
             var safeFileName = string.Concat(originalFileName.Split(Path.GetInvalidFileNameChars())).Replace(" ", "_");
+        
 
-            // New blob name with extension
             var blobName = $"certificates/{safeCompanyId}/{safeCertType}/{safeFileName}_{certificateId}{extension}";
 
             var blobClient = _containerClient.GetBlobClient(blobName);
