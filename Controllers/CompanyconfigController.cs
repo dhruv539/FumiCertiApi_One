@@ -83,7 +83,8 @@ namespace FumicertiApi.Controllers
                                           CertificateEntryVisible = c.CertificateEntryVisible,
                                           ReportVisible = c.ReportVisible,
                                           AboutVisible = c.AboutVisible,
-                                          CompanyConfigVisible=c.CompanyConfigVisible
+                                          CompanyConfigVisible=c.CompanyConfigVisible,
+                                          CompanyConfigWpmailConfigVisible=c.CompanyConfigWpmailConfigVisible
                                       })
                                       .Skip((currentPage - 1) * pageSize)
                                       .Take(pageSize)
@@ -152,6 +153,7 @@ namespace FumicertiApi.Controllers
                                     ReportVisible = c.ReportVisible,
                                     AboutVisible = c.AboutVisible,
                                     CompanyConfigVisible=c.CompanyConfigVisible,
+                                    CompanyConfigWpmailConfigVisible=c.CompanyConfigWpmailConfigVisible
 
                                 }).FirstOrDefaultAsync();
 
@@ -201,6 +203,7 @@ namespace FumicertiApi.Controllers
                     ReportVisible = dto.ReportVisible,
                     AboutVisible = dto.AboutVisible,
                     CompanyConfigVisible=dto.CompanyConfigVisible,
+                    CompanyConfigWpmailConfigVisible=dto.CompanyConfigWpmailConfigVisible,
                     CreateUid = GetUserId().ToString(),
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
@@ -245,6 +248,7 @@ namespace FumicertiApi.Controllers
                 config.ReportVisible = dto.ReportVisible;
                 config.AboutVisible = dto.AboutVisible;
                 config.CompanyConfigVisible = dto.CompanyConfigVisible;
+            config.CompanyConfigWpmailConfigVisible = dto.CompanyConfigWpmailConfigVisible;
                 config.EditedUid = GetUserId().ToString();
                 config.Updated = DateTime.UtcNow;
 

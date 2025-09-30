@@ -109,7 +109,9 @@ namespace FumicertiApi.Models
             public bool? AboutVisible { get; set; }
 
         [Column("company_config_visible")]
-        public bool? CompanyConfigVisible { get; set; }
+        public bool? CompanyConfigVisible { get; set; } 
+        [Column("company_config_wpmailconfig")]
+        public bool? CompanyConfigWpmailConfigVisible { get; set; }
 
     }
 
@@ -152,6 +154,7 @@ namespace FumicertiApi.Models
         public bool? ReportVisible { get; set; }
         public bool? AboutVisible { get; set; }
         public bool? CompanyConfigVisible { get; set; }
+        public bool? CompanyConfigWpmailConfigVisible { get; set; }
 
     }
 
@@ -187,6 +190,8 @@ namespace FumicertiApi.Models
         public bool? ReportVisible { get; set; }
         public bool? AboutVisible { get; set; }
         public bool? CompanyConfigVisible { get; set; }
+        public bool? CompanyConfigWpmailConfigVisible { get; set; }
+
 
     }
 }
