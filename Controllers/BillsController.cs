@@ -22,8 +22,54 @@ namespace FumicertiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bill>>> GetBills()
         {
-            var bills = await FilterByCompany(_context.Bills.AsNoTracking(), "BillCompanyId").ToListAsync();
-            return bills;
+            var bills = await FilterByCompany(_context.Bills.AsNoTracking(), "BillCompanyId")
+        .Join(_context.Notifies,
+              b => b.BillPartyId,
+              n => n.NotifyId,
+              (b, n) => new BillReadDto
+              {
+                  BillId = b.BillId,
+                  BillNo = b.BillNo,
+                  BillNoStr = b.BillNoStr,
+                  BillDate = b.BillDate,
+                  BillPartyId = b.BillPartyId,
+                  PartyName = n.NotifyName, // 👈 mapped from Notify
+                  BillVoucherId = b.BillVoucherId,
+                  BillGrossAmt = b.BillGrossAmt,
+                  BillTaxable = b.BillTaxable,
+                  BillNetAmt = b.BillNetAmt,
+                  BillPosId = b.BillPosId,
+                  BillPrefix = b.BillPrefix,
+                  BillSufix = b.BillSufix,
+                  BillShipParty = b.BillShipParty,
+                  BillAddress1 = b.BillAddress1,
+                  BillAddress2 = b.BillAddress2,
+                  BillAddress3 = b.BillAddress3,
+                  BillState = b.BillState,
+                  BillGstin = b.BillGstin,
+                  BillPin = b.BillPin,
+                  BillContactNo = b.BillContactNo,
+                  BillDateFrom = b.BillDateFrom,
+                  BillDateTo = b.BillDateTo,
+                  BillIrnNo = b.BillIrnNo,
+                  BillAckNo = b.BillAckNo,
+                  BillAckDate = b.BillAckDate,
+                  BillSupplyType = b.BillSupplyType,
+                  BillRatePerCont = b.BillRatePerCont,
+                  BillGstPer = b.BillGstPer,
+                  BillGstSlabId = b.BillGstSlabId,
+                  BillSgst = b.BillSgst,
+                  BillCgst = b.BillCgst,
+                  BillIgst = b.BillIgst,
+                  Remarks = b.Remarks,
+                  FilterPartyName = b.FilterPartyName,
+                  BillRate40Cont = b.BillRate40Cont,
+                  BillCompanyId = b.BillCompanyId,
+                  BillYearId = b.BillYearId
+              })
+        .ToListAsync();
+
+            return Ok(bills);
         }
 
         // GET: api/Bills/5
