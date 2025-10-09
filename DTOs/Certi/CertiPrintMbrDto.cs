@@ -3,7 +3,7 @@
     public class CertiPrintMbrDto
     {
         public int? CertiNo { get; set; }
-        public DateTime? CertiDate { get; set; }
+        public DateTime? CertiDate { get; set; } 
         public string? CertiJobType { get; set; }
         public string? CertiPhyto { get; set; }
 
@@ -80,7 +80,12 @@
         public string? AfoMbrNo { get; set; }
         public string? Certiprefix { get; set; }
         public string? Certisuffix { get; set; }
+
+        //manual propertys 
         public string? Certificatenumber { get; set; } = string.Empty;
+        public string? Certigrosswtunit { get; set; } = string.Empty;
+        public string? Certinetwtunit { get; set; } = string.Empty;
+        public string? Certidoserateandunit { get; set; } = string.Empty;
 
     }
 

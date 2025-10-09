@@ -586,8 +586,10 @@ namespace FumicertiApi.Controllers
                 Certisuffix=certiData.Certisuffix,
                 CertiExpContact=certiData.CertiExpContact,
 
-                Certificatenumber = $"{certiData.Certiprefix}/{certiData.CertiNo}/{certiData.Certisuffix}",
-
+                Certificatenumber = $"{certiData.Certiprefix}{certiData.CertiNo}{certiData.Certisuffix}",
+                Certigrosswtunit=$"{certiData.CertilGrossQty} {certiData.CertiGrossUnit}",
+                Certinetwtunit=$"{certiData.CertiNetQty} {certiData.CertiNetUnit}",
+                Certidoserateandunit = $"{certiData.CertiDoseRate} {certiData.CertiDoseRateUnit}",
                 // company mapping
                 CompanyName = company?.Name ?? "N/A",
                 CompanyAddress = string.Join(", ", new[]
