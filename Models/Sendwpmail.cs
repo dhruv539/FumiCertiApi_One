@@ -23,6 +23,10 @@
         [MaxLength(255)]
         public string? SendWpMailBalanceToken { get; set; }
 
+        [Column("sendwpmail_wpbalancetoken")]
+        [MaxLength(255)]
+        public string SendWpMailWpBalanceToken { get; set; }
+
         [Column("sendwpmail_created")]
         public DateTime? SendWpMailCreated { get; set; }
 

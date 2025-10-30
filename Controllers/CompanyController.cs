@@ -53,7 +53,9 @@ namespace FumicertiApi.Controllers
                     City = c.City,
                     Country = c.Country,
                        StateId = c.StateId,
-                        Panno = c.Panno
+                        Panno = c.Panno,
+                        HasWhatsapp=c.HasWhatsapp
+                        
                 })
                 .ToListAsync();
 
@@ -92,7 +94,8 @@ namespace FumicertiApi.Controllers
                 Remarks = company.Remarks,
                 City = company.City,
                 Country = company.Country,
-                Panno = company.Panno
+                Panno = company.Panno,
+                HasWhatsapp=company.HasWhatsapp
             });
         }
 
@@ -117,7 +120,8 @@ namespace FumicertiApi.Controllers
                 Updated = DateTime.UtcNow,
                 StateId = dto.StateId,
                 Panno = dto.Panno,
-                AddedByUserId = GetUserId().ToString() // 👈 replace with logged-in user if available
+                AddedByUserId = GetUserId().ToString() ,
+                HasWhatsapp=dto.HasWhatsapp
             };
 
             _context.companies.Add(company);
@@ -146,7 +150,8 @@ namespace FumicertiApi.Controllers
             company.Updated = DateTime.UtcNow;
             company.StateId = dto.StateId;
             company.Panno = dto.Panno;
-            company.UpdatedByUserId = GetUserId().ToString(); // 👈 replace with logged-in user
+            company.UpdatedByUserId = GetUserId().ToString(); 
+            company.HasWhatsapp = dto.HasWhatsapp;
 
             await _context.SaveChangesAsync();
             return NoContent();

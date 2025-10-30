@@ -124,6 +124,9 @@ namespace FumicertiApi.Models
         public int ExtendDays { get; set; }
 
         [Column("company_ismulti_branch")]
-        public bool IsMultiBranch { get; set; }
+        public bool IsMultiBranch { get; set; }       
+
+        [Column("company_haswpmsg")]
+        public bool? HasWhatsapp { get; set; }
     }
 }

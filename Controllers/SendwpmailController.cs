@@ -53,7 +53,8 @@ namespace FumicertiApi.Controllers
                         SendWpMailUserName = x.SendWpMailUserName,
                         SendWpMailWpToken = x.SendWpMailWpToken,
                         SendWpMailBalanceToken = x.SendWpMailBalanceToken,
-                        SendWpMailCompanyid = x.SendWpMailCompanyid
+                        SendWpMailCompanyid = x.SendWpMailCompanyid,
+                     SendWpMailWpBalanceToken = x.SendWpMailWpBalanceToken
 
                     })
                     .ToListAsync();
@@ -87,13 +88,13 @@ namespace FumicertiApi.Controllers
                     SendWpMailWpToken = record.SendWpMailWpToken,
                     SendWpMailBalanceToken = record.SendWpMailBalanceToken,
                     SendWpMailCompanyid = record.SendWpMailCompanyid,
-                   
+                    SendWpMailWpBalanceToken = record.SendWpMailWpBalanceToken
 
-                });
+                }); 
             }
 
         // GET all by logged-in company only
-        [HttpGet("company")]
+        [HttpGet("company")]    
         public async Task<ActionResult<List<SendWpMailDto>>> GetByCompany()
         {
             var companyId = GetCompanyId(); // logged-in company
@@ -107,7 +108,9 @@ namespace FumicertiApi.Controllers
                     SendWpMailUserName = x.SendWpMailUserName,
                     SendWpMailWpToken = x.SendWpMailWpToken,
                     SendWpMailBalanceToken = x.SendWpMailBalanceToken,
-                    SendWpMailCompanyid = x.SendWpMailCompanyid
+                    SendWpMailCompanyid = x.SendWpMailCompanyid,
+                    SendWpMailWpBalanceToken = x.SendWpMailWpBalanceToken
+
                 })
                 .ToListAsync();
 
@@ -132,7 +135,8 @@ namespace FumicertiApi.Controllers
                     SendWpMailUserName = dto.SendWpMailUserName,
                     SendWpMailWpToken = dto.SendWpMailWpToken,
                     SendWpMailBalanceToken = dto.SendWpMailBalanceToken,
-                    SendWpMailCompanyid= GetCompanyId()
+                    SendWpMailWpBalanceToken = dto.SendWpMailWpBalanceToken,
+                    SendWpMailCompanyid = GetCompanyId()
 
                 };
 
@@ -152,8 +156,8 @@ namespace FumicertiApi.Controllers
                 entity.SendWpMailUserName = dto.SendWpMailUserName;
                 entity.SendWpMailWpToken = dto.SendWpMailWpToken;
                 entity.SendWpMailBalanceToken = dto.SendWpMailBalanceToken;
-                
-                await _context.SaveChangesAsync();
+                entity.SendWpMailWpBalanceToken = dto.SendWpMailWpBalanceToken;
+            await _context.SaveChangesAsync();
                 return NoContent();
             }
 

@@ -1,4 +1,7 @@
-﻿namespace FumicertiApi.DTOs
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace FumicertiApi.DTOs
 {
     public class SendWpMailDto
     {
@@ -11,6 +14,8 @@
         public string? SendWpMailCreateUid { get; set; }
         public string? SendWpMailEditedUid { get; set; }
         public int? SendWpMailCompanyid { get; set; }
+    
+        public string SendWpMailWpBalanceToken { get; set; }
 
     }
 
@@ -20,6 +25,8 @@
         public string? SendWpMailWpToken { get; set; }
         public string? SendWpMailBalanceToken { get; set; }
         public int? SendWpMailCompanyid { get; set; }
+        public string SendWpMailWpBalanceToken { get; set; }
+
 
     }
 
@@ -31,6 +38,7 @@
         public string? EmailUser { get; set; }
         public string? EmailPass { get; set; }
         public bool EnableSsl { get; set; }
+
     }
 
     public class SendEmailRequestDto

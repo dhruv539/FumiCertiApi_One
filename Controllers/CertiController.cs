@@ -311,14 +311,36 @@ namespace FumicertiApi.Controllers
                 [HttpPut("{id}")]
                     public ActionResult Update(string id, [FromBody] CertiUpdateDto dto)
                     {
-                        var exists = _context.Certi.Any(c => c.CertiNo == dto.CertiNo && c.CertiId != id && c.CertiCompanyId == GetCompanyId());
-                        if (exists)
-                        {
-                            return Conflict(new { message = "Certificate number already exists." });
-                        }
 
-                      var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
-                        if (certi == null) return NotFound();
+            var companyId = GetCompanyId();
+
+            var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
+            if (certi == null)
+                return NotFound();
+
+            // 🔍 Check duplicate only if CertiNo changed
+            if (certi.CertiNo != dto.CertiNo)
+            {
+                var duplicateExists = _context.Certi.Any(c =>
+                    c.CertiId != id &&
+                    c.CertiNo == dto.CertiNo &&
+                    c.CertiCompanyId == companyId &&
+                    c.CertiBranchId == dto.CertiBranchId
+                );
+
+                if (duplicateExists)
+                {
+                    return Conflict(new { message = "Certificate number already exists." });
+                }
+            }
+            //var exists = _context.Certi.Any(c => c.CertiNo == dto.CertiNo && c.CertiId != id && c.CertiCompanyId == GetCompanyId() && c.CertiBranchId== dto.CertiBranchId);
+            //if (!exists)
+            //{
+            //    return Conflict(new { message = "Certificate number already exists." });
+            //}
+
+            //var certi = _context.Certi.FirstOrDefault(c => c.CertiId == id);
+            //            if (certi == null) return NotFound();
 
                         certi.CertiOrderId = dto.CertiOrderId;
                         certi.CertiPhyto = dto.CertiPhyto;
