@@ -122,7 +122,22 @@ namespace FumicertiApi.Controllers
             [HttpPost]
             public async Task<IActionResult> Create(SendWpMailAddDto dto)
             {
-                bool exists = await _context.SendWpMails
+            int companyId = GetCompanyId();
+
+            // Check if company has HasWp = true
+            var company = await _context.companies
+                .FirstOrDefaultAsync(c => c.CompanyId == companyId);
+            if (company == null)
+            {
+                return BadRequest(new { message = "Company not found." });
+            }
+
+            if (company.HasWhatsapp != true)
+            {
+                return BadRequest(new { message = "WhatsApp feature not enabled for this company." });
+            }
+
+            bool exists = await _context.SendWpMails
                     .AnyAsync(x => x.SendWpMailUserName == dto.SendWpMailUserName);
 
                 if (exists)
