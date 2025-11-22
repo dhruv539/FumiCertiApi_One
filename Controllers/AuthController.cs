@@ -17,81 +17,111 @@ namespace FumicertiApi.Controllers
         private readonly AppDbContext _context;
         private readonly TokenService _tokenService;
         private readonly EmailService _emailService;
+        private readonly IConfiguration _config;
 
-
-        public AuthController(AppDbContext context, TokenService tokenService, EmailService emailService)
+        public AuthController(AppDbContext context, TokenService tokenService, EmailService emailService, IConfiguration config)
         {
             _context = context;
             _tokenService = tokenService;
             _emailService = emailService;
+            _config = config;
         }
 
         // ✅ Login Endpoint
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             try
             {
                 var user = await _context.Users
-                      .Include(u => u.Role)
+                    .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.UserEmail == dto.UserEmail);
 
                 if (user == null || !BCrypt.Net.BCrypt.Verify(dto.UserPassword, user.UserPassword))
                     return Unauthorized("Invalid credentials");
 
                 var token = _tokenService.CreateToken(user);
-                //var tokenExpiry = DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds();
-                var tokenExpiry = DateTimeOffset.UtcNow.AddMinutes(60).ToUnixTimeSeconds();
+
+                var tokenExpiryMinutes = Convert.ToDouble(_config["Jwt:ExpireMinutes"]);
+                var tokenExpiry = DateTime.UtcNow.AddMinutes(tokenExpiryMinutes);
+                var tokenExpiryUnix = new DateTimeOffset(tokenExpiry).ToUnixTimeSeconds();
+
                 var refreshToken = _tokenService.GenerateRefreshToken();
+                var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
                 user.RefreshToken = refreshToken;
-                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1);
+                user.RefreshTokenExpiryTime = refreshTokenExpiry;
+
                 await _context.SaveChangesAsync();
+
                 return Ok(new AuthResponseDto
                 {
                     Token = token,
                     RefreshToken = refreshToken,
-                    RefreshtokenExp = user.RefreshTokenExpiryTime.Value,
+                    TokenExp = tokenExpiryUnix,
+                    RefreshTokenExp = refreshTokenExpiry,
                     UserName = user.UserName,
                     UserId = user.UserId,
                     Email = user.UserEmail,
-                    //tokenExp = 60 * 60 * 24// Default to 1 day expiration
-                    tokenExp = tokenExpiry,
-                    BranchId=user.UserBranchId,
-                     Rolename = user.Role.RoleName
+                    BranchId = user.UserBranchId,
+                    Rolename = user.Role.RoleName
                 });
             }
             catch (Exception ex)
             {
-                // Optional: log the full exception stack trace to a logging service or file
                 Console.WriteLine(ex);
-
-                // Return a proper error response
-                return StatusCode(500, $"An unexpected error occurred while logging in -{ex}.");
+                return StatusCode(500, "An unexpected error occurred while logging in.");
             }
         }
 
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken && u.RefreshTokenExpiryTime > DateTime.UtcNow);
-
-            if (user == null)
-                return Unauthorized("Invalid Refresh Token");
-
-            var newAccessToken = _tokenService.CreateToken(user);
-            var newRefreshToken = _tokenService.GenerateRefreshToken();
-
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // 7-day validity
-            await _context.SaveChangesAsync();
-
-            return Ok(new AuthResponseDto
+            try
             {
-                Token = newAccessToken,
-                RefreshToken = newRefreshToken
-            });
+                var user = await _context.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken);
+
+                if (user == null)
+                    return Unauthorized(new { message = "Invalid refresh token" });
+
+                if (user.RefreshTokenExpiryTime == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+                    return Unauthorized(new { message = "Refresh token expired" });
+
+                var newAccessToken = _tokenService.CreateToken(user);
+                var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+                var tokenExpiryMinutes = Convert.ToDouble(_config["Jwt:ExpireMinutes"]);
+                var newTokenExpiry = DateTime.UtcNow.AddMinutes(tokenExpiryMinutes);
+                var newTokenExpiryUnix = new DateTimeOffset(newTokenExpiry).ToUnixTimeSeconds();
+                var newRefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
+                user.RefreshToken = newRefreshToken;
+                user.RefreshTokenExpiryTime = newRefreshTokenExpiry;
+                await _context.SaveChangesAsync();
+
+                return Ok(new AuthResponseDto
+                {
+                    Token = newAccessToken,
+                    RefreshToken = newRefreshToken,
+                    TokenExp = newTokenExpiryUnix,
+                    RefreshTokenExp = newRefreshTokenExpiry,
+                    UserName = user.UserName,
+                    UserId = user.UserId,
+                    Email = user.UserEmail,
+                    BranchId = user.UserBranchId,
+                    Rolename = user.Role.RoleName
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Token refresh failed.");
+            }
         }
+
 
         // ✅ Register (optional, if needed)
         [HttpPost("register")]
@@ -173,6 +203,30 @@ namespace FumicertiApi.Controllers
             return Ok(ServiceResponse.Success("Password reset successfully."));
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] RefreshTokenRequest request)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken);
+
+                if (user != null)
+                {
+                    // ✅ SECURITY: Invalidate refresh token on logout
+                    user.RefreshToken = null;
+                    user.RefreshTokenExpiryTime = null;
+                    await _context.SaveChangesAsync();
+                }
+
+                return Ok(new { message = "Logged out successfully" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Logout failed.");
+            }
+        }
 
     }
 }

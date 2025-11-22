@@ -120,6 +120,20 @@ namespace FumicertiApi
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
+            app.Use(async (context, next) =>
+            {
+                // ✅ Check if client sent JWT as cookie
+                if (context.Request.Cookies.TryGetValue("X-Access-Token", out var token))
+                {
+                    // Inject it into Authorization header (so JWT middleware can validate it)
+                    if (!context.Request.Headers.ContainsKey("Authorization"))
+                    {
+                        context.Request.Headers.Append("Authorization", $"Bearer {token}");
+                    }
+                }
+
+                await next();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

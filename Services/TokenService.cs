@@ -35,8 +35,6 @@ namespace FumicertiApi.Services
                   new Claim("RoleId", user.UserRoleId),
                 new Claim("BranchId", user.UserBranchId?.ToString() ?? string.Empty),  
                  new Claim("CompanyId", user.UserCompanyId.ToString())
-              
-
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));

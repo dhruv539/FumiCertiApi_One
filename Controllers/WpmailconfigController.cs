@@ -145,7 +145,7 @@ namespace FumicertiApi.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return Ok("ok!");
+            return Ok(true);
         }
 
 

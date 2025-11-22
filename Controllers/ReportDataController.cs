@@ -12,7 +12,7 @@ namespace FumicertiApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     public class ReportDataController : BaseController
     {
         private readonly AppDbContext _context;
@@ -106,7 +106,7 @@ namespace FumicertiApi.Controllers
 
             _context.ReportDatas.Add(entity);
             await _context.SaveChangesAsync();
-            return Ok(new { entity.ReportDataId });
+            return Ok(new { reportDataId = entity.ReportDataId });
         }
 
         [HttpPut("{id:int}")]
@@ -176,11 +176,25 @@ namespace FumicertiApi.Controllers
         [HttpGet("designer/reports/{reportName}")]
         public async Task<IActionResult> GetDesignerReportData(string reportName)
         {
+            if (string.IsNullOrWhiteSpace(reportName))
+                return BadRequest(new { success = false, message = "Report name is required" });
+
             var companyId = GetCompanyId();
             var report = await _context.ReportDatas
                 .FirstOrDefaultAsync(r => r.FormatName == reportName.Trim() && r.CompanyId == companyId);
 
-            if (report?.LayoutData == null)
+            // 🔍 Debug logging
+            if (report == null)
+            {
+                Console.WriteLine($"⚠️ Report '{reportName}' not found for company {companyId}");
+            }
+            else
+            {
+                Console.WriteLine($"✅ Report '{reportName}' found. LayoutData is {(report.LayoutData == null ? "NULL" : $"{report.LayoutData.Length} chars")}");
+            }
+
+            // ✅ Return empty template if report not found OR LayoutData is null/empty
+            if (report == null || string.IsNullOrWhiteSpace(report.LayoutData))
             {
                 var emptyTemplate = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <XtraReportsLayoutSerializer SerializerVersion=""24.1.3.0"" Ref=""1"" ControlType=""DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v24.1"" Name=""XtraReport"" PageWidth=""850"" PageHeight=""1100"" Version=""24.1"">
@@ -190,21 +204,25 @@ namespace FumicertiApi.Controllers
     <Item3 Ref=""4"" ControlType=""DevExpress.XtraReports.UI.DetailBand, DevExpress.XtraReports.v24.1"" Name=""Detail"" />
   </Bands>
   <Version>24.1</Version>
-  <DataMember>Query</DataMember>
 </XtraReportsLayoutSerializer>";
+
+                Console.WriteLine($"📋 Returning empty template for '{reportName}'");
                 return Content(emptyTemplate, "application/xml", Encoding.UTF8);
             }
 
+            Console.WriteLine($"📋 Returning actual layout for '{reportName}'");
             return Content(report.LayoutData, "application/xml", Encoding.UTF8);
         }
 
-        [HttpPost("designer/reports/{reportName}")]
+
+        [HttpPut("designer/reports/{reportName}")]
         public async Task<IActionResult> SaveDesignerReportData(string reportName)
         {
             using var reader = new StreamReader(Request.Body, Encoding.UTF8);
             var layoutData = await reader.ReadToEndAsync();
+
             if (string.IsNullOrWhiteSpace(layoutData))
-                return BadRequest("Layout data is empty");
+                return BadRequest(new { success = false, message = "Layout data is empty" });
 
             var companyId = GetCompanyId();
             var userId = GetUserId()?.ToString() ?? "system";
@@ -232,9 +250,12 @@ namespace FumicertiApi.Controllers
                     Status = 1
                 });
             }
+
             await _context.SaveChangesAsync();
-            return Ok(new { success = true, message = "Report saved successfully" });
+            return Ok(true); // 👈 Return simple boolean
         }
+
+
 
         [HttpDelete("designer/reports/{reportName}")]
         public async Task<IActionResult> DeleteDesignerReport(string reportName)
