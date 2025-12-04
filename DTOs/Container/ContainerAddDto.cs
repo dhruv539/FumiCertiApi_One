@@ -75,5 +75,9 @@ namespace FumicertiApi.DTOs.Container
         public string? ContainerEditedUid { get; set; }
         public DateTime? ContainerCreated { get; set; }
         public DateTime? ContainerUpdated { get; set; }
+        public decimal? CotainerPH3 { get; set; }
+        public string? ContainerSerialno { get; set; }
+
+        public decimal? CotainerConcentration { get; set; }
     }
 }

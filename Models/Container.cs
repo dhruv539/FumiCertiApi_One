@@ -202,6 +202,16 @@ namespace FumicertiApi.Models
 
         [Column("container_company_id")]
         public int CotainerCompanyId { get; set; }
+
+        [Column("container_ph3")]
+        public decimal? CotainerPH3 { get; set; }
+
+        [Column("container_concentration")]
+        public decimal? CotainerConcentration { get; set; }
+
+        [Column ("container_serialno")]
+        public string? ContainerSerialno { get; set; }
+    
     }
 
 }

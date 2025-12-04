@@ -92,7 +92,11 @@ namespace FumicertiApi.Controllers
                     ContainerEditedUid = c.ContainerEditedUid,
                     ContainerCreated = c.ContainerCreated,
                     CotainerCompanyId = c.CotainerCompanyId,
-                    ContainerUpdated = c.ContainerUpdated
+                    ContainerUpdated = c.ContainerUpdated,
+                    CotainerPH3 = c.CotainerPH3,
+                    CotainerConcentration= c.CotainerConcentration,
+                    ContainerSerialno=c.ContainerSerialno
+                    
                 })
                 .ToListAsync();
 
@@ -183,7 +187,11 @@ namespace FumicertiApi.Controllers
                 ContainerTotalqtygram = container.ContainerTotalqtygram,
                 ContainerExcessqtygrams = container.ContainerExcessqtygrams,
                 CotainerCompanyId = container.CotainerCompanyId,
-                ContainerTotalqtyconsumed = container.ContainerTotalqtyconsumed
+                ContainerTotalqtyconsumed = container.ContainerTotalqtyconsumed,
+                CotainerPH3=container.CotainerPH3,
+                CotainerConcentration=container.CotainerConcentration,
+                ContainerSerialno=container.ContainerSerialno
+
             };
 
             return Ok(dto);
@@ -260,7 +268,11 @@ namespace FumicertiApi.Controllers
                 ContainerEditedUid = dto.ContainerEditedUid,
                 ContainerCreated = DateTime.UtcNow,
                 CotainerCompanyId = GetCompanyId(),
-                ContainerUpdated = DateTime.UtcNow
+                ContainerUpdated = DateTime.UtcNow,
+                CotainerPH3=dto.CotainerPH3,
+                CotainerConcentration=dto.CotainerConcentration,
+                ContainerSerialno=dto.ContainerSerialno
+
             };
 
             _context.Containers.Add(model);
@@ -348,7 +360,10 @@ namespace FumicertiApi.Controllers
                 ContainerCreateUid = container.ContainerCreateUid,
                 ContainerEditedUid = container.ContainerEditedUid,
                 ContainerCreated = container.ContainerCreated,
-                ContainerUpdated = container.ContainerUpdated
+                ContainerUpdated = container.ContainerUpdated,
+                CotainerPH3 = container.CotainerPH3,
+               CotainerConcentration=container.CotainerConcentration,
+                ContainerSerialno=container.ContainerSerialno
             };
         }
 
@@ -427,7 +442,9 @@ namespace FumicertiApi.Controllers
 
             model.ContainerEditedUid = dto.ContainerEditedUid;
             model.ContainerUpdated = DateTime.UtcNow;
-
+            model.CotainerPH3 = dto.CotainerPH3;
+           model.CotainerConcentration=dto.CotainerConcentration;
+            model.ContainerSerialno = dto.ContainerSerialno;
             try
             {
                 await _context.SaveChangesAsync();

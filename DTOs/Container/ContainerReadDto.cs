@@ -70,7 +70,10 @@
         public string? ContainerTotalqtygram { get; set; }
         public string? ContainerExcessqtygrams { get; set; }
         public string? ContainerTotalqtyconsumed { get; set; }
-        
+
+        public decimal? CotainerConcentration { get; set; }
+        public decimal? CotainerPH3 { get; set; }
+        public string? ContainerSerialno { get; set; }
 
     }
 
