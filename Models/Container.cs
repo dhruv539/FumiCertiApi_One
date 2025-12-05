@@ -201,7 +201,7 @@ namespace FumicertiApi.Models
         public string? ContainerTotalqtyconsumed { get; set; }
 
         [Column("container_company_id")]
-        public int CotainerCompanyId { get; set; }
+        public int ContainerCompanyId { get; set; }  
 
         [Column("container_ph3")]
         public decimal? CotainerPH3 { get; set; }

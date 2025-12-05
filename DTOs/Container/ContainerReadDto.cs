@@ -3,7 +3,7 @@
     public class ContainerReadDto
     {
         public int? ContainerCid { get; set; }
-        public int CotainerCompanyId { get; set; }
+        public int ContainerCompanyId { get; set; }
         public string? ContainerCertiId { get; set; }
         public string? ContainerContainerNo { get; set; }
         public string? ContainerCsize { get; set; }

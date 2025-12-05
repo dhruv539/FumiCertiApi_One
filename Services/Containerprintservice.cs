@@ -24,7 +24,7 @@ namespace FumicertiApi.Services
                         join afo in _context.afo_members.AsNoTracking()
                             on c.CertiAfoName equals afo.AfoName
                         join comp in _context.companies.AsNoTracking()
-                            on cont.CotainerCompanyId equals comp.CompanyId
+                            on cont.ContainerCompanyId equals comp.CompanyId
                         where c.CertiDate >= fromdate && c.CertiDate <= todate
                         select new CertiContainerReportDto
                         {
@@ -70,7 +70,7 @@ namespace FumicertiApi.Services
                                 ContainerVolB = cont.ContainerVolB,
                                 ContainerVolH = cont.ContainerVolH,
                                 ContainerProductname = cont.ContainerProductname,
-                                CotainerCompanyId = cont.CotainerCompanyId
+                                ContainerCompanyId = cont.ContainerCompanyId
                             },
 
                             // Company

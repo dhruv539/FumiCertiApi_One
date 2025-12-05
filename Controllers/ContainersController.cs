@@ -91,7 +91,7 @@ namespace FumicertiApi.Controllers
                     ContainerCreateUid = c.ContainerCreateUid,
                     ContainerEditedUid = c.ContainerEditedUid,
                     ContainerCreated = c.ContainerCreated,
-                    CotainerCompanyId = c.CotainerCompanyId,
+                    ContainerCompanyId = c.ContainerCompanyId,
                     ContainerUpdated = c.ContainerUpdated,
                     CotainerPH3 = c.CotainerPH3,
                     CotainerConcentration= c.CotainerConcentration,
@@ -186,7 +186,7 @@ namespace FumicertiApi.Controllers
                 ContainerP2 = container.ContainerP2,
                 ContainerTotalqtygram = container.ContainerTotalqtygram,
                 ContainerExcessqtygrams = container.ContainerExcessqtygrams,
-                CotainerCompanyId = container.CotainerCompanyId,
+                ContainerCompanyId = container.ContainerCompanyId,
                 ContainerTotalqtyconsumed = container.ContainerTotalqtyconsumed,
                 CotainerPH3=container.CotainerPH3,
                 CotainerConcentration=container.CotainerConcentration,
@@ -267,7 +267,7 @@ namespace FumicertiApi.Controllers
                 ContainerCreateUid = dto.ContainerCreateUid,
                 ContainerEditedUid = dto.ContainerEditedUid,
                 ContainerCreated = DateTime.UtcNow,
-                CotainerCompanyId = GetCompanyId(),
+                ContainerCompanyId = GetCompanyId(),
                 ContainerUpdated = DateTime.UtcNow,
                 CotainerPH3=dto.CotainerPH3,
                 CotainerConcentration=dto.CotainerConcentration,
@@ -285,27 +285,108 @@ namespace FumicertiApi.Controllers
         // ✅ Flexible Search (certiId, containerNo, or both)
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<ContainerReadDto>>> Search(
-            [FromQuery] string? certiId,
-            [FromQuery] string? containerNo)
+     [FromQuery] string? certiId,
+     [FromQuery] string? containerNo)
         {
-            var query = FilterByCompany( _context.Containers.AsQueryable(), "CotainerCompanyId");
+            try
+            {
+                // Start query
+                var query = FilterByCompany(_context.Containers.AsQueryable(), "ContainerCompanyId");
 
-            // if certiId provided → filter
-            if (!string.IsNullOrEmpty(certiId))
-                query = query.Where(c => c.ContainerCertiId == certiId);
+                // Filter by certiId
+                if (!string.IsNullOrEmpty(certiId))
+                    query = query.Where(c => c.ContainerCertiId == certiId.Trim());
 
-            // if containerNo provided → filter
-            if (!string.IsNullOrEmpty(containerNo))
-                query = query.Where(c => c.ContainerContainerNo == containerNo);
+                // Filter by containerNo
+                if (!string.IsNullOrEmpty(containerNo))
+                    query = query.Where(c => c.ContainerContainerNo == containerNo.Trim());
 
-            var containers = await query.ToListAsync();
+                // Project directly to DTO, using Convert.ToString for all string fields
+                var containers = await query
+                    .Select(c => new ContainerReadDto
+                    {
+                        ContainerCid = c.ContainerCid,
+                        ContainerCompanyId = c.ContainerCompanyId,
+                        ContainerCertiId = Convert.ToString(c.ContainerCertiId),
+                        ContainerContainerNo = Convert.ToString(c.ContainerContainerNo),
+                        ContainerCsize = Convert.ToString(c.ContainerCsize),
+                        ContainerConsumeQty = c.ContainerConsumeQty,
+                        ContainerDt1 = c.ContainerDt1,
+                        ContainerDt2 = c.ContainerDt2,
+                        ContainerDt3 = c.ContainerDt3,
+                        ContainerTime1 = c.ContainerTime1,
+                        ContainerTime2 = c.ContainerTime2,
+                        ContainerTime3 = c.ContainerTime3,
+                        ContainerFb1 = c.ContainerFb1,
+                        ContainerFb2 = c.ContainerFb2,
+                        ContainerFb3 = c.ContainerFb3,
+                        ContainerMc1 = c.ContainerMc1,
+                        ContainerMc2 = c.ContainerMc2,
+                        ContainerMc3 = c.ContainerMc3,
+                        ContainerTb1 = c.ContainerTb1,
+                        ContainerTb2 = c.ContainerTb2,
+                        ContainerTb3 = c.ContainerTb3,
+                        ContainerEquilibrium = Convert.ToString(c.ContainerEquilibrium),
+                        ContainerVolL = c.ContainerVolL,
+                        ContainerVolB = c.ContainerVolB,
+                        ContainerVolH = c.ContainerVolH,
+                        ContainerProdID1 = c.ContainerProdID1,
+                        ContainerProdID2 = c.ContainerProdID2,
+                        ContainerProdID3 = c.ContainerProdID3,
+                        ContainerQty1 = c.ContainerQty1,
+                        ContainerQty2 = c.ContainerQty2,
+                        ContainerWt1 = c.ContainerWt1,
+                        ContainerWt2 = c.ContainerWt2,
+                        ContainerWt3 = c.ContainerWt3,
+                        ContainerFbper1 = c.ContainerFbper1,
+                        ContainerFbper2 = c.ContainerFbper2,
+                        ContainerFbper3 = c.ContainerFbper3,
+                        ContainerMcper1 = c.ContainerMcper1,
+                        ContainerMcper2 = c.ContainerMcper2,
+                        ContainerMcper3 = c.ContainerMcper3,
+                        ContainerTbper1 = c.ContainerTbper1,
+                        ContainerTbper2 = c.ContainerTbper2,
+                        ContainerTbper3 = c.ContainerTbper3,
+                        ContainerEquipmentType = Convert.ToString(c.ContainerEquipmentType),
+                        ContainerProductname = Convert.ToString(c.ContainerProductname),
+                        ContainerActualDoseRate = c.ContainerActualDoseRate,
+                        ContainerFirstTvl = c.ContainerFirstTvl,
+                        ContainerSecondTlv = c.ContainerSecondTlv,
+                        ContainerCalculateDose = c.ContainerCalculateDose,
+                        ContainerCreateUid = Convert.ToString(c.ContainerCreateUid),
+                        ContainerEditedUid = Convert.ToString(c.ContainerEditedUid),
+                        ContainerCreated = c.ContainerCreated,
+                        ContainerUpdated = c.ContainerUpdated,
+                        ContainerVolumecbm = c.ContainerVolumecbm,
+                        ContainerQtymbrgram = Convert.ToString(c.ContainerQtymbrgram),
+                        Container100Mbrgram = Convert.ToString(c.Container100Mbrgram),
+                        ContainerRequredprod1 = Convert.ToString(c.ContainerRequredprod1),
+                        ContainerRequredprod2 = Convert.ToString(c.ContainerRequredprod2),
+                        ContainerReqcylinder = Convert.ToString(c.ContainerReqcylinder),
+                        ContainerP1 = Convert.ToString(c.ContainerP1),
+                        ContainerP2 = Convert.ToString(c.ContainerP2),
+                        ContainerTotalqtygram = Convert.ToString(c.ContainerTotalqtygram),
+                        ContainerExcessqtygrams = Convert.ToString(c.ContainerExcessqtygrams),
+                        ContainerTotalqtyconsumed = Convert.ToString(c.ContainerTotalqtyconsumed),
+                        CotainerConcentration = c.CotainerConcentration,
+                        CotainerPH3 = c.CotainerPH3,
+                        ContainerSerialno = Convert.ToString(c.ContainerSerialno)
+                    })
+                    .ToListAsync();
 
-            if (!containers.Any())
-                return NotFound(new { message = "No containers found for the given criteria." });
+                if (!containers.Any())
+                    return NotFound(new { message = "No containers found for the given criteria." });
 
-            var result = containers.Select(MapToDto).ToList();
-            return Ok(result);
+                return Ok(containers);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error searching containers: {ex.Message}");
+                return StatusCode(500, new { message = "Internal server error" });
+            }
         }
+
+
         private ContainerReadDto MapToDto(Container container)
         {
             return new ContainerReadDto
@@ -436,7 +517,7 @@ namespace FumicertiApi.Controllers
             model.ContainerVolumecbm = dto.ContainerVolumecbm;
             model.ContainerTotalqtygram = dto.ContainerTotalqtygram;
 
-            model.CotainerCompanyId = GetCompanyId();
+            model.ContainerCompanyId = GetCompanyId();
 
 
 
