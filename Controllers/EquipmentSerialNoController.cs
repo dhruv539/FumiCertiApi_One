@@ -20,91 +20,146 @@ namespace FumicertiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EquipmentSerial>>> GetEquipmentSerials()
         {
-            return await _context.EquipmentSerials
-                .OrderBy(e => e.EquipmentId)
-                .ToListAsync();
+            try
+            {
+                var items = await _context.EquipmentSerials
+                    .OrderBy(e => e.EquipmentId)
+                    .ToListAsync();
+
+                return Ok(items);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
         }
 
         // GET: api/EquipmentSerials/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EquipmentSerial>> GetEquipmentSerial(int id)
         {
-            var equipment = await _context.EquipmentSerials.FindAsync(id);
+            try
+            {
+                var equipment = await _context.EquipmentSerials.FindAsync(id);
 
-            if (equipment == null)
-                return NotFound();
+                if (equipment == null)
+                    return NotFound(new { message = "Equipment not found." });
 
-            return equipment;
+                return Ok(equipment);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
         }
 
         // POST: api/EquipmentSerials
         [HttpPost]
         public async Task<ActionResult<EquipmentSerial>> PostEquipmentSerial(EquipmentSerial equipment)
         {
-            equipment.EquipmentCreated = DateTime.UtcNow;
+            try
+            {
+                if (equipment == null)
+                    return BadRequest(new { message = "Invalid request body." });
 
-            _context.EquipmentSerials.Add(equipment);
-            await _context.SaveChangesAsync();
+                equipment.EquipmentCreated = DateTime.UtcNow;
 
-            return CreatedAtAction(nameof(GetEquipmentSerial),
-                new { id = equipment.EquipmentId }, equipment);
+                _context.EquipmentSerials.Add(equipment);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(
+                    nameof(GetEquipmentSerial),
+                    new { id = equipment.EquipmentId },
+                    equipment
+                );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
         }
 
         // PUT: api/EquipmentSerials/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEquipmentSerial(int id, EquipmentSerial equipment)
         {
-            if (id != equipment.EquipmentId)
-                return BadRequest();
+            try
+            {
+                if (id != equipment.EquipmentId)
+                    return BadRequest(new { message = "ID mismatch." });
 
-            var existing = await _context.EquipmentSerials.FindAsync(id);
-            if (existing == null)
-                return NotFound();
+                var existing = await _context.EquipmentSerials.FindAsync(id);
+                if (existing == null)
+                    return NotFound(new { message = "Equipment not found." });
 
-            existing.EquipmentName = equipment.EquipmentName;
-            existing.EquipmentSerialNo = equipment.EquipmentSerialNo;
-            existing.EquipmentUpdated = DateTime.UtcNow;
-            existing.EquipmentUpdatedBy = equipment.EquipmentUpdatedBy;
+                existing.EquipmentName = equipment.EquipmentName;
+                existing.EquipmentSerialNo = equipment.EquipmentSerialNo;
+                existing.EquipmentUpdated = DateTime.UtcNow;
+                existing.EquipmentUpdatedBy = equipment.EquipmentUpdatedBy;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return NoContent();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
         }
 
         // DELETE: api/EquipmentSerials/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEquipmentSerial(int id)
         {
-            var equipment = await _context.EquipmentSerials.FindAsync(id);
-            if (equipment == null)
-                return NotFound();
+            try
+            {
+                var equipment = await _context.EquipmentSerials.FindAsync(id);
+                if (equipment == null)
+                    return NotFound(new { message = "Equipment not found." });
 
-            _context.EquipmentSerials.Remove(equipment);
-            await _context.SaveChangesAsync();
+                _context.EquipmentSerials.Remove(equipment);
+                await _context.SaveChangesAsync();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
         }
 
-        // 🔹 SORTING API
-        // GET: api/EquipmentSerials/sort/asc
-        // GET: api/EquipmentSerials/sort/desc
+        // SORT: api/EquipmentSerials/sort/asc or /desc
         [HttpGet("sort/{order}")]
         public async Task<ActionResult<IEnumerable<EquipmentSerial>>> SortEquipmentSerials(string order)
         {
-            if (order.ToLower() == "asc")
+            try
             {
-                return await _context.EquipmentSerials
-                    .OrderBy(e => e.EquipmentSerialNo)
-                    .ToListAsync();
-            }
-            else if (order.ToLower() == "desc")
-            {
-                return await _context.EquipmentSerials
-                    .OrderByDescending(e => e.EquipmentSerialNo)
-                    .ToListAsync();
-            }
+                if (string.IsNullOrWhiteSpace(order))
+                    return BadRequest(new { message = "Sort order is required." });
 
-            return BadRequest("Invalid sort order. Use 'asc' or 'desc'.");
+                IQueryable<EquipmentSerial> query = _context.EquipmentSerials;
+
+                switch (order.ToLower())
+                {
+                    case "asc":
+                        query = query.OrderBy(e => e.EquipmentSerialNo);
+                        break;
+
+                    case "desc":
+                        query = query.OrderByDescending(e => e.EquipmentSerialNo);
+                        break;
+
+                    default:
+                        return BadRequest(new { message = "Invalid sort order. Use 'asc' or 'desc'." });
+                }
+
+                var result = await query.ToListAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
         }
     }
 }
